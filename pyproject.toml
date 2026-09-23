@@ -1,0 +1,10 @@
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# Real errors only: syntax errors, undefined names, unused imports/variables.
+select = ["E9", "F"]
+
+[tool.pytest.ini_options]
+testpaths = ["scrapers", "backend"]

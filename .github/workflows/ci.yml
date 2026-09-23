@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: Lint Python (errors only)
+        run: ruff check .
+
+      - name: Validate JSON files
+        run: |
+          python - <<'EOF'
+          import json, pathlib, sys
+          bad = 0
+          for p in pathlib.Path(".").rglob("*.json"):
+              if any(part in {".git", ".venv", "node_modules"} for part in p.parts):
+                  continue
+              try:
+                  json.loads(p.read_text(encoding="utf-8"))
+              except Exception as e:
+                  print(f"::error file={p}::{e}")
+                  bad += 1
+          sys.exit(1 if bad else 0)
+          EOF
+
+      - name: Run tests
+        # Exit code 5 means no tests were collected, so that counts as a pass until tests exist.
+        run: pytest || [ $? -eq 5 ]

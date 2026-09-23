@@ -1,0 +1,2 @@
+# Runtime dependencies for scrapers/ and backend/.
+# Add packages here as you use them (one per line, e.g. requests>=2.31).
