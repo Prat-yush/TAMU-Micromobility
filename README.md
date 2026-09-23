@@ -31,6 +31,9 @@ scrapers/  ──►  data/raw/  ──►  backend/  ──►  frontend/data/ 
 `frontend/data/` is where backend and frontend meet. If you change the shape of
 a JSON file there, say so in your PR.
 
+For how the areas connect and what belongs in each folder, see
+[ARCHITECTURE.md](ARCHITECTURE.md).
+
 ## Setup
 
 Python 3.12+.
