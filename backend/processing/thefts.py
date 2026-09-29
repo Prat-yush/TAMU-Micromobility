@@ -1,43 +1,33 @@
-"""Clean the recorded theft incidents and give each one a map position.
+"""Clean the recorded theft incidents and assign each one to a rack zone.
 
-Reads data/raw/bike_theft_tracker/ (see scrapers/bike_theft_tracker/) and
-returns one dict per micromobility incident (bike, e-bike, e-scooter), all
+Reads data/raw/bike_theft_tracker/ (see scrapers/bike_theft_tracker/) and the
+hand-reviewed data/reference/theft_places.json.
+
+Incidents: one dict per micromobility incident (bike, e-bike, e-scooter), all
 treated as bike theft with no split by vehicle type. Cars, motorcycles, mopeds,
 golf carts and the like are dropped, and so are reports where nothing was
 stolen (arrests, recoveries, cases police marked unfounded). `report_type`
-still marks the attempted thefts.
+still marks the attempted thefts. `zone_id` comes from theft_places.json, and
+is None for the few places that couldn't be located.
 
-Position, in order of preference (`location_precision`):
-  "address"  the street address in the location text, geocoded by the
-             tracker repo (its geocode_cache.json)
-  "zone"     centroid of the campus zone the tracker matched by name
-  "none"     no usable location; lat/lon are None
+Zones: the tracker's rack-cluster zones plus off-campus places, with capacity
+summed over regular bike racks only (Veo shared-mobility posts are left out,
+since personal bikes don't normally park there).
 """
 
 import json
-import re
 from datetime import date, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = ROOT / "data" / "raw" / "bike_theft_tracker"
+PLACES_PATH = ROOT / "data" / "reference" / "theft_places.json"
 
-# Same address extraction the tracker used when it filled geocode_cache.json,
-# so the cache keys line up.
-ADDR_RE = re.compile(r"\(([^)]*College Station[^)]*)\)", re.I)
-SUITE_RE = re.compile(r",?\s*Ste\.?\s*\S+", re.I)
-ABBR_MAP = [
-    (re.compile(r"\bBl\b\.?", re.I), "Blvd"),
-    (re.compile(r"\bDr\b\.?", re.I), "Drive"),
-    (re.compile(r"\bPw\b\.?", re.I), "Pkwy"),
-    (re.compile(r"\bLn\b\.?", re.I), "Lane"),
-]
+NOT_THEFT = {"arrest", "recovery", "unfounded"}
 
-def cache_key(address: str) -> str:
-    address = SUITE_RE.sub("", address)
-    for pat, repl in ABBR_MAP:
-        address = pat.sub(repl, address)
-    return address.strip() + ", TX"
+
+def read_json(path: Path):
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def parse_date(value: str | None) -> date | None:
@@ -49,9 +39,6 @@ def parse_date(value: str | None) -> date | None:
         except ValueError:
             pass
     return datetime.fromisoformat(value).date()
-
-
-NOT_THEFT = {"arrest", "recovery", "unfounded"}
 
 
 def is_micromobility(row: dict) -> bool:
@@ -75,36 +62,33 @@ def report_type(row: dict) -> str:
     return "theft"
 
 
-def locate(row: dict, zones: dict, cache: dict) -> tuple[float | None, float | None, str]:
-    m = ADDR_RE.search(row["location_raw"] or "")
-    if m and cache.get(cache_key(m.group(1))):
-        lat, lon = cache[cache_key(m.group(1))]
-        return lat, lon, "address"
-    zone = zones.get(row["zone_id"])
-    if zone:
-        return zone["lat"], zone["lon"], "zone"
-    return None, None, "none"
+def place_zone(row: dict, places: dict) -> str | None:
+    """Zone id for the place a report names; None if it's a known unresolved place."""
+    # A few narrative alerts leave the location blank but name the building in the text.
+    text = (row["location_raw"] or row["narrative_text"] or "").lower()
+    for place in places["campus"] + places["off_campus"] + places["unresolved"]:
+        if any(m in text for m in place["match"]):
+            return place.get("zone_id") or place.get("id")
+    raise ValueError(
+        f"Case {row['case_no']}: no entry in {PLACES_PATH.name} matches {text[:80]!r}"
+    )
 
 
 def load_incidents() -> list[dict]:
-    raw = json.loads((RAW_DIR / "incidents.json").read_text(encoding="utf-8"))
-    zones = {
-        z["id"]: z
-        for z in json.loads((RAW_DIR / "zones.json").read_text(encoding="utf-8"))
-    }
-    cache = json.loads((RAW_DIR / "geocode_cache.json").read_text(encoding="utf-8"))
+    raw = read_json(RAW_DIR / "incidents.json")
+    places = read_json(PLACES_PATH)
 
     incidents = []
     for row in filter(is_micromobility, raw):
         rtype = report_type(row)
         if rtype in NOT_THEFT:
             continue
-        lat, lon, precision = locate(row, zones, cache)
         report_date = parse_date(row["alert_date"])
         seen = parse_date(row["last_seen"])
         missing = parse_date(row["discovered_missing"])
         incidents.append({
             "case_no": row["case_no"],
+            "zone_id": place_zone(row, places),
             # Best available day the theft happened: when it was found missing,
             # else when last seen, else when it was reported.
             "incident_date": (missing or seen or report_date).isoformat(),
@@ -114,13 +98,44 @@ def load_incidents() -> list[dict]:
             "window_hours": row["window_hours"],
             "report_type": rtype,
             "location": row["location_raw"],
-            "zone_id": row["zone_id"],
-            "zone_name": row["zone_name"],
-            "lat": round(lat, 6) if lat is not None else None,
-            "lon": round(lon, 6) if lon is not None else None,
-            "location_precision": precision,
             "source": "clery_log" if row["source_format"] == "clery" else "upd_crime_alert",
             "source_url": row["alert_url"],
         })
     incidents.sort(key=lambda r: (r["incident_date"], r["case_no"] or ""))
     return incidents
+
+
+def load_zones() -> list[dict]:
+    places = read_json(PLACES_PATH)
+    racks = [
+        f["properties"]
+        for f in read_json(RAW_DIR / "racks.geojson")["features"]
+        if f["properties"]["kind"] == "regular"
+    ]
+
+    zones = []
+    for z in read_json(RAW_DIR / "zones.json"):
+        if z["id"] in places["excluded_zones"]:
+            continue
+        zone_racks = [r for r in racks if r["zone_id"] == z["id"]]
+        zones.append({
+            "zone_id": z["id"],
+            "name": places["zone_names"].get(z["id"], z["name"]),
+            "kind": "campus",
+            "lat": z["lat"],
+            "lon": z["lon"],
+            "rack_count": len(zone_racks),
+            "rack_capacity": sum(r["capacity"] for r in zone_racks),
+        })
+    for p in places["off_campus"]:
+        zones.append({
+            "zone_id": p["id"],
+            "name": p["name"],
+            "kind": "off_campus",
+            "lat": p["lat"],
+            "lon": p["lon"],
+            # Not in TAMU's rack inventory.
+            "rack_count": None,
+            "rack_capacity": None,
+        })
+    return zones

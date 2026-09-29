@@ -9,7 +9,8 @@ strings into typed values:
 
     incidents.json       every row of pipeline/incidents_zoned.csv
     zones.json           pipeline/zones.json (rack-cluster zones and centroids)
-    geocode_cache.json   pipeline/geocode_cache.json (address -> [lat, lon])
+    racks.geojson        site/data/racks.geojson (TAMU Transportation Services
+                         rack inventory with capacity, each rack tagged with its zone)
 
 Nothing from that repo's score.py is imported: no grades, no estimates for
 zones without reports. Only incidents that were actually reported.
@@ -52,19 +53,19 @@ def main():
     with open(pipeline / "incidents_zoned.csv", encoding="utf-8") as f:
         incidents = [typed(r) for r in csv.DictReader(f)]
     zones = json.loads((pipeline / "zones.json").read_text(encoding="utf-8"))["zones"]
-    cache = json.loads((pipeline / "geocode_cache.json").read_text(encoding="utf-8"))
+    racks = json.loads((source / "site" / "data" / "racks.geojson").read_text(encoding="utf-8"))
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for name, data in [
         ("incidents.json", incidents),
         ("zones.json", zones),
-        ("geocode_cache.json", cache),
+        ("racks.geojson", racks),
     ]:
         (OUT_DIR / name).write_text(
             json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
 
-    print(f"{len(incidents)} incidents, {len(zones)} zones, {len(cache)} geocoded addresses")
+    print(f"{len(incidents)} incidents, {len(zones)} zones, {len(racks['features'])} racks")
     print(f"-> {OUT_DIR.relative_to(ROOT)}/")
 
 
