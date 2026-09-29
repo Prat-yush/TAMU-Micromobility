@@ -1,0 +1,3064 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.339481,
+     30.622189
+    ]
+   },
+   "properties": {
+    "case_no": "25-0203-0004",
+    "incident_date": "2025-02-03",
+    "report_date": "2025-02-03",
+    "last_seen": "2025-02-03T12:30:00",
+    "discovered_missing": "2025-02-03T13:30:00",
+    "window_hours": 1.0,
+    "report_type": "theft",
+    "location": "the bike racks behind Zachry Engineering Education Complex",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "zone",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/02/2-3-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.343866,
+     30.616396
+    ]
+   },
+   "properties": {
+    "case_no": "25-0301-0005",
+    "incident_date": "2025-03-01",
+    "report_date": "2025-03-02",
+    "last_seen": "2025-02-02T08:00:00",
+    "discovered_missing": "2025-03-01T10:00:00",
+    "window_hours": 650.0,
+    "report_type": "theft",
+    "location": "the bike racks by Lechner Hall",
+    "zone_id": "zone-019",
+    "zone_name": "Fish Pond West",
+    "location_precision": "zone",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/03/3-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "25-0401-0005",
+    "incident_date": "2025-04-01",
+    "report_date": "2025-04-01",
+    "last_seen": "2025-04-01T00:10:00",
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": null,
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/04/4-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "25-0511-0007",
+    "incident_date": "2025-05-11",
+    "report_date": "2025-05-11",
+    "last_seen": "2025-05-11T13:00:00",
+    "discovered_missing": "2025-05-11T15:25:00",
+    "window_hours": 2.42,
+    "report_type": "theft",
+    "location": null,
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/05/5-11-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "25-0630-0004",
+    "incident_date": "2025-06-29",
+    "report_date": "2025-06-30",
+    "last_seen": "2025-06-28T10:00:00",
+    "discovered_missing": "2025-06-29T12:00:00",
+    "window_hours": 26.0,
+    "report_type": "theft",
+    "location": "Building M of the Garden Apartments",
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/06/6-30-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "25-0802-0005",
+    "incident_date": "2025-08-02",
+    "report_date": "2025-08-03",
+    "last_seen": "2025-08-02T19:15:00",
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Piada at Century Square",
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/08/8-2-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.339481,
+     30.622189
+    ]
+   },
+   "properties": {
+    "case_no": "25-0912-0014",
+    "incident_date": "2025-09-12",
+    "report_date": "2025-09-12",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "approximately 5 p.m. outside the Zachry Engineering Education Complex, to the bicycle racks facing Spence St. The friend returned",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "zone",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/09/09-12-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "25-1001-0003",
+    "incident_date": "2025-10-01",
+    "report_date": "2025-10-01",
+    "last_seen": null,
+    "discovered_missing": "2025-10-01T08:45:00",
+    "window_hours": null,
+    "report_type": "theft",
+    "location": null,
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/10/10-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "26-0316-0007",
+    "incident_date": "2025-11-03",
+    "report_date": "2026-04-01",
+    "last_seen": "2025-11-03T16:00:00",
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Briggs Hall-Dorm 3 Interior Hallway (635 Military Mall, College Station)",
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/04/4-1-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335255,
+     30.615931
+    ]
+   },
+   "properties": {
+    "case_no": "25-1116-0007",
+    "incident_date": "2025-11-16",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-15T21:30:00",
+    "discovered_missing": "2025-11-16T13:30:00",
+    "window_hours": 16.0,
+    "report_type": "theft",
+    "location": "Krueger Residence Hall Bike Rack (722 Lubbock St, College Station)",
+    "zone_id": "zone-001",
+    "zone_name": "Krueger Residence Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "25-1116-0010",
+    "incident_date": "2025-11-16",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-14T18:30:00",
+    "discovered_missing": "2025-11-16T10:45:00",
+    "window_hours": 40.25,
+    "report_type": "theft",
+    "location": "Between Gainer Hall & Underwood Hall",
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.342307,
+     30.611602
+    ]
+   },
+   "properties": {
+    "case_no": "25-1117-0007",
+    "incident_date": "2025-11-17",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-16T16:30:00",
+    "discovered_missing": "2025-11-17T09:50:00",
+    "window_hours": 17.33,
+    "report_type": "theft",
+    "location": "Gene Stallings Blvd Garage - Bike Racks (500 Gene Stallings Blvd, College Station)",
+    "zone_id": "zone-061",
+    "zone_name": "Texas A&M Hotel and Conference Center",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333764,
+     30.612865
+    ]
+   },
+   "properties": {
+    "case_no": "25-1118-0002",
+    "incident_date": "2025-11-18",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-17T23:15:00",
+    "discovered_missing": "2025-11-18T03:15:00",
+    "window_hours": 4.0,
+    "report_type": "theft",
+    "location": "AI Engineering Building - Northeast Bike Racks (423 Spence St, College Station)",
+    "zone_id": "zone-080",
+    "zone_name": "Lot 40b",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "25-1118-0005",
+    "incident_date": "2025-11-18",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-18T12:30:00",
+    "discovered_missing": "2025-11-18T14:35:00",
+    "window_hours": 2.08,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - Northwest Bike Racks (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333764,
+     30.612865
+    ]
+   },
+   "properties": {
+    "case_no": "25-1118-0009",
+    "incident_date": "2025-11-18",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-18T20:00:00",
+    "discovered_missing": "2025-11-18T20:30:00",
+    "window_hours": 0.5,
+    "report_type": "theft",
+    "location": "Bike Racks Between Sterling C. Evans Library and Evan Library Annex (400 Spence St, College Station)",
+    "zone_id": "zone-080",
+    "zone_name": "Lot 40b",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345101,
+     30.614331
+    ]
+   },
+   "properties": {
+    "case_no": "25-1119-0015",
+    "incident_date": "2025-11-19",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-19T09:00:00",
+    "discovered_missing": "2025-11-19T20:00:00",
+    "window_hours": 11.0,
+    "report_type": "theft",
+    "location": "Clements Residence Hall - Bike Racks (211 Jones St, College Station)",
+    "zone_id": "zone-018",
+    "zone_name": "Jones Street",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341691,
+     30.624957
+    ]
+   },
+   "properties": {
+    "case_no": "25-1121-0011",
+    "incident_date": "2025-11-20",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-20T14:00:00",
+    "discovered_missing": "2025-11-20T16:00:00",
+    "window_hours": 2.0,
+    "report_type": "theft",
+    "location": "The Gardens F - Bike Racks (302 Ball St, College Station)",
+    "zone_id": "zone-044",
+    "zone_name": "T Row",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344596,
+     30.599743
+    ]
+   },
+   "properties": {
+    "case_no": "25-1123-0012",
+    "incident_date": "2025-11-23",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-22T17:30:00",
+    "discovered_missing": "2025-11-23T18:45:00",
+    "window_hours": 25.25,
+    "report_type": "theft",
+    "location": "Park West Tower 3 - East Side Bike Racks (503 George Bush Drive West, College Station, TX 77840)",
+    "zone_id": "zone-075",
+    "zone_name": "Lot 63",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.339894,
+     30.620278
+    ]
+   },
+   "properties": {
+    "case_no": "25-1124-0011",
+    "incident_date": "2025-11-24",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-24T16:00:00",
+    "discovered_missing": "2025-11-24T23:00:00",
+    "window_hours": 7.0,
+    "report_type": "theft",
+    "location": "Dwight Look Engineering Building - Bike Racks (199 Spence St, College Station)",
+    "zone_id": "zone-003",
+    "zone_name": "CVE Lab Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344277,
+     30.619535
+    ]
+   },
+   "properties": {
+    "case_no": "25-1125-0005",
+    "incident_date": "2025-11-25",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-20T15:00:00",
+    "discovered_missing": "2025-11-25T08:00:00",
+    "window_hours": 113.0,
+    "report_type": "theft",
+    "location": "Mitchell Physics Building - Southwest Side Bike Racks (578 University Dr, College Station)",
+    "zone_id": "zone-007",
+    "zone_name": "Northside Garage",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.334139,
+     30.613418
+    ]
+   },
+   "properties": {
+    "case_no": "25-1125-0006",
+    "incident_date": "2025-11-25",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-25T09:52:00",
+    "discovered_missing": "2025-11-25T09:52:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Eppright Residence Hall - Northwest Bike Racks (695 Spence St, College Station)",
+    "zone_id": "zone-080",
+    "zone_name": "Lot 40b",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335033,
+     30.615139
+    ]
+   },
+   "properties": {
+    "case_no": "25-1125-0013",
+    "incident_date": "2025-11-25",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-24T22:30:00",
+    "discovered_missing": "2025-11-25T13:30:00",
+    "window_hours": 15.0,
+    "report_type": "theft",
+    "location": "Mosher Residence Hall - South Side Bike Racks (725 Mosher Ln, College Station)",
+    "zone_id": "zone-026",
+    "zone_name": "Mosher Lane",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.342177,
+     30.614539
+    ]
+   },
+   "properties": {
+    "case_no": "25-1201-0001",
+    "incident_date": "2025-11-25",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-25T10:00:00",
+    "discovered_missing": "2025-11-25T14:00:00",
+    "window_hours": 4.0,
+    "report_type": "theft",
+    "location": "Coke Building Bike Racks (415 Houston St, College Station)",
+    "zone_id": "zone-043",
+    "zone_name": "A. P. Beutel Health Center",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336616,
+     30.614666
+    ]
+   },
+   "properties": {
+    "case_no": "25-1126-0002",
+    "incident_date": "2025-11-26",
+    "report_date": "2025-12-01",
+    "last_seen": "2025-11-26T10:00:00",
+    "discovered_missing": "2025-11-26T10:00:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Aston Residence Hall - Southeast Bike Racks (655 Mosher Ln, College Station)",
+    "zone_id": "zone-027",
+    "zone_name": "Dunn Residence Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-1-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.337641,
+     30.618805
+    ]
+   },
+   "properties": {
+    "case_no": "25-1204-0007",
+    "incident_date": "2025-12-04",
+    "report_date": "2025-12-15",
+    "last_seen": "2025-12-04T18:21:00",
+    "discovered_missing": "2025-12-04T19:00:00",
+    "window_hours": 0.65,
+    "report_type": "theft",
+    "location": "Langford Architecture Center Building A - North Side Bike Racks (798 Ross St, College Station)",
+    "zone_id": "zone-030",
+    "zone_name": "Langford Architecture Center Building A",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.346859,
+     30.616952
+    ]
+   },
+   "properties": {
+    "case_no": "25-1208-0006",
+    "incident_date": "2025-12-08",
+    "report_date": "2025-12-15",
+    "last_seen": "2025-12-07T22:00:00",
+    "discovered_missing": "2025-12-08T11:20:00",
+    "window_hours": 13.33,
+    "report_type": "theft",
+    "location": "Hullabaloo Residence Hall - Southeast Bike Racks (306 University Dr, College Station)",
+    "zone_id": "zone-017",
+    "zone_name": "Lot 30a",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344241,
+     30.616795
+    ]
+   },
+   "properties": {
+    "case_no": "25-1208-0008",
+    "incident_date": "2025-12-08",
+    "report_date": "2025-12-15",
+    "last_seen": "2025-12-07T18:00:00",
+    "discovered_missing": "2025-12-08T11:40:00",
+    "window_hours": 17.67,
+    "report_type": "theft",
+    "location": "Lechner Residence Hall - Bike Racks (232 Houston St, College Station)",
+    "zone_id": "zone-019",
+    "zone_name": "Fish Pond West",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "25-1208-0011",
+    "incident_date": "2025-12-08",
+    "report_date": "2025-12-15",
+    "last_seen": "2025-12-01T12:00:00",
+    "discovered_missing": "2025-12-08T15:00:00",
+    "window_hours": 171.0,
+    "report_type": "theft",
+    "location": "White Hall-Dorm 10 - Bike Racks (736 Military Mall, College Station)",
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "25-1209-0002",
+    "incident_date": "2025-12-08",
+    "report_date": "2025-12-15",
+    "last_seen": "2025-12-06T21:00:00",
+    "discovered_missing": "2025-12-08T23:45:00",
+    "window_hours": 50.75,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - Bike Racks (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335255,
+     30.615931
+    ]
+   },
+   "properties": {
+    "case_no": "25-1212-0005",
+    "incident_date": "2025-12-11",
+    "report_date": "2025-12-15",
+    "last_seen": "2025-12-09T14:00:00",
+    "discovered_missing": "2025-12-11T09:30:00",
+    "window_hours": 43.5,
+    "report_type": "theft",
+    "location": "Krueger Residence Hall - West Side Bike Racks (722 Lubbock St, College Station)",
+    "zone_id": "zone-001",
+    "zone_name": "Krueger Residence Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "25-1212-0004",
+    "incident_date": "2025-12-12",
+    "report_date": "2025-12-15",
+    "last_seen": "2025-12-11T16:00:00",
+    "discovered_missing": "2025-12-12T04:00:00",
+    "window_hours": 12.0,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - North Side Bike Racks (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.338572,
+     30.615493
+    ]
+   },
+   "properties": {
+    "case_no": "25-1212-0007",
+    "incident_date": "2025-12-12",
+    "report_date": "2025-12-15",
+    "last_seen": "2025-12-10T17:30:00",
+    "discovered_missing": "2025-12-12T10:00:00",
+    "window_hours": 40.5,
+    "report_type": "theft",
+    "location": "Peterson Building - North Side Bike Racks (435 Nagle St, College Station)",
+    "zone_id": "zone-027",
+    "zone_name": "Dunn Residence Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "25-1213-0001",
+    "incident_date": "2025-12-12",
+    "report_date": "2026-01-06",
+    "last_seen": "2025-12-12T22:00:00",
+    "discovered_missing": "2025-12-12T23:30:00",
+    "window_hours": 1.5,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - Northeast Bike Racks (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-6-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.339395,
+     30.619476
+    ]
+   },
+   "properties": {
+    "case_no": "25-1215-0003",
+    "incident_date": "2025-12-13",
+    "report_date": "2026-01-06",
+    "last_seen": "2025-12-12T15:00:00",
+    "discovered_missing": "2025-12-13T22:41:00",
+    "window_hours": 31.68,
+    "report_type": "theft",
+    "location": "Joe C. Richardson Petroleum Engineering Building - South Side Bike Racks (245 Spence St, College Station)",
+    "zone_id": "zone-003",
+    "zone_name": "CVE Lab Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-6-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.342307,
+     30.611602
+    ]
+   },
+   "properties": {
+    "case_no": "25-1201-0002",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Gene Stallings Blvd Garage - Bike Racks (500 Gene Stallings Bl, College Station)",
+    "zone_id": "zone-061",
+    "zone_name": "Texas A&M Hotel and Conference Center",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341691,
+     30.624957
+    ]
+   },
+   "properties": {
+    "case_no": "25-1201-0004",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "The Gardens F - Southwest Corner of the Building (302 Ball St, College Station)",
+    "zone_id": "zone-044",
+    "zone_name": "T Row",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.346652,
+     30.617126
+    ]
+   },
+   "properties": {
+    "case_no": "25-1201-0008",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Schuhmacher Residence Hall - Bike Racks (308 University Dr, College Station)",
+    "zone_id": "zone-017",
+    "zone_name": "Lot 30a",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.342307,
+     30.611602
+    ]
+   },
+   "properties": {
+    "case_no": "25-1201-0010",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Gene Stallings Blvd Garage - Northeast Bike Racks (500 Gene Stallings Bl, College Station)",
+    "zone_id": "zone-061",
+    "zone_name": "Texas A&M Hotel and Conference Center",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341813,
+     30.618461
+    ]
+   },
+   "properties": {
+    "case_no": "25-1201-0011",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Blocker Building - Southwest Bike Racks (155 Ireland St, College Station)",
+    "zone_id": "zone-004",
+    "zone_name": "Lot 7",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344241,
+     30.616795
+    ]
+   },
+   "properties": {
+    "case_no": "25-1202-0004",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Lechner Residence Hall - Southwest Bike Racks (232 Houston St, College Station)",
+    "zone_id": "zone-019",
+    "zone_name": "Fish Pond West",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345048,
+     30.61743
+    ]
+   },
+   "properties": {
+    "case_no": "25-1202-0006",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Walton Residence Hall - North Side Bike Racks (166 Houston St, College Station)",
+    "zone_id": "zone-017",
+    "zone_name": "Lot 30a",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345048,
+     30.61743
+    ]
+   },
+   "properties": {
+    "case_no": "25-1202-0007",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Walton Residence Hall - North Side Bike Racks (166 Houston St, College Station)",
+    "zone_id": "zone-017",
+    "zone_name": "Lot 30a",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.33953,
+     30.612153
+    ]
+   },
+   "properties": {
+    "case_no": "25-1202-0008",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Koldus Building - West Side Bike Racks (400 Joe Routt Bl, College Station)",
+    "zone_id": "zone-023",
+    "zone_name": "University Center Garage",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.343797,
+     30.618238
+    ]
+   },
+   "properties": {
+    "case_no": "25-1202-0010",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Bike Racks Between Hobby Residence Hall and Neeley Residence Hall (160 Asbury St, College Station)",
+    "zone_id": "zone-060",
+    "zone_name": "Hotard Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "25-1202-0013",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - Southwest Bike Racks (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336068,
+     30.616771
+    ]
+   },
+   "properties": {
+    "case_no": "25-1202-0014",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Innovative Learning Classroom Building - East Side Bike Racks (215 Lamar St, College Station)",
+    "zone_id": "zone-001",
+    "zone_name": "Krueger Residence Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.339395,
+     30.619476
+    ]
+   },
+   "properties": {
+    "case_no": "25-1203-0006",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Joe C. Richardson Petroleum Engineering Building - North Side Bike Racks (245 Spence St, College Station)",
+    "zone_id": "zone-003",
+    "zone_name": "CVE Lab Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341691,
+     30.624957
+    ]
+   },
+   "properties": {
+    "case_no": "25-1203-0009",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "The Gardens F - Bike Racks (302 Ball Street, College Station, TX 77843)",
+    "zone_id": "zone-044",
+    "zone_name": "T Row",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.357129,
+     30.607167
+    ]
+   },
+   "properties": {
+    "case_no": "25-1204-0004",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "White Creek Apartments C - Southwest Exterior Near Stairwell (225 Discovery Dr, College Station)",
+    "zone_id": "zone-056",
+    "zone_name": "White Creek",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333764,
+     30.612865
+    ]
+   },
+   "properties": {
+    "case_no": "25-1204-0006",
+    "incident_date": "2025-12-15",
+    "report_date": "2025-12-15",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "AI Engineering Building - West Side Bike Racks (423 Spence St, College Station)",
+    "zone_id": "zone-080",
+    "zone_name": "Lot 40b",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2025/12/12-15-2025.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333764,
+     30.612865
+    ]
+   },
+   "properties": {
+    "case_no": "25-1215-0002",
+    "incident_date": "2025-12-15",
+    "report_date": "2026-01-06",
+    "last_seen": "2025-12-14T23:00:00",
+    "discovered_missing": "2025-12-15T05:18:00",
+    "window_hours": 6.3,
+    "report_type": "theft",
+    "location": "Student Computing Center - Bike Racks Near The Main Entrance (400 Spence St, College Station)",
+    "zone_id": "zone-080",
+    "zone_name": "Lot 40b",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-6-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333422,
+     30.615518
+    ]
+   },
+   "properties": {
+    "case_no": "25-1215-0005",
+    "incident_date": "2025-12-15",
+    "report_date": "2026-01-06",
+    "last_seen": "2025-12-14T10:30:00",
+    "discovered_missing": "2025-12-15T12:00:00",
+    "window_hours": 25.5,
+    "report_type": "theft",
+    "location": "Southside Recreation Center - Bike Racks (633 Bizzell St, College Station)",
+    "zone_id": "zone-028",
+    "zone_name": "Golf Lot",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-6-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341223,
+     30.61223
+    ]
+   },
+   "properties": {
+    "case_no": "25-1215-0007",
+    "incident_date": "2025-12-15",
+    "report_date": "2026-01-06",
+    "last_seen": "2025-12-15T16:20:00",
+    "discovered_missing": "2025-12-15T16:23:00",
+    "window_hours": 0.05,
+    "report_type": "theft",
+    "location": "Memorial Student Center - Northeast Bike Racks (275 Joe Routt Bl, College Station)",
+    "zone_id": "zone-022",
+    "zone_name": "Memorial Student Center",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-6-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336573,
+     30.606825
+    ]
+   },
+   "properties": {
+    "case_no": "25-1215-0009",
+    "incident_date": "2025-12-15",
+    "report_date": "2026-01-06",
+    "last_seen": "2025-12-15T19:08:00",
+    "discovered_missing": "2025-12-15T19:08:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Park West Tower 3 - North Side Bike Racks (503 George Bush Drive, College Station, TX 77840)",
+    "zone_id": "zone-085",
+    "zone_name": "Wellborn Road (2)",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-6-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333764,
+     30.612865
+    ]
+   },
+   "properties": {
+    "case_no": "25-1217-0008",
+    "incident_date": "2025-12-17",
+    "report_date": "2026-01-06",
+    "last_seen": "2025-12-17T12:05:00",
+    "discovered_missing": "2025-12-17T16:45:00",
+    "window_hours": 4.67,
+    "report_type": "theft",
+    "location": "Pavilion (424 Spence St, College Station)",
+    "zone_id": "zone-080",
+    "zone_name": "Lot 40b",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-6-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.334645,
+     30.615222
+    ]
+   },
+   "properties": {
+    "case_no": "26-0103-0010",
+    "incident_date": "2026-01-03",
+    "report_date": "2026-01-06",
+    "last_seen": "2025-12-22T08:00:00",
+    "discovered_missing": "2026-01-03T11:00:00",
+    "window_hours": 291.0,
+    "report_type": "theft",
+    "location": "Underwood Residence Hall - Bike Racks (644 Mosher Ln, College Station)",
+    "zone_id": "zone-026",
+    "zone_name": "Mosher Lane",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-6-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345101,
+     30.614331
+    ]
+   },
+   "properties": {
+    "case_no": "26-0103-0012",
+    "incident_date": "2026-01-03",
+    "report_date": "2026-01-06",
+    "last_seen": "2025-12-12T17:51:00",
+    "discovered_missing": "2026-01-03T15:30:00",
+    "window_hours": 525.65,
+    "report_type": "theft",
+    "location": "Clements Residence Hall - West Side Bike Racks (211 Jones St, College Station)",
+    "zone_id": "zone-018",
+    "zone_name": "Jones Street",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-6-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341691,
+     30.624957
+    ]
+   },
+   "properties": {
+    "case_no": "26-0107-0003",
+    "incident_date": "2026-01-07",
+    "report_date": "2026-01-16",
+    "last_seen": "2026-01-06T21:55:00",
+    "discovered_missing": "2026-01-07T14:30:00",
+    "window_hours": 16.58,
+    "report_type": "theft",
+    "location": "The Gardens H - Under Stairs Next To a Bike Rack On The Northeast Side (302 Ball St, College Station)",
+    "zone_id": "zone-044",
+    "zone_name": "T Row",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.334645,
+     30.615222
+    ]
+   },
+   "properties": {
+    "case_no": "26-0111-0009",
+    "incident_date": "2026-01-11",
+    "report_date": "2026-01-16",
+    "last_seen": "2025-12-16T15:00:00",
+    "discovered_missing": "2026-01-11T21:40:00",
+    "window_hours": 630.67,
+    "report_type": "theft",
+    "location": "Underwood Residence Hall - East Side Bike Racks (644 Mosher Ln, College Station, TX 77843)",
+    "zone_id": "zone-026",
+    "zone_name": "Mosher Lane",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0112-0005",
+    "incident_date": "2026-01-12",
+    "report_date": "2026-01-16",
+    "last_seen": "2025-12-15T12:30:00",
+    "discovered_missing": "2026-01-12T09:00:00",
+    "window_hours": 668.5,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - Southeast Bike Racks (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344365,
+     30.624273
+    ]
+   },
+   "properties": {
+    "case_no": "26-0112-0006",
+    "incident_date": "2026-01-12",
+    "report_date": "2026-01-16",
+    "last_seen": "2025-12-18T16:26:00",
+    "discovered_missing": "2026-01-12T10:00:00",
+    "window_hours": 593.57,
+    "report_type": "theft",
+    "location": "U Centre Apartments (Unspecified Bike Rack) (907 Cross St, Ste 01, College Station)",
+    "zone_id": "zone-044",
+    "zone_name": "T Row",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0115-0011",
+    "incident_date": "2026-01-13",
+    "report_date": "2026-01-16",
+    "last_seen": "2026-01-13T12:30:00",
+    "discovered_missing": "2026-01-13T16:37:00",
+    "window_hours": 4.12,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - South Side Bike Racks (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345101,
+     30.614331
+    ]
+   },
+   "properties": {
+    "case_no": "26-0114-0008",
+    "incident_date": "2026-01-14",
+    "report_date": "2026-01-16",
+    "last_seen": "2026-01-13T18:00:00",
+    "discovered_missing": "2026-01-14T09:00:00",
+    "window_hours": 15.0,
+    "report_type": "theft",
+    "location": "Bike Rack Between Clements Residence Hall and Fowler Residence Hall (211 Jones St, College Station)",
+    "zone_id": "zone-018",
+    "zone_name": "Jones Street",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/01/1-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344365,
+     30.624273
+    ]
+   },
+   "properties": {
+    "case_no": "26-0116-0010",
+    "incident_date": "2026-01-16",
+    "report_date": "2026-02-03",
+    "last_seen": "2026-01-15T16:00:00",
+    "discovered_missing": "2026-01-16T02:45:00",
+    "window_hours": 10.75,
+    "report_type": "theft",
+    "location": "U Centre #10 - Bike Racks (907 Cross St, Ste 10, College Station)",
+    "zone_id": "zone-044",
+    "zone_name": "T Row",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-3-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345599,
+     30.618394
+    ]
+   },
+   "properties": {
+    "case_no": "26-0123-0004",
+    "incident_date": "2026-01-23",
+    "report_date": "2026-02-03",
+    "last_seen": "2025-12-18T12:00:00",
+    "discovered_missing": "2026-01-23T12:30:00",
+    "window_hours": 864.5,
+    "report_type": "theft",
+    "location": "Bike Racks North of Bizzell Street and Lubbock Street Intersection (College Station, TX 77843)",
+    "zone_id": "zone-060",
+    "zone_name": "Hotard Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-3-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344407,
+     30.616923
+    ]
+   },
+   "properties": {
+    "case_no": "26-0126-0002",
+    "incident_date": "2026-01-26",
+    "report_date": "2026-02-03",
+    "last_seen": "2026-01-25T14:30:00",
+    "discovered_missing": "2026-01-26T01:10:00",
+    "window_hours": 10.67,
+    "report_type": "theft",
+    "location": "Haas Residence Hall - West Side Bike Racks (212 Houston St, College Station)",
+    "zone_id": "zone-019",
+    "zone_name": "Fish Pond West",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-3-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344365,
+     30.624273
+    ]
+   },
+   "properties": {
+    "case_no": "26-0126-0004",
+    "incident_date": "2026-01-26",
+    "report_date": "2026-02-03",
+    "last_seen": "2026-01-23T19:38:00",
+    "discovered_missing": "2026-01-26T14:10:00",
+    "window_hours": 66.53,
+    "report_type": "theft",
+    "location": "U Centre #07 - Exterior (907 Cross St, Ste 07, College Station)",
+    "zone_id": "zone-044",
+    "zone_name": "T Row",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-3-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341223,
+     30.61223
+    ]
+   },
+   "properties": {
+    "case_no": "26-0130-0011",
+    "incident_date": "2026-01-29",
+    "report_date": "2026-02-03",
+    "last_seen": "2026-01-29T18:00:00",
+    "discovered_missing": "2026-01-29T20:00:00",
+    "window_hours": 2.0,
+    "report_type": "theft",
+    "location": "Memorial Student Center - Northeast Bike Racks (275 Joe Routt Bl, College Station)",
+    "zone_id": "zone-022",
+    "zone_name": "Memorial Student Center",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-3-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.338955,
+     30.622696
+    ]
+   },
+   "properties": {
+    "case_no": "26-0201-0002",
+    "incident_date": "2026-02-01",
+    "report_date": "2026-02-03",
+    "last_seen": "2026-01-31T13:30:00",
+    "discovered_missing": "2026-02-01T00:30:00",
+    "window_hours": 11.0,
+    "report_type": "theft",
+    "location": "Emerging Technologies Building - West Side Bike Racks (101 Bizzell St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-3-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.34409,
+     30.61847
+    ]
+   },
+   "properties": {
+    "case_no": "26-0201-0007",
+    "incident_date": "2026-02-01",
+    "report_date": "2026-02-03",
+    "last_seen": "2026-01-31T10:00:00",
+    "discovered_missing": "2026-02-01T13:45:00",
+    "window_hours": 27.75,
+    "report_type": "theft",
+    "location": "Neeley Residence Hall - South Side Bike Racks (140 Asbury St, College Station)",
+    "zone_id": "zone-060",
+    "zone_name": "Hotard Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-3-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335033,
+     30.615139
+    ]
+   },
+   "properties": {
+    "case_no": "26-0202-0002",
+    "incident_date": "2026-02-02",
+    "report_date": "2026-02-03",
+    "last_seen": "2026-01-30T18:00:00",
+    "discovered_missing": "2026-02-02T07:30:00",
+    "window_hours": 61.5,
+    "report_type": "theft",
+    "location": "Mosher Residence Hall - East Side Bike Racks (725 Mosher Ln, College Station)",
+    "zone_id": "zone-026",
+    "zone_name": "Mosher Lane",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-3-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344596,
+     30.599743
+    ]
+   },
+   "properties": {
+    "case_no": "26-0204-0008",
+    "incident_date": "2026-02-03",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-02T16:00:00",
+    "discovered_missing": "2026-02-03T20:00:00",
+    "window_hours": 28.0,
+    "report_type": "theft",
+    "location": "Park West Hillside 2 - West Side Bike Racks (503 George Bush Drive West, College Station, TX 77840)",
+    "zone_id": "zone-075",
+    "zone_name": "Lot 63",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333764,
+     30.612865
+    ]
+   },
+   "properties": {
+    "case_no": "26-0205-0003",
+    "incident_date": "2026-02-05",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-05T11:28:00",
+    "discovered_missing": "2026-02-05T12:10:00",
+    "window_hours": 0.7,
+    "report_type": "theft",
+    "location": "Student Computing Center - East Side Bike Racks (400 Spence St, College Station)",
+    "zone_id": "zone-080",
+    "zone_name": "Lot 40b",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.346859,
+     30.616952
+    ]
+   },
+   "properties": {
+    "case_no": "26-0206-0011",
+    "incident_date": "2026-02-06",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-05T10:00:00",
+    "discovered_missing": "2026-02-06T17:30:00",
+    "window_hours": 31.5,
+    "report_type": "theft",
+    "location": "Hullabaloo Residence Hall - Bike Rack(306 University Dr, College Station)",
+    "zone_id": "zone-017",
+    "zone_name": "Lot 30a",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "26-0207-0001",
+    "incident_date": "2026-02-06",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-06T11:50:00",
+    "discovered_missing": "2026-02-06T12:15:00",
+    "window_hours": 0.42,
+    "report_type": "theft",
+    "location": "Adam C. Sinn '00 Academic & Wellness Center - West Side Exterior (200 John David Crow Drive, College Station, TX 77843)",
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.346522,
+     30.609011
+    ]
+   },
+   "properties": {
+    "case_no": "26-0209-0003",
+    "incident_date": "2026-02-07",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-06T18:30:00",
+    "discovered_missing": "2026-02-07T16:00:00",
+    "window_hours": 21.5,
+    "report_type": "theft",
+    "location": "Wayne Roberts '85 Building - East Side Bike Racks (256 Olsen Boulevard, College Station, TX 77843)",
+    "zone_id": "zone-083",
+    "zone_name": "Texas A&M University (6)",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.337119,
+     30.61507
+    ]
+   },
+   "properties": {
+    "case_no": "26-0209-0004",
+    "incident_date": "2026-02-09",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-05T12:00:00",
+    "discovered_missing": "2026-02-09T11:30:00",
+    "window_hours": 95.5,
+    "report_type": "theft",
+    "location": "Dunn Residence Hall - Bike Racks (636 Lubbock St, College Station)",
+    "zone_id": "zone-027",
+    "zone_name": "Dunn Residence Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.343797,
+     30.618238
+    ]
+   },
+   "properties": {
+    "case_no": "26-0209-0007",
+    "incident_date": "2026-02-09",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-09T00:40:00",
+    "discovered_missing": "2026-02-09T12:30:00",
+    "window_hours": 11.83,
+    "report_type": "theft",
+    "location": "Hobby Residence Hall - North Side Bike Racks (160 Asbury St, College Station)",
+    "zone_id": "zone-060",
+    "zone_name": "Hotard Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0209-0009",
+    "incident_date": "2026-02-09",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-09T13:00:00",
+    "discovered_missing": "2026-02-09T17:00:00",
+    "window_hours": 4.0,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - Bike Racks (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.343797,
+     30.618238
+    ]
+   },
+   "properties": {
+    "case_no": "26-0209-0010",
+    "incident_date": "2026-02-09",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-06T17:00:00",
+    "discovered_missing": "2026-02-09T08:00:00",
+    "window_hours": 63.0,
+    "report_type": "theft",
+    "location": "Hobby Residence Hall - North Side Bike Racks (160 Asbury St, College Station)",
+    "zone_id": "zone-060",
+    "zone_name": "Hotard Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.337119,
+     30.61507
+    ]
+   },
+   "properties": {
+    "case_no": "26-0213-0002",
+    "incident_date": "2026-02-13",
+    "report_date": "2026-02-16",
+    "last_seen": "2026-02-13T00:00:00",
+    "discovered_missing": "2026-02-13T02:00:00",
+    "window_hours": 2.0,
+    "report_type": "theft",
+    "location": "Dunn Residence Hall - South Side Bike Racks(636 Lubbock St, College Station)",
+    "zone_id": "zone-027",
+    "zone_name": "Dunn Residence Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/02/2-16-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344596,
+     30.599743
+    ]
+   },
+   "properties": {
+    "case_no": "26-0217-0003",
+    "incident_date": "2026-02-17",
+    "report_date": "2026-03-04",
+    "last_seen": "2026-02-16T18:30:00",
+    "discovered_missing": "2026-02-17T09:50:00",
+    "window_hours": 15.33,
+    "report_type": "theft",
+    "location": "Park West Hillside 2 - Bike Racks (503 George Bush Drive West, College Station, TX 77840)",
+    "zone_id": "zone-075",
+    "zone_name": "Lot 63",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/03/3-4-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.334792,
+     30.615126
+    ]
+   },
+   "properties": {
+    "case_no": "26-0219-0007",
+    "incident_date": "2026-02-18",
+    "report_date": "2026-03-04",
+    "last_seen": "2026-02-17T21:00:00",
+    "discovered_missing": "2026-02-18T10:00:00",
+    "window_hours": 13.0,
+    "report_type": "theft",
+    "location": "Appelt Residence Hall - Bike Racks (660 Mosher Ln, College Station)",
+    "zone_id": "zone-026",
+    "zone_name": "Mosher Lane",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/03/3-4-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333764,
+     30.612865
+    ]
+   },
+   "properties": {
+    "case_no": "26-0223-0007",
+    "incident_date": "2026-02-23",
+    "report_date": "2026-03-04",
+    "last_seen": "2026-02-23T14:15:00",
+    "discovered_missing": "2026-02-23T21:30:00",
+    "window_hours": 7.25,
+    "report_type": "theft",
+    "location": "Sterling C. Evans Library - East Side Bike Racks (400 Spence St, College Station)",
+    "zone_id": "zone-080",
+    "zone_name": "Lot 40b",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/03/3-4-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0227-0019",
+    "incident_date": "2026-02-27",
+    "report_date": "2026-03-04",
+    "last_seen": "2026-02-27T16:00:00",
+    "discovered_missing": "2026-02-27T23:00:00",
+    "window_hours": 7.0,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - Southwest Corner Exterior (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/03/3-4-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333422,
+     30.615518
+    ]
+   },
+   "properties": {
+    "case_no": "26-0303-0008",
+    "incident_date": "2026-03-03",
+    "report_date": "2026-03-17",
+    "last_seen": "2026-03-03T14:00:00",
+    "discovered_missing": "2026-03-03T15:00:00",
+    "window_hours": 1.0,
+    "report_type": "theft",
+    "location": "Southside Recreation Center - Bike Racks (633 Bizzell St, College Station)",
+    "zone_id": "zone-028",
+    "zone_name": "Golf Lot",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/03/3-17-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0305-0006",
+    "incident_date": "2026-03-03",
+    "report_date": "2026-03-17",
+    "last_seen": "2026-03-03T14:10:00",
+    "discovered_missing": "2026-03-03T15:35:00",
+    "window_hours": 1.42,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex - Southwest Exterior (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/03/3-17-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344596,
+     30.599743
+    ]
+   },
+   "properties": {
+    "case_no": "26-0320-0011",
+    "incident_date": "2026-03-09",
+    "report_date": "2026-04-01",
+    "last_seen": "2026-03-09T17:00:00",
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Park West A (503 George Bush Dr W, Ste A, College Station)",
+    "zone_id": "zone-075",
+    "zone_name": "Lot 63",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/04/4-1-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.351801,
+     30.593314
+    ]
+   },
+   "properties": {
+    "case_no": "26-0406-0002",
+    "incident_date": "2026-03-26",
+    "report_date": "2026-04-15",
+    "last_seen": "2026-03-26T09:30:00",
+    "discovered_missing": "2026-03-26T11:00:00",
+    "window_hours": 1.5,
+    "report_type": "theft",
+    "location": "Allen Building (1004 George Bush Dr W, College Station)",
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/04/4-15-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.333764,
+     30.612865
+    ]
+   },
+   "properties": {
+    "case_no": "26-0401-0001",
+    "incident_date": "2026-03-31",
+    "report_date": "2026-04-01",
+    "last_seen": "2026-03-31T20:42:00",
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Student Computing Center (400 Spence St, College Station)",
+    "zone_id": "zone-080",
+    "zone_name": "Lot 40b",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/04/4-1-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0412-0007",
+    "incident_date": "2026-04-12",
+    "report_date": "2026-04-15",
+    "last_seen": "2026-04-12T13:00:00",
+    "discovered_missing": "2026-04-12T19:20:00",
+    "window_hours": 6.33,
+    "report_type": "theft",
+    "location": "Exterior Bike Racks of Zachry Engineering Education Complex (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/04/4-15-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344596,
+     30.599743
+    ]
+   },
+   "properties": {
+    "case_no": "26-0413-0002",
+    "incident_date": "2026-04-13",
+    "report_date": "2026-04-15",
+    "last_seen": "2026-04-13T12:15:00",
+    "discovered_missing": "2026-04-13T12:15:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Park West Tower 3 (503 George Bush Dr W, Ste C, College Station)",
+    "zone_id": "zone-075",
+    "zone_name": "Lot 63",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/04/4-15-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.350891,
+     30.6053
+    ]
+   },
+   "properties": {
+    "case_no": "26-0414-0002",
+    "incident_date": "2026-04-14",
+    "report_date": "2026-05-01",
+    "last_seen": "2026-04-14T08:00:00",
+    "discovered_missing": "2026-04-14T10:26:00",
+    "window_hours": 2.43,
+    "report_type": "theft",
+    "location": "Polo Garage",
+    "zone_id": "zone-065",
+    "zone_name": "Ag Building",
+    "location_precision": "zone",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/05/05-01-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.342688,
+     30.610686
+    ]
+   },
+   "properties": {
+    "case_no": "26-0415-0004*",
+    "incident_date": "2026-04-15",
+    "report_date": "2026-05-01",
+    "last_seen": "2026-04-15T13:04:00",
+    "discovered_missing": "2026-04-15T13:04:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Rudder Tower (401 Joe Routt Bl, College Station)",
+    "zone_id": "zone-061",
+    "zone_name": "Texas A&M Hotel and Conference Center",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/05/05-01-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0415-0009",
+    "incident_date": "2026-04-15",
+    "report_date": "2026-05-01",
+    "last_seen": "2026-04-15T12:30:00",
+    "discovered_missing": "2026-04-15T15:15:00",
+    "window_hours": 2.75,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/05/05-01-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.353253,
+     30.6121
+    ]
+   },
+   "properties": {
+    "case_no": "26-0416-0006",
+    "incident_date": "2026-04-15",
+    "report_date": "2026-05-01",
+    "last_seen": "2026-04-15T13:45:00",
+    "discovered_missing": "2026-04-15T19:00:00",
+    "window_hours": 5.25,
+    "report_type": "theft",
+    "location": "Veterinary Small Animal Hospital (408 Raymond Stotzer Pw, College Station)",
+    "zone_id": "zone-011",
+    "zone_name": "Texas A&M University",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/05/05-01-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.33682,
+     30.615512
+    ]
+   },
+   "properties": {
+    "case_no": "26-0429-0002",
+    "incident_date": "2026-04-29",
+    "report_date": "2026-05-01",
+    "last_seen": "2026-04-28T23:30:00",
+    "discovered_missing": "2026-04-29T04:55:00",
+    "window_hours": 5.42,
+    "report_type": "theft",
+    "location": "Commons (676 Lubbock St, College Station)",
+    "zone_id": "zone-027",
+    "zone_name": "Dunn Residence Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/05/05-01-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "26-0510-0007",
+    "incident_date": "2026-05-06",
+    "report_date": "2026-05-18",
+    "last_seen": "2026-05-01T16:30:00",
+    "discovered_missing": "2026-05-06T18:29:00",
+    "window_hours": 121.98,
+    "report_type": "theft",
+    "location": "Fountain Hall-Dorm 4 (636 Military Mall, College Station)",
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/05/05-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344365,
+     30.624273
+    ]
+   },
+   "properties": {
+    "case_no": "26-0509-0010",
+    "incident_date": "2026-05-07",
+    "report_date": "2026-05-18",
+    "last_seen": "2026-05-07T15:10:00",
+    "discovered_missing": "2026-05-07T16:50:00",
+    "window_hours": 1.67,
+    "report_type": "theft",
+    "location": "U-Centre Apartments (907 Cross ST, College Station TX)",
+    "zone_id": "zone-044",
+    "zone_name": "T Row",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/05/05-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.338572,
+     30.615493
+    ]
+   },
+   "properties": {
+    "case_no": "26-0519-0002",
+    "incident_date": "2026-05-19",
+    "report_date": "2026-06-02",
+    "last_seen": "2026-05-19T08:15:00",
+    "discovered_missing": "2026-05-19T08:15:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Alley between Peterson Building and Evan Library Annex (435 Nagle St, College Station)",
+    "zone_id": "zone-027",
+    "zone_name": "Dunn Residence Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-02-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341967,
+     30.622142
+    ]
+   },
+   "properties": {
+    "case_no": "26-0522-0001",
+    "incident_date": "2026-05-22",
+    "report_date": "2026-06-02",
+    "last_seen": "2026-05-22T02:30:00",
+    "discovered_missing": "2026-05-22T02:30:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "McDonalds (801 UNIVERSITY DR COLLEGE STATION TX)",
+    "zone_id": "zone-006",
+    "zone_name": "Spence Street",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-02-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.338865,
+     30.620821
+    ]
+   },
+   "properties": {
+    "case_no": "26-0527-0003",
+    "incident_date": "2026-05-27",
+    "report_date": "2026-06-18",
+    "last_seen": "2026-05-27T11:05:00",
+    "discovered_missing": "2026-05-27T11:05:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Bike racks east of Wisenbaker Engineering Building (188 Bizzell St, College Station)",
+    "zone_id": "zone-078",
+    "zone_name": "Wisenbaker",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0528-0003",
+    "incident_date": "2026-05-28",
+    "report_date": "2026-06-02",
+    "last_seen": "2026-05-28T13:45:00",
+    "discovered_missing": "2026-05-28T13:45:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Bike racks outside of Zachry Engineering Education Complex (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-02-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.338955,
+     30.622696
+    ]
+   },
+   "properties": {
+    "case_no": "26-0602-0001",
+    "incident_date": "2026-06-02",
+    "report_date": "2026-06-18",
+    "last_seen": "2026-06-01T20:30:00",
+    "discovered_missing": "2026-06-02T00:00:00",
+    "window_hours": 3.5,
+    "report_type": "theft",
+    "location": "Exterior Bike Rack of Emerging Technologies Building (101 Bizzell St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0611-0009",
+    "incident_date": "2026-06-11",
+    "report_date": "2026-06-18",
+    "last_seen": "2026-06-11T18:57:00",
+    "discovered_missing": "2026-06-11T18:57:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344233,
+     30.616789
+    ]
+   },
+   "properties": {
+    "case_no": "26-0611-0009*",
+    "incident_date": "2026-06-11",
+    "report_date": "2026-06-18",
+    "last_seen": "2026-06-11T18:57:00",
+    "discovered_missing": "2026-06-11T18:57:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Sbisa Dining Hall (233 Houston St, College Station)",
+    "zone_id": "zone-019",
+    "zone_name": "Fish Pond West",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341824,
+     30.617303
+    ]
+   },
+   "properties": {
+    "case_no": "26-0611-0010",
+    "incident_date": "2026-06-11",
+    "report_date": "2026-06-18",
+    "last_seen": "2026-06-11T14:00:00",
+    "discovered_missing": "2026-06-11T18:20:00",
+    "window_hours": 4.33,
+    "report_type": "theft",
+    "location": "Bright Building (710 Ross St, College Station)",
+    "zone_id": "zone-020",
+    "zone_name": "Thompson Hall",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0614-0006",
+    "incident_date": "2026-06-14",
+    "report_date": "2026-06-18",
+    "last_seen": "2026-06-14T16:27:00",
+    "discovered_missing": "2026-06-14T16:27:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341223,
+     30.61223
+    ]
+   },
+   "properties": {
+    "case_no": "26-0614-0007",
+    "incident_date": "2026-06-14",
+    "report_date": "2026-06-18",
+    "last_seen": "2026-06-14T12:00:00",
+    "discovered_missing": "2026-06-14T17:30:00",
+    "window_hours": 5.5,
+    "report_type": "theft",
+    "location": "Memorial Student Center (275 Joe Routt Bl, College Station)",
+    "zone_id": "zone-022",
+    "zone_name": "Memorial Student Center",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.338569,
+     30.625908
+    ]
+   },
+   "properties": {
+    "case_no": "26-0614-0009",
+    "incident_date": "2026-06-14",
+    "report_date": "2026-06-18",
+    "last_seen": "2026-06-14T09:04:00",
+    "discovered_missing": "2026-06-14T17:45:00",
+    "window_hours": 8.68,
+    "report_type": "theft",
+    "location": "Blaze Pizza (143 Century Square, College Station TX)",
+    "zone_id": "zone-045",
+    "zone_name": "The Gardens Community Center",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0616-0003",
+    "incident_date": "2026-06-16",
+    "report_date": "2026-06-18",
+    "last_seen": "2026-06-16T05:47:00",
+    "discovered_missing": "2026-06-16T06:37:00",
+    "window_hours": 0.83,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/06/06-18-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "case_no": "26-0622-0001",
+    "incident_date": "2026-06-22",
+    "report_date": "2026-06-22",
+    "last_seen": "2026-06-20T04:54:00",
+    "discovered_missing": "2026-06-22T04:54:00",
+    "window_hours": 48.0,
+    "report_type": "theft",
+    "location": "Garden Apartments, Building G, (250 Calvin Moore Dr, College Station TX)",
+    "zone_id": null,
+    "zone_name": null,
+    "location_precision": "none",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.348618,
+     30.606504
+    ]
+   },
+   "properties": {
+    "case_no": "26-0624-0002",
+    "incident_date": "2026-06-22",
+    "report_date": "2026-06-24",
+    "last_seen": "2026-06-22T17:52:00",
+    "discovered_missing": "2026-06-22T17:52:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "West Campus Parking Garage (201 John Kimbrough Bl, College Station)",
+    "zone_id": "zone-057",
+    "zone_name": "Reed Arena",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0619-0008",
+    "incident_date": "2026-07-01",
+    "report_date": "2026-07-01",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Zachry Engineering Education Complex (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/07/07-01-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344277,
+     30.619535
+    ]
+   },
+   "properties": {
+    "case_no": "26-0625-0011",
+    "incident_date": "2026-07-01",
+    "report_date": "2026-07-01",
+    "last_seen": null,
+    "discovered_missing": null,
+    "window_hours": null,
+    "report_type": "theft",
+    "location": "Mitchell Physics Building (578 University Dr, College Station)",
+    "zone_id": "zone-007",
+    "zone_name": "Northside Garage",
+    "location_precision": "address",
+    "source": "upd_crime_alert",
+    "source_url": "https://upd.tamu.edu/reporting/crime-log-and-alerts/2026/07/07-01-2026.html"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.357129,
+     30.607167
+    ]
+   },
+   "properties": {
+    "case_no": "26-0702-0004",
+    "incident_date": "2026-07-02",
+    "report_date": "2026-07-02",
+    "last_seen": "2026-06-09T14:00:00",
+    "discovered_missing": "2026-07-02T14:00:00",
+    "window_hours": 552.0,
+    "report_type": "theft",
+    "location": "White Creek Apartments B (225 Discovery Dr, College Station)",
+    "zone_id": "zone-056",
+    "zone_name": "White Creek",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344365,
+     30.624273
+    ]
+   },
+   "properties": {
+    "case_no": "26-0706-0002",
+    "incident_date": "2026-07-05",
+    "report_date": "2026-07-06",
+    "last_seen": "2026-07-02T12:00:00",
+    "discovered_missing": "2026-07-05T21:00:00",
+    "window_hours": 81.0,
+    "report_type": "theft",
+    "location": "U-Centre (907 Cross St, College station TX)",
+    "zone_id": "zone-044",
+    "zone_name": "T Row",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336573,
+     30.606825
+    ]
+   },
+   "properties": {
+    "case_no": "26-0715-0004",
+    "incident_date": "2026-07-11",
+    "report_date": "2026-07-15",
+    "last_seen": "2026-05-14T10:30:00",
+    "discovered_missing": "2026-07-11T14:45:00",
+    "window_hours": 1396.25,
+    "report_type": "theft",
+    "location": "Park West Tower 3 (503 George Bush Dr, College Station TX)",
+    "zone_id": "zone-085",
+    "zone_name": "Wellborn Road (2)",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.338007,
+     30.623467
+    ]
+   },
+   "properties": {
+    "case_no": "26-0723-0003",
+    "incident_date": "2026-07-18",
+    "report_date": "2026-07-23",
+    "last_seen": "2026-05-08T12:00:00",
+    "discovered_missing": "2026-07-18T13:00:00",
+    "window_hours": 1705.0,
+    "report_type": "theft",
+    "location": "Bike Rack outside Polo Road Garage (300 Polo Road, College Station)",
+    "zone_id": "zone-059",
+    "zone_name": "Polo Road Building",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.337735,
+     30.626506
+    ]
+   },
+   "properties": {
+    "case_no": "26-0801-0003",
+    "incident_date": "2026-07-19",
+    "report_date": "2026-08-01",
+    "last_seen": "2026-07-12T16:00:00",
+    "discovered_missing": "2026-07-19T16:00:00",
+    "window_hours": 168.0,
+    "report_type": "theft",
+    "location": "100 Park (170 Century Square Dr, College Station)",
+    "zone_id": "zone-045",
+    "zone_name": "The Gardens Community Center",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340202,
+     30.621375
+    ]
+   },
+   "properties": {
+    "case_no": "26-0720-0001",
+    "incident_date": "2026-07-20",
+    "report_date": "2026-07-20",
+    "last_seen": "2026-07-20T05:46:00",
+    "discovered_missing": "2026-07-20T05:46:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Bike racks outside of Zachry Engineering Education Complex (125 Spence St, College Station)",
+    "zone_id": "zone-046",
+    "zone_name": "Emerging Technologies Building",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.346295,
+     30.605683
+    ]
+   },
+   "properties": {
+    "case_no": "26-0720-0005",
+    "incident_date": "2026-07-20",
+    "report_date": "2026-07-20",
+    "last_seen": "2026-07-20T11:55:00",
+    "discovered_missing": "2026-07-20T11:55:00",
+    "window_hours": 0.0,
+    "report_type": "attempted_theft",
+    "location": "Bike racks outside of Reed Arena (730 Olsen Bl, College Station)",
+    "zone_id": "zone-057",
+    "zone_name": "Reed Arena",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344596,
+     30.599743
+    ]
+   },
+   "properties": {
+    "case_no": "26-0721-0007",
+    "incident_date": "2026-07-21",
+    "report_date": "2026-07-21",
+    "last_seen": "2026-07-21T16:42:00",
+    "discovered_missing": "2026-07-21T16:42:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Park West, Hillside 2, (503 George Bush Dr W, Ste B, College Station)",
+    "zone_id": "zone-075",
+    "zone_name": "Lot 63",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344596,
+     30.599743
+    ]
+   },
+   "properties": {
+    "case_no": "26-0729-0006",
+    "incident_date": "2026-07-29",
+    "report_date": "2026-07-29",
+    "last_seen": "2026-07-29T15:22:00",
+    "discovered_missing": "2026-07-29T15:22:00",
+    "window_hours": 0.0,
+    "report_type": "theft",
+    "location": "Park West, outside of Hillside 5 (503 George Bush Dr W, Ste E, College Station)",
+    "zone_id": "zone-075",
+    "zone_name": "Lot 63",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.357129,
+     30.607167
+    ]
+   },
+   "properties": {
+    "case_no": "26-0808-0006",
+    "incident_date": "2026-08-08",
+    "report_date": "2026-08-08",
+    "last_seen": "2026-08-07T18:00:00",
+    "discovered_missing": "2026-08-08T10:00:00",
+    "window_hours": 16.0,
+    "report_type": "theft",
+    "location": "White Creek Apartments (225 Discovery Dr, College Station)",
+    "zone_id": "zone-056",
+    "zone_name": "White Creek",
+    "location_precision": "address",
+    "source": "clery_log",
+    "source_url": "https://clery.tamu.edu/CrimeLog/College_Station"
+   }
+  }
+ ]
+}
