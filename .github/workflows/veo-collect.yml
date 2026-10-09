@@ -1,0 +1,88 @@
+name: Collect Veo snapshots
+
+# Polls Veo's GBFS feed once a minute from ~5:30 AM to 8 PM campus time and
+# commits the snapshots to a data branch (not main), one small file per half hour.
+#
+# Runs on fixed dates only, not every week:
+#   Sat Oct 10, 2026      rehearsal, writes to the throwaway branch veo-data-test
+#   Mon-Thu Oct 12-15     the real run, writes to veo-data. Only runs if the repo
+#                         variable VEO_WEEK_RUN is "true" (set it once the rehearsal
+#                         looks good: gh variable set VEO_WEEK_RUN --body true).
+# Delete this workflow once the data is collected.
+
+on:
+  schedule:
+    # 10:30 UTC = 5:30 AM CDT. Scheduled runs can start late, hence the head start on 6 AM.
+    - cron: "30 10 10 10 *"
+    - cron: "30 10 12-15 10 *"
+  workflow_dispatch:
+    inputs:
+      data_branch:
+        description: Branch to commit snapshots to
+        default: veo-data-test
+      end_time:
+        description: Stop time today, campus local time (HH:MM)
+        default: "20:00"
+
+permissions:
+  contents: write
+
+env:
+  DATA_BRANCH: ${{ inputs.data_branch || (github.event.schedule == '30 10 12-15 10 *' && 'veo-data' || 'veo-data-test') }}
+  END_TIME: ${{ inputs.end_time || '20:00' }}
+
+jobs:
+  collect:
+    if: github.event.schedule != '30 10 12-15 10 *' || vars.VEO_WEEK_RUN == 'true'
+    runs-on: ubuntu-latest
+    # A job can run 6 hours at most, so the day is covered by three parts run
+    # one after another. Parts that start after END_TIME exit right away.
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3]
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check out the data branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads "$remote" "$DATA_BRANCH" > /dev/null; then
+            git clone --quiet --depth 1 --branch "$DATA_BRANCH" "$remote" veo-data
+          else
+            git init --quiet -b "$DATA_BRANCH" veo-data
+            git -C veo-data remote add origin "$remote"
+          fi
+          git -C veo-data config user.name "github-actions[bot]"
+          git -C veo-data config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Collect
+        run: |
+          end=$(TZ=America/Chicago date -d "today ${END_TIME}" +%s)
+          job_end=$(( $(date +%s) + 330 * 60 ))
+          (( job_end > end )) && job_end=$end
+
+          while (( $(date +%s) < job_end - 60 )); do
+            seconds=$(( job_end - $(date +%s) ))
+            (( seconds > 1800 )) && seconds=1800
+            if ! python scrapers/veo_gbfs/collect.py --seconds "$seconds" --out-dir veo-data/veo_gbfs; then
+              echo "::warning::collector exited with an error"
+              sleep 30
+            fi
+            # Push after every half-hour segment so a killed job loses little.
+            git -C veo-data add -A
+            git -C veo-data commit --quiet -m "Veo snapshots up to $(TZ=America/Chicago date '+%F %H:%M')" || true
+            git -C veo-data push --quiet origin "HEAD:${DATA_BRANCH}" || echo "::warning::push failed, will retry with the next segment"
+          done
