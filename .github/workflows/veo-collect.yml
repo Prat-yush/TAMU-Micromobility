@@ -1,39 +1,46 @@
 name: Collect Veo snapshots
 
-# Polls Veo's GBFS feed once a minute from ~5:30 AM to 8 PM campus time and
-# commits the snapshots to a data branch (not main), one small file per half hour.
+# Polls Veo's GBFS feed once a minute until 8 PM campus time and commits the
+# snapshots to the veo-data branch (not main), one small file per half hour.
 #
-# Runs on fixed dates only, not every week:
-#   Sat Oct 10, 2026      rehearsal, writes to the throwaway branch veo-data-test
-#   Mon-Thu Oct 12-15     the real run, writes to veo-data. Only runs if the repo
-#                         variable VEO_WEEK_RUN is "true" (set it once the rehearsal
-#                         looks good: gh variable set VEO_WEEK_RUN --body true).
-# Delete this workflow once the data is collected.
+# Scheduled for Tue-Thu Oct 13-15, 2026 only, and only while the repo variable
+# VEO_WEEK_RUN is "true" (gh variable set VEO_WEEK_RUN --body true).
+# If nothing is running by 6 AM, start it by hand: Actions > this workflow >
+# Run workflow. Delete this workflow once the data is collected.
 
 on:
   schedule:
-    # 10:30 UTC = 5:30 AM CDT. Scheduled runs can start late, hence the head start on 6 AM.
-    - cron: "30 10 10 10 *"
-    - cron: "30 10 12-15 10 *"
+    # 4:00, 4:30, 5:00 and 5:30 AM CDT. GitHub can start scheduled runs hours
+    # late (the Oct 10 rehearsal started 5.5 hours late), so there are several
+    # chances to start before 6 AM. The first one to start collects; see `concurrency`.
+    - cron: "0,30 9 13-15 10 *"
+    - cron: "0,30 10 13-15 10 *"
   workflow_dispatch:
     inputs:
       data_branch:
         description: Branch to commit snapshots to
-        default: veo-data-test
+        default: veo-data
       end_time:
         description: Stop time today, campus local time (HH:MM)
         default: "20:00"
+
+# Only one run collects at a time. A run that starts while another is collecting
+# waits for it; if that one finished normally it is past END_TIME and exits at
+# once, and if it died early the waiting run takes over.
+concurrency:
+  group: veo-collect
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 env:
-  DATA_BRANCH: ${{ inputs.data_branch || (github.event.schedule == '30 10 12-15 10 *' && 'veo-data' || 'veo-data-test') }}
+  DATA_BRANCH: ${{ inputs.data_branch || 'veo-data' }}
   END_TIME: ${{ inputs.end_time || '20:00' }}
 
 jobs:
   collect:
-    if: github.event.schedule != '30 10 12-15 10 *' || vars.VEO_WEEK_RUN == 'true'
+    if: github.event_name != 'schedule' || vars.VEO_WEEK_RUN == 'true'
     runs-on: ubuntu-latest
     # A job can run 6 hours at most, so the day is covered by three parts run
     # one after another. Parts that start after END_TIME exit right away.
