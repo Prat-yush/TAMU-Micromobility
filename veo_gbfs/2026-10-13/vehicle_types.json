@@ -1,0 +1,37 @@
+[
+  {
+    "vehicle_type_id": "0",
+    "form_factor": "bicycle",
+    "propulsion_type": "human"
+  },
+  {
+    "vehicle_type_id": "2",
+    "form_factor": "bicycle",
+    "propulsion_type": "electric_assist",
+    "max_range_meters": 45000
+  },
+  {
+    "vehicle_type_id": "1",
+    "form_factor": "scooter",
+    "propulsion_type": "electric",
+    "max_range_meters": 52800
+  },
+  {
+    "vehicle_type_id": "3",
+    "form_factor": "bicycle",
+    "propulsion_type": "electric",
+    "max_range_meters": 67000
+  },
+  {
+    "vehicle_type_id": "4",
+    "form_factor": "scooter",
+    "propulsion_type": "electric",
+    "max_range_meters": 67000
+  },
+  {
+    "vehicle_type_id": "5",
+    "form_factor": "scooter",
+    "propulsion_type": "electric",
+    "max_range_meters": 67000
+  }
+]
