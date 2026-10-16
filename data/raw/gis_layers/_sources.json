@@ -1,0 +1,175 @@
+{
+  "cs_pedestrian_plan": {
+    "url": "https://gis.cstx.gov/csgis/rest/services/_OpenData/OpenData_PDS/FeatureServer/9",
+    "source_layer_name": "Pedestrian Plan",
+    "file": "cs_pedestrian_plan.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 911,
+    "fetched_at": "2026-10-16T15:41:09+00:00"
+  },
+  "cs_shared_use_paths": {
+    "url": "https://gis.cstx.gov/csgis/rest/services/_OpenData/OpenData_PDS/FeatureServer/20",
+    "source_layer_name": "Shared Use Paths",
+    "file": "cs_shared_use_paths.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 137,
+    "fetched_at": "2026-10-16T15:41:09+00:00"
+  },
+  "cs_streets": {
+    "url": "https://gis.cstx.gov/csgis/rest/services/_OpenData/OpenData_PWS/FeatureServer/1",
+    "source_layer_name": "Streets",
+    "file": "cs_streets.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 1920,
+    "fetched_at": "2026-10-16T15:41:10+00:00"
+  },
+  "osm_paths": {
+    "url": "OpenStreetMap via Overpass API",
+    "selector": "way[\"highway\"~\"^(footway|cycleway|path|pedestrian|steps|bridleway)$\"]",
+    "license": "ODbL 1.0, (c) OpenStreetMap contributors",
+    "osm_base": "2026-10-16T15:38:36Z",
+    "file": "osm_paths.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 2322,
+    "fetched_at": "2026-10-16T15:39:22+00:00"
+  },
+  "osm_roads": {
+    "url": "OpenStreetMap via Overpass API",
+    "selector": "way[\"highway\"~\"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|living_street)(_link)?$\"]",
+    "license": "ODbL 1.0, (c) OpenStreetMap contributors",
+    "osm_base": "2026-10-16T15:38:36Z",
+    "file": "osm_roads.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 4307,
+    "fetched_at": "2026-10-16T15:40:37+00:00"
+  },
+  "tamu_bike_fix_stations": {
+    "url": "https://gis.tamu.edu/arcgis/rest/services/TS/BikeMap/FeatureServer/2",
+    "source_layer_name": "Bike Fix Stations",
+    "file": "tamu_bike_fix_stations.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 8,
+    "fetched_at": "2026-10-16T15:41:10+00:00"
+  },
+  "tamu_bike_lane_markings": {
+    "url": "https://gis.tamu.edu/arcgis/rest/services/TS/BikeMap/FeatureServer/3",
+    "source_layer_name": "Campus Bike Lanes",
+    "file": "tamu_bike_lane_markings.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 3183,
+    "fetched_at": "2026-10-16T15:41:12+00:00"
+  },
+  "tamu_campus_driveways": {
+    "url": "https://gis.tamu.edu/arcgis/rest/services/FCOR/TAMU_Basemap_20261008/MapServer/19",
+    "source_layer_name": "Campus Driveway",
+    "file": "tamu_campus_driveways.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 355,
+    "fetched_at": "2026-10-16T15:41:13+00:00"
+  },
+  "tamu_crossing_markings": {
+    "url": "https://arc.ts.tamu.edu/arcgis/rest/services/Hosted/Bike_Lanes_view/FeatureServer/0",
+    "source_layer_name": "Dutch Junction",
+    "file": "tamu_crossing_markings.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 183,
+    "fetched_at": "2026-10-16T15:41:13+00:00"
+  },
+  "tamu_dismount_zones": {
+    "url": "https://gis.tamu.edu/arcgis/rest/services/TS/BikeMap/FeatureServer/5",
+    "source_layer_name": "Dismount Zones",
+    "file": "tamu_dismount_zones.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 2,
+    "fetched_at": "2026-10-16T15:41:13+00:00"
+  },
+  "tamu_steps": {
+    "url": "https://gis.tamu.edu/arcgis/rest/services/FCOR/TAMU_Basemap_20261008/MapServer/15",
+    "source_layer_name": "Steps",
+    "file": "tamu_steps.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 2647,
+    "fetched_at": "2026-10-16T15:41:14+00:00"
+  },
+  "tamu_street_pavement": {
+    "url": "https://gis.tamu.edu/arcgis/rest/services/FCOR/TAMU_Basemap_20261008/MapServer/13",
+    "source_layer_name": "Street Pavement",
+    "file": "tamu_street_pavement.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 230,
+    "fetched_at": "2026-10-16T15:41:15+00:00"
+  },
+  "tamu_walkways": {
+    "url": "https://gis.tamu.edu/arcgis/rest/services/FCOR/TAMU_Basemap_20261008/MapServer/18",
+    "source_layer_name": "Sidewalk",
+    "file": "tamu_walkways.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 6372,
+    "fetched_at": "2026-10-16T15:41:18+00:00"
+  }
+}
