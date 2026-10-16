@@ -1,6 +1,6 @@
 {
  "bin_minutes": 15,
- "credit": "Ride data: Veo GBFS feed. Paths and roads: \u00a9 OpenStreetMap contributors.",
+ "credit": "Ride data: Veo GBFS feed. Paths and roads: \u00a9 OpenStreetMap contributors. Facilities: Texas A&M Transportation Services, TAMU campus basemap, City of College Station.",
  "days": [
   {
    "date": "2026-10-10",
