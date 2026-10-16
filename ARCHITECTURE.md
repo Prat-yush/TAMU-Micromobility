@@ -81,7 +81,7 @@ The pipeline runs in four stages, one subfolder each:
 
 | Stage | Folder | What it does |
 |---|---|---|
-| Geography | `backend/geo/` | Builds the **shared ~150 m grid** and the named campus zones, and matches free-text locations ("outside Zachary") to a zone. |
+| Geography | `backend/geo/` | Builds the **shared ~500 ft grid** and the named campus zones, and matches free-text locations ("outside Zachary") to a zone. |
 | Processing | `backend/processing/` | Cleans and merges incidents, infers trips and parking from Veo snapshots, and joins everything to grid cells and zones. |
 | Analysis | `backend/analysis/` | Computes metrics per cell and zone (demand by hour, night share, rack load, theft counts) and any composite scores. |
 | Export | `backend/export/` | Writes the final JSON files into `frontend/data/`. |

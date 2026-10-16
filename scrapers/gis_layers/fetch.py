@@ -11,7 +11,7 @@ Sources, all public:
 
 Only features that touch the area around main campus (BBOX) are kept. Each
 layer is saved as GeoJSON in WGS84 as the source returned it, with ArcGIS
-coordinates rounded to 6 decimal places (about 0.1 m), and
+coordinates rounded to 6 decimal places (about 4 inches), and
 _sources.json records where each file came from, when, and how many features
 it has. bike_plan.geojson and trails.geojson in the same folder were added by
 hand and are not touched here.
@@ -103,7 +103,7 @@ def fetch_arcgis(session, url):
             "outFields": "*",
             "outSR": 4326,
             "orderByFields": oid,
-            # 6 decimal places is about 0.1 m; the source's 15 add only file size.
+            # 6 decimal places is about 4 inches; the source's 15 add only file size.
             "geometryPrecision": 6,
             "resultOffset": offset,
             "resultRecordCount": page,

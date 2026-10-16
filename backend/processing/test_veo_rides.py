@@ -2,13 +2,13 @@ from backend.processing.veo_rides import (
     Sighting,
     clean_positions,
     max_speed_mph,
-    path_length_m,
+    path_length_ft,
     reserved_runs,
 )
 
 T0 = 1_791_000_000
 WINDOW = (T0, T0 + 3600)
-STEP = 0.0009  # about 100 m of latitude
+STEP = 0.0009  # about 330 ft of latitude
 
 
 def track(*flags, start=600, gaps=()):
@@ -34,7 +34,7 @@ def test_complete_ride_includes_parked_points_before_and_after():
     [(points, status)] = reserved_runs(tr, WINDOW)
     assert status == "complete"
     assert points == tr  # parked start, three reserved, parked end
-    assert 250 < path_length_m(points) < 350
+    assert 900 < path_length_ft(points) < 1050  # three steps of about 330 ft
 
 
 def test_one_missed_poll_does_not_split_a_ride():
@@ -70,8 +70,8 @@ def test_two_rides_by_one_vehicle_are_separate():
 
 
 def test_repeated_positions_are_timed_from_when_they_changed():
-    # 200 m over two minutes is 3.7 mph. With the repeated position kept, the
-    # same 200 m would look like it took one minute: 7.5 mph.
+    # 650 ft over two minutes is 3.7 mph. With the repeated position kept, the
+    # same 650 ft would look like it took one minute: 7.5 mph.
     a = Sighting(T0, 30.61, -96.34, True, "3")
     stale = Sighting(T0 + 60, 30.61, -96.34, True, "3")
     b = Sighting(T0 + 120, 30.61 + 2 * STEP, -96.34, True, "3")
@@ -83,7 +83,7 @@ def test_repeated_positions_are_timed_from_when_they_changed():
 
 def test_gps_glitch_is_removed_and_the_ride_kept():
     tr = track(False, True, True, True, False)
-    spike = Sighting(tr[2].t, tr[2].lat + 0.05, tr[2].lon, True, "3")  # 5.5 km off for a minute
+    spike = Sighting(tr[2].t, tr[2].lat + 0.05, tr[2].lon, True, "3")  # 3.5 miles off for a minute
     path, glitches = clean_positions(tr[:2] + [spike] + tr[3:])
     assert glitches == 1
     # The parked end position repeats the last ridden one, so it merges too.

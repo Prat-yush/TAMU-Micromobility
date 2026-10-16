@@ -30,8 +30,8 @@ A run is dropped, and counted by reason, when:
   - the vehicle vanished from the feed mid-ride for longer than MAX_GAP_S
   - the vehicle's first sighting of the day is already reserved. These are
     nearly all Veo putting vehicles into service: reserved for a few minutes,
-    moving a few metres.
-  - the vehicle moved less than MIN_PATH_M along its path. About 25-35
+    moving a few feet.
+  - the vehicle moved less than MIN_PATH_FT along its path. About 25-35
     vehicles sit reserved for hours without moving; those aren't rides.
 """
 
@@ -54,10 +54,11 @@ CAMPUS_LAT, CAMPUS_LON = 30.615, -96.340
 # which shouldn't end a ride; anything longer means we lost track of it.
 MAX_GAP_S = 150
 MIN_SNAPSHOT_GAP_S = 30
-MIN_PATH_M = 150
+MIN_PATH_FT = 500
 VEO_SPEED_LIMIT_MPH = 15
 GPS_GLITCH_MPH = 25
-MPH_PER_MS = 2.23694
+FEET_PER_MILE = 5280
+MPH_PER_FT_S = 3600 / FEET_PER_MILE
 
 
 @dataclass(frozen=True)
@@ -69,11 +70,11 @@ class Sighting:
     vehicle_type_id: str
 
 
-def haversine_m(lat1, lon1, lat2, lon2):
+def haversine_ft(lat1, lon1, lat2, lon2):
     p1, p2 = math.radians(lat1), math.radians(lat2)
     a = (math.sin((p2 - p1) / 2) ** 2
          + math.cos(p1) * math.cos(p2) * math.sin(math.radians(lon2 - lon1) / 2) ** 2)
-    return 2 * 6371000 * math.asin(math.sqrt(a))
+    return 2 * 20_902_231 * math.asin(math.sqrt(a))  # Earth radius in feet
 
 
 def read_snapshots(day_dir: Path) -> list[dict]:
@@ -139,12 +140,12 @@ def reserved_runs(track: list[Sighting], window: tuple[int, int]):
         yield run, "window edge" if edge(run[-1].t) else "lost mid-ride"
 
 
-def path_length_m(points: list[Sighting]) -> float:
-    return sum(haversine_m(a.lat, a.lon, b.lat, b.lon) for a, b in zip(points, points[1:]))
+def path_length_ft(points: list[Sighting]) -> float:
+    return sum(haversine_ft(a.lat, a.lon, b.lat, b.lon) for a, b in zip(points, points[1:]))
 
 
 def speed_mph(a: Sighting, b: Sighting) -> float:
-    return haversine_m(a.lat, a.lon, b.lat, b.lon) / max(b.t - a.t, 1) * MPH_PER_MS
+    return haversine_ft(a.lat, a.lon, b.lat, b.lon) / max(b.t - a.t, 1) * MPH_PER_FT_S
 
 
 def max_speed_mph(points: list[Sighting]) -> float:
@@ -234,11 +235,12 @@ def to_feature(number: str, points: list[Sighting], path: list[Sighting], glitch
             "started_at": started.isoformat(),
             "ended_at": ended.isoformat(),
             "duration_s": duration_s,
-            "path_m": round(path_length_m(path)),
-            "straight_m": round(haversine_m(start.lat, start.lon, end.lat, end.lon)),
+            "path_miles": round(path_length_ft(path) / FEET_PER_MILE, 3),
+            "straight_miles": round(haversine_ft(start.lat, start.lon, end.lat, end.lon)
+                                    / FEET_PER_MILE, 3),
             # Over the same span as the path: last parked sighting to first parked one.
-            "avg_speed_mph": round(path_length_m(path) / max(points[-1].t - points[0].t, 1)
-                                   * MPH_PER_MS, 1),
+            "avg_speed_mph": round(path_length_ft(path) / max(points[-1].t - points[0].t, 1)
+                                   * MPH_PER_FT_S, 1),
             "max_speed_mph": round(max_speed_mph(path), 1),
             "gps_glitches_removed": glitches,
             "after_dark": not (dawn <= started <= dusk),
@@ -263,8 +265,8 @@ def find_rides(day_dir: Path) -> tuple[list[dict], Counter]:
                 dropped[status] += 1
                 continue
             path, glitches = clean_positions(points)
-            if path_length_m(path) < MIN_PATH_M:
-                dropped[f"moved less than {MIN_PATH_M} m"] += 1
+            if path_length_ft(path) < MIN_PATH_FT:
+                dropped[f"moved less than {MIN_PATH_FT} ft"] += 1
             else:
                 rides.append(to_feature(number, points, path, glitches, vehicle_types))
     return rides, dropped
