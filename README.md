@@ -31,6 +31,9 @@ scrapers/  ──►  data/raw/  ──►  backend/  ──►  frontend/data/ 
 `frontend/data/` is where backend and frontend meet. If you change the shape of
 a JSON file there, say so in your PR.
 
+For what's in those files, every field, and how the backend makes them, see
+[backend/README.md](backend/README.md).
+
 For how the areas connect and what belongs in each folder, see
 [ARCHITECTURE.md](ARCHITECTURE.md).
 
