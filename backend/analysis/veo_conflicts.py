@@ -139,5 +139,5 @@ def conflict_points(net: Network, ctx: Context) -> list[dict]:
                 "tamu_bike_crossing_markings": tamu.get("Dutch Junction", 0),
             },
         })
-    out.sort(key=lambda f: -f["properties"]["rides"])
+    out.sort(key=lambda f: (-f["properties"]["rides"], f["geometry"]["coordinates"]))
     return out

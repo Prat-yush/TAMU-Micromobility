@@ -16,6 +16,11 @@ frontend/data/veo_conflict_points.geojson
     Places where rides cross or turn onto a major road, with the rides through
     each and what crossing exists there. See backend/analysis/veo_conflicts.py.
 
+frontend/data/veo_rides.geojson
+    One line per ride through the GPS positions Veo reported, with its times,
+    distance and speeds, and the network segments its estimated route used
+    (`segment_ids`, matching veo_segments.geojson).
+
 frontend/data/veo_timeline.json
     Rides started per 15 minutes for each collection day, plus each day's
     collection window. Time outside a window wasn't collected; it isn't zero.
@@ -36,6 +41,12 @@ ROOT = Path(__file__).resolve().parents[2]
 SEGMENTS_PATH = ROOT / "frontend" / "data" / "veo_segments.geojson"
 TIMELINE_PATH = ROOT / "frontend" / "data" / "veo_timeline.json"
 CONFLICTS_PATH = ROOT / "frontend" / "data" / "veo_conflict_points.geojson"
+RIDES_OUT_PATH = ROOT / "frontend" / "data" / "veo_rides.geojson"
+RIDES_IN_PATH = ROOT / "data" / "interim" / "veo_rides.geojson"
+ROUTES_PATH = ROOT / "data" / "interim" / "veo_routes.json"
+# Ride fields the frontend gets. Vehicle type ids stay behind: every ride is an e-bike.
+RIDE_FIELDS = ("ride_id", "date", "weekday", "after_dark", "started_at", "ended_at", "duration_s",
+               "path_miles", "straight_miles", "avg_speed_mph", "max_speed_mph", "times")
 BIN_MIN = 15
 CREDIT = ("Ride data: Veo GBFS feed. Paths and roads: © OpenStreetMap contributors. "
           "Facilities: Texas A&M Transportation Services, TAMU campus basemap, "
@@ -51,6 +62,37 @@ def collection_windows() -> dict[str, list[str]]:
     return windows
 
 
+def export_rides(windows: dict) -> int:
+    routes = {r["ride_id"]: r["segments"]
+              for r in json.loads(ROUTES_PATH.read_text(encoding="utf-8"))}
+    features = []
+    for f in json.loads(RIDES_IN_PATH.read_text(encoding="utf-8"))["features"]:
+        p = f["properties"]
+        features.append({
+            "type": "Feature",
+            # 5 decimal places is about 3 ft, well under the GPS error.
+            "geometry": {"type": "LineString",
+                         "coordinates": [[round(v, 5) for v in c] for c in f["geometry"]["coordinates"]]},
+            "properties": {**{k: p[k] for k in RIDE_FIELDS},
+                           "segment_ids": routes.get(p["ride_id"], [])},
+        })
+    RIDES_OUT_PATH.write_text(json.dumps({
+        "type": "FeatureCollection",
+        "metadata": {
+            "description": "One Veo ride per feature, drawn through the GPS positions Veo reported "
+                           "about once a minute. `times` are the Unix times of each position; "
+                           "`segment_ids` is the estimated route on the network.",
+            "ride_count": len(features),
+            "collection_windows": windows,
+            "units": {"path_miles": "miles", "straight_miles": "miles", "duration_s": "seconds",
+                      "avg_speed_mph": "miles per hour", "max_speed_mph": "miles per hour"},
+            "credit": CREDIT,
+        },
+        "features": features,
+    }, separators=(",", ":")) + "\n", encoding="utf-8")
+    return len(features)
+
+
 def main():
     net = load_network()
     ctx = Context()
@@ -58,7 +100,8 @@ def main():
     windows = collection_windows()
 
     features = []
-    for sid, c in sorted(counts.items(), key=lambda kv: -kv[1]["rides"]):
+    # Ties sorted by id, so a rerun writes an identical file.
+    for sid, c in sorted(counts.items(), key=lambda kv: (-kv[1]["rides"], kv[0])):
         seg = net.segments[sid]
         features.append({
             "type": "Feature",
@@ -96,6 +139,8 @@ def main():
         "features": conflicts,
     }, separators=(",", ":")) + "\n", encoding="utf-8")
 
+    n_rides = export_rides(windows)
+
     by_day = {day: Counter() for day in windows}
     for r in rides:
         t = datetime.fromisoformat(r["started_at"])
@@ -111,6 +156,8 @@ def main():
     print(f"{len(features)} segments -> {SEGMENTS_PATH.relative_to(ROOT)} "
           f"({SEGMENTS_PATH.stat().st_size / 1e6:.1f} MB)")
     print(f"{len(conflicts)} conflict points -> {CONFLICTS_PATH.relative_to(ROOT)}")
+    print(f"{n_rides} rides -> {RIDES_OUT_PATH.relative_to(ROOT)} "
+          f"({RIDES_OUT_PATH.stat().st_size / 1e6:.1f} MB)")
     print(f"{len(windows)} days -> {TIMELINE_PATH.relative_to(ROOT)}")
 
 
