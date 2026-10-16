@@ -16,6 +16,14 @@ and just after it (where it ended).
 Nothing here uses a street or path network: these are the positions Veo
 reported, not a route. Snapping rides to paths is a later step.
 
+Cleaning the positions. Veo doesn't refresh a vehicle's GPS position every
+minute: about 30% of snapshots repeat the previous position. Repeats are
+removed and each position keeps the time it first appeared, so a speed is
+measured from when the position actually changed. Veo's vehicles are limited
+to 15 mph, and GPS and timing noise push minute-average readings a little past
+that. A single position that implies more than GPS_GLITCH_MPH is a GPS error;
+it is removed and the rest of the ride is kept. All speeds are in mph.
+
 A run is dropped, and counted by reason, when:
   - it was already under way when the collection window opened, or still
     going when it closed
@@ -25,8 +33,6 @@ A run is dropped, and counted by reason, when:
     moving a few metres.
   - the vehicle moved less than MIN_PATH_M along its path. About 25-35
     vehicles sit reserved for hours without moving; those aren't rides.
-  - any step between positions implies more than MAX_SPEED_MS, which no
-    e-bike or scooter does; it's a GPS glitch
 """
 
 import json
@@ -47,8 +53,11 @@ CAMPUS_LAT, CAMPUS_LON = 30.615, -96.340
 # Snapshots are a minute apart. A single failed poll leaves a 2-minute gap,
 # which shouldn't end a ride; anything longer means we lost track of it.
 MAX_GAP_S = 150
+MIN_SNAPSHOT_GAP_S = 30
 MIN_PATH_M = 150
-MAX_SPEED_MS = 15.0  # 54 km/h
+VEO_SPEED_LIMIT_MPH = 15
+GPS_GLITCH_MPH = 25
+MPH_PER_MS = 2.23694
 
 
 @dataclass(frozen=True)
@@ -68,12 +77,22 @@ def haversine_m(lat1, lon1, lat2, lon2):
 
 
 def read_snapshots(day_dir: Path) -> list[dict]:
-    """Successful snapshots of one day, in time order. Failed polls are skipped."""
+    """Successful snapshots of one day, in time order. Failed polls are skipped.
+
+    Where one half-hour file ends and the next begins, two snapshots are only
+    seconds apart. A speed timed across that gap would be meaningless, so a
+    snapshot within MIN_SNAPSHOT_GAP_S of the one before it is skipped.
+    """
     snaps = []
     for path in sorted(day_dir.glob("*.jsonl.xz")):
         with lzma.open(path, "rt", encoding="utf-8") as f:
             snaps += [s for s in map(json.loads, f) if "bikes" in s]
-    return sorted(snaps, key=lambda s: s["fetched_at"])
+    snaps.sort(key=lambda s: s["fetched_at"])
+    kept = snaps[:1]
+    for s in snaps[1:]:
+        if s["fetched_at"] - kept[-1]["fetched_at"] >= MIN_SNAPSHOT_GAP_S:
+            kept.append(s)
+    return kept
 
 
 def tracks_by_vehicle(snapshots: list[dict]) -> dict[str, list[Sighting]]:
@@ -124,9 +143,41 @@ def path_length_m(points: list[Sighting]) -> float:
     return sum(haversine_m(a.lat, a.lon, b.lat, b.lon) for a, b in zip(points, points[1:]))
 
 
-def max_speed_ms(points: list[Sighting]) -> float:
-    return max((haversine_m(a.lat, a.lon, b.lat, b.lon) / max(b.t - a.t, 1)
-                for a, b in zip(points, points[1:])), default=0.0)
+def speed_mph(a: Sighting, b: Sighting) -> float:
+    return haversine_m(a.lat, a.lon, b.lat, b.lon) / max(b.t - a.t, 1) * MPH_PER_MS
+
+
+def max_speed_mph(points: list[Sighting]) -> float:
+    return max((speed_mph(a, b) for a, b in zip(points, points[1:])), default=0.0)
+
+
+def clean_positions(points: list[Sighting]) -> tuple[list[Sighting], int]:
+    """Drop repeated positions and GPS glitches. Returns (positions, glitches removed).
+
+    Each kept position keeps the time it first appeared. A glitch is a
+    position reached faster than GPS_GLITCH_MPH and, unless it is the last
+    one, left faster than that too, so a single bad fix is removed without
+    losing the ride around it.
+    """
+    out = [points[0]]
+    for p in points[1:]:
+        if (p.lat, p.lon) != (out[-1].lat, out[-1].lon):
+            out.append(p)
+    glitches = 0
+    i = 1
+    while i < len(out):
+        fast_in = speed_mph(out[i - 1], out[i]) > GPS_GLITCH_MPH
+        fast_out = i + 1 == len(out) or speed_mph(out[i], out[i + 1]) > GPS_GLITCH_MPH
+        if fast_in and fast_out:
+            del out[i]
+            glitches += 1
+            i = max(i - 1, 1)  # recheck the step into the next position
+        else:
+            i += 1
+    if len(out) > 2 and speed_mph(out[0], out[1]) > GPS_GLITCH_MPH:
+        del out[0]  # a bad parked position at the start
+        glitches += 1
+    return out, glitches
 
 
 def civil_dusk_and_dawn(day: date) -> tuple[datetime, datetime]:
@@ -157,16 +208,19 @@ def civil_dusk_and_dawn(day: date) -> tuple[datetime, datetime]:
     return dusk, dawn
 
 
-def to_feature(number: str, points: list[Sighting], vehicle_types: dict) -> dict:
-    start, end = points[0], points[-1]
+def to_feature(number: str, points: list[Sighting], path: list[Sighting], glitches: int,
+               vehicle_types: dict) -> dict:
+    """`points` are the raw sightings, `path` the cleaned positions."""
+    start, end = path[0], path[-1]
+    duration_s = points[-1].t - points[1].t
     started = datetime.fromtimestamp(points[1].t, CAMPUS_TZ)  # first reserved sighting
-    ended = datetime.fromtimestamp(end.t, CAMPUS_TZ)
+    ended = datetime.fromtimestamp(points[-1].t, CAMPUS_TZ)
     dusk, dawn = civil_dusk_and_dawn(started.date())
     vtype = vehicle_types.get(start.vehicle_type_id, {})
     return {
         "type": "Feature",
         "geometry": {"type": "LineString",
-                     "coordinates": [[round(p.lon, 6), round(p.lat, 6)] for p in points]},
+                     "coordinates": [[round(p.lon, 6), round(p.lat, 6)] for p in path]},
         "properties": {
             "ride_id": f"{started:%Y%m%d-%H%M%S}-{number}",
             "vehicle_number": number,
@@ -179,12 +233,17 @@ def to_feature(number: str, points: list[Sighting], vehicle_types: dict) -> dict
             # reserved one, and ends by the first parked sighting after it.
             "started_at": started.isoformat(),
             "ended_at": ended.isoformat(),
-            "duration_s": end.t - points[1].t,
-            "path_m": round(path_length_m(points)),
+            "duration_s": duration_s,
+            "path_m": round(path_length_m(path)),
             "straight_m": round(haversine_m(start.lat, start.lon, end.lat, end.lon)),
+            # Over the same span as the path: last parked sighting to first parked one.
+            "avg_speed_mph": round(path_length_m(path) / max(points[-1].t - points[0].t, 1)
+                                   * MPH_PER_MS, 1),
+            "max_speed_mph": round(max_speed_mph(path), 1),
+            "gps_glitches_removed": glitches,
             "after_dark": not (dawn <= started <= dusk),
-            # Unix time of each coordinate, so a route can be timed per segment later.
-            "times": [p.t for p in points],
+            # Unix time each coordinate first appeared, so a route can be timed per segment.
+            "times": [p.t for p in path],
         },
     }
 
@@ -202,12 +261,12 @@ def find_rides(day_dir: Path) -> tuple[list[dict], Counter]:
         for points, status in reserved_runs(track, window):
             if status != "complete":
                 dropped[status] += 1
-            elif path_length_m(points) < MIN_PATH_M:
+                continue
+            path, glitches = clean_positions(points)
+            if path_length_m(path) < MIN_PATH_M:
                 dropped[f"moved less than {MIN_PATH_M} m"] += 1
-            elif max_speed_ms(points) > MAX_SPEED_MS:
-                dropped["GPS jump"] += 1
             else:
-                rides.append(to_feature(number, points, vehicle_types))
+                rides.append(to_feature(number, points, path, glitches, vehicle_types))
     return rides, dropped
 
 
@@ -218,7 +277,9 @@ def main():
         all_rides += rides
         all_dropped += dropped
         dark = sum(r["properties"]["after_dark"] for r in rides)
-        print(f"{day_dir.name}: {len(rides)} rides ({dark} after dark); dropped {dict(dropped)}")
+        glitches = sum(r["properties"]["gps_glitches_removed"] for r in rides)
+        print(f"{day_dir.name}: {len(rides)} rides ({dark} after dark, {glitches} GPS glitches "
+              f"removed); dropped {dict(dropped)}")
 
     all_rides.sort(key=lambda r: r["properties"]["started_at"])
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)

@@ -1,4 +1,10 @@
-from backend.processing.veo_rides import Sighting, max_speed_ms, path_length_m, reserved_runs
+from backend.processing.veo_rides import (
+    Sighting,
+    clean_positions,
+    max_speed_mph,
+    path_length_m,
+    reserved_runs,
+)
 
 T0 = 1_791_000_000
 WINDOW = (T0, T0 + 3600)
@@ -63,8 +69,23 @@ def test_two_rides_by_one_vehicle_are_separate():
     assert statuses(tr) == ["complete", "complete"]
 
 
-def test_gps_jump_shows_as_impossible_speed():
-    tr = track(False, True, True, False)
-    jumped = Sighting(tr[2].t, tr[2].lat + 0.05, tr[2].lon, True, "3")  # 5.5 km in a minute
-    assert max_speed_ms([tr[1], jumped]) > 15
-    assert max_speed_ms(tr) < 5
+def test_repeated_positions_are_timed_from_when_they_changed():
+    # 200 m over two minutes is 3.7 mph. With the repeated position kept, the
+    # same 200 m would look like it took one minute: 7.5 mph.
+    a = Sighting(T0, 30.61, -96.34, True, "3")
+    stale = Sighting(T0 + 60, 30.61, -96.34, True, "3")
+    b = Sighting(T0 + 120, 30.61 + 2 * STEP, -96.34, True, "3")
+    assert max_speed_mph([stale, b]) > 7
+    path, glitches = clean_positions([a, stale, b])
+    assert path == [a, b] and glitches == 0
+    assert max_speed_mph(path) < 4
+
+
+def test_gps_glitch_is_removed_and_the_ride_kept():
+    tr = track(False, True, True, True, False)
+    spike = Sighting(tr[2].t, tr[2].lat + 0.05, tr[2].lon, True, "3")  # 5.5 km off for a minute
+    path, glitches = clean_positions(tr[:2] + [spike] + tr[3:])
+    assert glitches == 1
+    # The parked end position repeats the last ridden one, so it merges too.
+    assert path == [tr[0], tr[1], tr[3]]
+    assert max_speed_mph(path) < 15
