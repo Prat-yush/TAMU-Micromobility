@@ -8,3 +8,5 @@ select = ["E9", "F"]
 
 [tool.pytest.ini_options]
 testpaths = ["scrapers", "backend"]
+# Lets tests import backend.* and scrapers.* from the repo root.
+pythonpath = ["."]

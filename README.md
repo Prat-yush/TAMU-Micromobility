@@ -21,7 +21,7 @@ scrapers/  ──►  data/raw/  ──►  backend/  ──►  frontend/data/ 
 | `data/raw/` | Scraper output. Treat as append-only. |
 | `data/reference/` | Hand-made inputs: dismount zones, news metadata, academic calendar, sunset times. |
 | `data/interim/` | Intermediate pipeline output. Not committed; the pipeline can regenerate it. |
-| `backend/geo/` | Shared ~150 m grid and zone definitions. Every section uses the same geography. |
+| `backend/geo/` | Shared ~500 ft grid and zone definitions. Every section uses the same geography. |
 | `backend/processing/` | Cleaning, trip inference, spatial joins. |
 | `backend/analysis/` | Metrics and scoring. |
 | `backend/export/` | Writes the final JSON into `frontend/data/`. |
