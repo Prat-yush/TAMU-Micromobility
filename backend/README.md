@@ -14,11 +14,12 @@ rather than reading `data/raw/` or `data/interim/` from the page.
 
 ## Quick facts
 
-- **Four files**, all plain JSON, loaded with `d3.json()`:
+- **Five files**, all plain JSON, loaded with `d3.json()`:
 
   | File | Size | What it is |
   |---|---|---|
   | `veo_segments.geojson` | 2.9 MB | Ride counts on every path and street segment Veo riders used, with what's on the ground there |
+  | `veo_rides.geojson` | 2.6 MB | Every ride: its GPS path, times, distance, speeds, and the segments its route used |
   | `veo_conflict_points.geojson` | 28 KB | Places where rides cross or turn onto a major road, with the crossing treatment |
   | `veo_timeline.json` | 3 KB | Rides started per 15 minutes for each collection day |
   | `theft_zones.geojson` | 98 KB | Reported bike, e-bike and e-scooter thefts per bike rack zone |
@@ -47,6 +48,7 @@ rather than reading `data/raw/` or `data/interim/` from the page.
 | Where do bike routes meet busy car roads (conflict zones)? | `veo_conflict_points.geojson` | `rides`, `speed_limit_mph`, `lanes`, `signalized`, `city_crossing_treatment`, `grade_separation_nearby` |
 | Which routes are used at night? | `veo_segments.geojson`, `veo_conflict_points.geojson` | `rides_after_dark`, `rides_by_hour` |
 | When do people ride? | `veo_timeline.json` | `days[].rides_started` per 15 minutes |
+| How long and how fast are rides? Which rides used this road? | `veo_rides.geojson` | `duration_s`, `path_miles`, `avg_speed_mph`, `max_speed_mph`, `segment_ids`, `times` |
 | Where are bikes stolen? | `theft_zones.geojson` | `theft_count`, `rack_capacity`, `incidents` |
 
 First findings, to check your views against: 1,859 rides; 61% of ride-miles
@@ -104,6 +106,31 @@ Only facilities that exist today count; proposed or funded ones in city plans do
 **Names:** most busy central walkways have no name in OpenStreetMap
 (`osm_name` missing). Label them by nearby buildings, or show "walkway".
 Use `osm_name ?? road_name` for a label.
+
+### `veo_rides.geojson`
+
+A FeatureCollection of **1,859 LineStrings**, one per ride, sorted by start
+time. Each line runs through the GPS positions Veo reported for the vehicle,
+about one a minute: from where it was parked before the ride to where it was
+parked after. These are the measured positions, not the estimated route;
+straight lines between them cut corners. `metadata` has `ride_count`,
+`collection_windows`, `units` and `credit`.
+
+| Property | Type | Meaning |
+|---|---|---|
+| `ride_id` | string | `"<YYYYMMDD-HHMMSS start>-<Veo vehicle number>"`, unique |
+| `date` | string | `YYYY-MM-DD`, campus local |
+| `weekday`, `after_dark` | bool | As in segments |
+| `started_at`, `ended_at` | string | ISO time with offset. A ride started between the last parked sighting and this time, so starts are accurate to about a minute. |
+| `duration_s` | int | Seconds from `started_at` to `ended_at` |
+| `path_miles` | number | Distance along the GPS positions |
+| `straight_miles` | number | Straight line from start to end |
+| `avg_speed_mph` | number | `path_miles` over the time between the parked sightings |
+| `max_speed_mph` | number | Fastest step between positions. Veo caps vehicles at 15 mph; readings a little above that are GPS noise. |
+| `times` | int[] | Unix time (seconds) of each coordinate, same length and order as the geometry. Use it to animate rides or slice them by time. |
+| `segment_ids` | string[] | The estimated route, in order: `segment_id`s from `veo_segments.geojson`. Use it to highlight the rides that used a clicked segment, or to recount segments for any custom filter (a ride counts once per segment). |
+
+Typical ride: 5 minutes, 0.65 miles, 6 mph average.
 
 ### `veo_conflict_points.geojson`
 
@@ -201,8 +228,9 @@ located. `metadata` has the date range and counts.
 ```js
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-const [segments, conflicts, timeline, thefts] = await Promise.all([
+const [segments, rides, conflicts, timeline, thefts] = await Promise.all([
   d3.json("data/veo_segments.geojson"),
+  d3.json("data/veo_rides.geojson"),
   d3.json("data/veo_conflict_points.geojson"),
   d3.json("data/veo_timeline.json"),
   d3.json("data/theft_zones.geojson"),
@@ -221,7 +249,9 @@ svg.selectAll("path.segment")
 
 For a time filter, sum `rides_by_hour[h]` over the chosen hours; for a day
 filter, read `rides_by_date[date]`. Both exist on every segment and
-conflict point, so nothing needs recomputing.
+conflict point, so nothing needs recomputing. For any other filter (a
+custom time range, rides over 10 minutes), filter `veo_rides.geojson` and
+recount segments from each ride's `segment_ids`.
 
 There is no basemap (buildings, streets) in `frontend/data/` yet. The
 segments themselves outline campus well. If you want buildings or the full
@@ -232,10 +262,6 @@ street grid behind them, ask for an export; the raw layers exist.
 These aren't in `frontend/data/`, so the page can't use them yet. The backend
 can export any of them on request:
 
-- **Individual rides** (`data/interim/veo_rides.geojson`, regenerated, not
-  committed): 1,859 rides, each with its GPS path, start/end time, duration,
-  miles, average and top speed. Useful for a ride-level animation, a
-  duration or distance histogram, or speed on shared walkways.
 - **The whole path and street network**, including segments nobody rode.
 - **Basemap layers** in `data/raw/gis_layers/`: campus walkways, street
   pavement, steps, bike lane markings, dismount zones, bike fix stations,
@@ -255,6 +281,7 @@ gis_layers/fetch.py   ->  gis_layers/*.geojson        -> geo/network.py
                                                          analysis/veo_segments.py
                                                          analysis/veo_conflicts.py
                                                          export/veo.py             -> veo_segments.geojson
+                                                                                      veo_rides.geojson
                                                                                       veo_conflict_points.geojson
                                                                                       veo_timeline.json
 bike_theft_tracker/   ->  bike_theft_tracker/*        -> processing/thefts.py
