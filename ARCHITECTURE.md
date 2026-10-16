@@ -132,6 +132,12 @@ Conventions:
   (shared selection, time filter), that shared state goes through one small
   module in `js/` that every section can subscribe to.
 - Anything two sections both need becomes a component instead of being copied.
+- The page footer credits the data sources. "© OpenStreetMap contributors",
+  linked to https://www.openstreetmap.org/copyright, is required by the
+  OpenStreetMap license wherever a view uses `osm_paths` or `osm_roads`. Also
+  credit Veo (vehicle data), Texas A&M Transportation Services and the TAMU
+  campus basemap, the City of College Station, and TAMU UPD crime alerts and
+  the Clery crime log.
 
 **Files here:** `.html`, `.css`, `.js` (ES modules), images.
 
