@@ -1,0 +1,734 @@
+/**
+ * styles.css
+ *
+ * Workbook layout: a filter shelf at the top that applies to every sheet,
+ * the active sheet with its marks panel in the middle, and a fixed tab
+ * strip at the bottom.
+ *
+ * Hues carry meaning and are used nowhere else: theft is orange, Veo ride
+ * activity is blue, and maroon is the interface accent.
+ */
+
+:root {
+  --bg: #f2f2ee;
+  --surface: #fcfcfb;
+  --ink: #151513;
+  --ink-2: #52514e;
+  --muted: #7d7b74;
+  --grid: #e3e2db;
+  --axis: #c3c2b7;
+  --line: rgba(21, 21, 19, 0.12);
+
+  --accent: #500000;
+  --accent-ink: #ffffff;
+  --accent-wash: rgba(80, 0, 0, 0.07);
+
+  --theft: #eb6834;
+  --theft-2: #f6b799;
+  --veo: #2a78d6;
+  --veo-wash: rgba(42, 120, 214, 0.14);
+
+  --map-base: rgba(21, 21, 19, 0.09);
+  --label-halo: #f2f2ee;
+  --good-ink: #006300;
+  --warn-ink: #8a5a00;
+
+  --f-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f0f0e;
+    --surface: #1a1a19;
+    --ink: #f4f3ee;
+    --ink-2: #c3c2b7;
+    --muted: #8f8d86;
+    --grid: #2c2c2a;
+    --axis: #3f3f3b;
+    --line: rgba(255, 255, 255, 0.1);
+
+    --accent: #e0909f;
+    --accent-ink: #1a1a19;
+    --accent-wash: rgba(224, 144, 159, 0.12);
+
+    --theft: #d95926;
+    --theft-2: #8a3c1c;
+    --veo: #3987e5;
+    --veo-wash: rgba(57, 135, 229, 0.22);
+
+    --map-base: rgba(255, 255, 255, 0.1);
+    --label-halo: #0f0f0e;
+    --good-ink: #3fcf3f;
+    --warn-ink: #fab219;
+
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+button,
+select {
+  font-family: var(--f-body);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Top bar and filter shelf ---------- */
+
+.top {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.top-in {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 12px 20px 10px;
+  display: grid;
+  gap: 10px;
+}
+
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.title-row h1 {
+  font-size: clamp(21px, 2.5vw, 29px);
+}
+
+.title-row h1 span {
+  color: var(--accent);
+}
+
+.byline {
+  font: 12px var(--f-mono);
+  color: var(--muted);
+}
+
+.shelf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fcard {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 4px 8px 6px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.fcard label,
+.fcard .flbl {
+  font: 500 10.5px var(--f-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.fcard select {
+  min-width: 0;
+  padding: 0;
+  font-size: 13.5px;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+}
+
+.fcard .row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 13px;
+}
+
+/* A filter holding a non-default value is washed in the accent, so the
+   shelf shows at a glance that the numbers below are narrowed. */
+.fcard.is-active {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+
+.fcard .clear {
+  padding: 0 0 0 6px;
+  font-size: 12.5px;
+  color: var(--accent);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.shelf .note {
+  align-self: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ---------- Sheet layout ---------- */
+
+.main {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 16px 20px 96px;
+}
+
+.sheet-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.sheet-head h2 {
+  font-size: clamp(21px, 2.3vw, 27px);
+}
+
+.sheet-head p {
+  max-width: 78ch;
+  margin: 4px 0 0;
+  color: var(--ink-2);
+}
+
+.badge {
+  padding: 3px 7px;
+  font: 500 10.5px var(--f-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-2);
+  white-space: nowrap;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+}
+
+.sheet-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 16px;
+  align-items: start;
+}
+
+.sheet-col {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  min-width: 0;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.card h3 {
+  font-size: 19px;
+}
+
+.card .sub {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.viz {
+  position: relative;
+  min-width: 0;
+}
+
+/* Campus is a portrait shape, so a map never fills a wide card. The legend
+   and notes take the space beside it rather than leaving it blank. */
+.map-layout {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.map-layout > .viz {
+  flex: none;
+}
+
+.map-side {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-width: 0;
+  flex: 1;
+}
+
+@media (max-width: 860px) {
+  .map-layout {
+    display: block;
+  }
+
+  .map-side {
+    margin-top: 12px;
+  }
+}
+
+.viz svg {
+  display: block;
+  overflow: visible;
+}
+
+.caption {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.caption b {
+  color: var(--ink);
+}
+
+/* ---------- Marks panel ---------- */
+
+.marks {
+  position: sticky;
+  top: 12px;
+  font-size: 13px;
+}
+
+.marks h4 {
+  margin: 0;
+  font: 600 11px var(--f-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+
+.marks dl {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.marks dt {
+  font: 500 10.5px var(--f-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.marks dd {
+  margin: 0;
+}
+
+.marks .why {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+/* ---------- Headline figures ---------- */
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.kpi {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.kpi .k-lbl {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.kpi .sw {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.kpi .k-val {
+  font: 700 36px/1.05 var(--f-display);
+}
+
+.kpi .k-note {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(270px, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.dash-bottom {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* ---------- Controls ---------- */
+
+.seg {
+  justify-self: start;
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+
+.seg button {
+  padding: 4px 10px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 0;
+  cursor: pointer;
+}
+
+.seg button + button {
+  border-left: 1px solid var(--line);
+}
+
+.seg button[aria-pressed="true"] {
+  color: var(--surface);
+  background: var(--ink);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  align-items: center;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.legend .it {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ---------- Map ---------- */
+
+.map-base path {
+  stroke: var(--map-base);
+  stroke-width: 0.4;
+}
+
+.map-segments path {
+  cursor: crosshair;
+}
+
+.map-thefts .zone {
+  fill: var(--theft);
+  fill-opacity: 0.55;
+  stroke: var(--theft);
+  stroke-width: 1;
+}
+
+.map-thefts .zone.is-selected {
+  stroke: var(--ink);
+  stroke-width: 2.5;
+  fill-opacity: 0.8;
+}
+
+.map-thefts .zone-empty {
+  fill: none;
+  stroke: var(--axis);
+  stroke-width: 1;
+}
+
+.map-conflicts circle {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  cursor: crosshair;
+}
+
+.maplab {
+  font: 600 11.5px var(--f-body);
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--label-halo);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* ---------- Charts ---------- */
+
+.ax text,
+.lab {
+  font: 11px var(--f-mono);
+  fill: var(--muted);
+}
+
+.ax path,
+.ax line,
+.axis-line {
+  stroke: var(--axis);
+}
+
+.gridline {
+  stroke: var(--grid);
+}
+
+.lab-ink {
+  font: 500 12px var(--f-body);
+  fill: var(--ink);
+}
+
+.lab-2 {
+  font: 12px var(--f-body);
+  fill: var(--ink-2);
+}
+
+.timeline-bar {
+  fill: var(--veo);
+}
+
+/* Uncovered time is hatched rather than blank, so a gap in collection
+   cannot be misread as a quiet period. */
+.timeline-gap {
+  fill: var(--grid);
+  fill-opacity: 0.55;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+/* ---------- Table ---------- */
+
+table.log {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: collapse;
+}
+
+table.log th {
+  position: sticky;
+  top: 0;
+  padding: 6px 8px;
+  font: 500 10.5px var(--f-mono);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--axis);
+}
+
+table.log td {
+  padding: 6px 8px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--grid);
+}
+
+table.log td.num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+table.log a {
+  color: var(--accent);
+}
+
+.log-wrap {
+  max-height: 620px;
+  overflow: auto;
+}
+
+.case-no {
+  font: 11px var(--f-mono);
+  color: var(--muted);
+}
+
+/* ---------- Sheet tabs ---------- */
+
+.tabs {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+
+.tabs-in {
+  display: flex;
+  gap: 2px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 6px 20px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.tabs button {
+  display: inline-flex;
+  flex: none;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--ink-2);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-bottom-width: 3px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+}
+
+.tabs button .ic {
+  font: 500 10.5px var(--f-mono);
+  color: var(--muted);
+}
+
+.tabs button[aria-selected="true"] {
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface);
+  border-bottom-color: var(--accent);
+}
+
+.tabs button.is-dashboard {
+  color: var(--accent);
+}
+
+/* ---------- Tooltip ---------- */
+
+.tip {
+  position: fixed;
+  z-index: 50;
+  max-width: 300px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s;
+}
+
+.tip .m {
+  font: 11.5px var(--f-mono);
+  color: var(--muted);
+}
+
+/* ---------- Footer credits ---------- */
+
+.credits {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px 24px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.credits a {
+  color: inherit;
+}
+
+.loading {
+  padding: 60px 0;
+  font-size: 15px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1080px) {
+  .sheet-grid,
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .marks {
+    position: static;
+  }
+}
+
+@media (max-width: 680px) {
+  .top-in,
+  .main,
+  .tabs-in,
+  .credits {
+    padding-inline: 16px;
+  }
+
+  .kpis,
+  .dash-bottom {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kpi .k-val {
+    font-size: 29px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
