@@ -1,9 +1,9 @@
 /**
  * components/ui.js
  *
- * The page furniture every worksheet is built from: cards, headers, the
- * marks panel, segmented toggles and legends. Sections compose these
- * rather than writing their own markup, so the workbook stays consistent.
+ * The page furniture the dashboard is built from: cards, segmented
+ * toggles, legends and headline figures. Sections compose these rather
+ * than writing their own markup, so the page stays consistent.
  */
 
 /**
@@ -53,28 +53,21 @@ function vizHost(parent) {
 }
 
 /**
- * Splits a card into a map column and a column beside it.
+ * Builds a placeholder card for a view that is still being built.
  *
- * Campus is markedly taller than it is wide, so a map that fills a card's
- * height uses only part of its width. Putting the legend, caption and any
- * ranked list in the space beside it keeps the card compact and lets the
- * reader compare the two without scrolling.
+ * It says plainly that nothing is shown yet and what will be, so a reader
+ * never mistakes the empty panel for a finding.
  *
- * On a narrow screen the CSS stacks the two columns.
- *
- * @param {HTMLElement} parent The card.
- * @returns {{host: HTMLElement, side: HTMLElement}} The map host and the
- *     column beside it.
+ * @param {string} title Card heading.
+ * @param {string} text What the view will show, and what it waits on.
+ * @returns {HTMLElement} The card.
  */
-function mapLayout(parent) {
-  const row = el("div", "map-layout");
-  const host = el("div", "viz");
-  const side = el("div", "map-side");
-
-  row.append(host, side);
-  parent.append(row);
-
-  return { host, side };
+function placeholderCard(title, text) {
+  const node = card(title, "");
+  node.classList.add("is-wip");
+  node.querySelector(".sub").replaceWith(el("span", "badge", "Work in progress"));
+  node.append(el("p", "wip-text", text));
+  return node;
 }
 
 /**
@@ -113,84 +106,11 @@ function segmentedControl(options, value, onPick, ariaLabel) {
 }
 
 /**
- * Builds the header and two-column body for a worksheet.
- *
- * Every sheet has the same shape: a title and lede, the views down the
- * left, and a marks panel on the right explaining the encoding.
- *
- * @param {HTMLElement} main The main element to render into.
- * @param {Object} sheet Title, lede, badge and marks for this worksheet.
- * @returns {HTMLElement} The left column, for the sheet to append views to.
- */
-function sheetFrame(main, sheet) {
-  const header = el("div", "sheet-head");
-  const titleBlock = el("div");
-  titleBlock.append(el("h2", null, sheet.title));
-  if (sheet.lede) titleBlock.append(el("p", null, sheet.lede));
-  header.append(titleBlock);
-  if (sheet.badge) header.append(el("span", "badge", sheet.badge));
-  main.append(header);
-
-  const grid = el("div", "sheet-grid");
-  main.append(grid);
-
-  const left = el("div", "sheet-col");
-  grid.append(left);
-  grid.append(marksPanel(sheet.marks));
-
-  return left;
-}
-
-/**
- * Builds the panel describing how a worksheet encodes its data.
- *
- * Naming the marks, channels and the reason for them keeps the design
- * decisions visible rather than buried in the code, and gives a reader a
- * way to check whether a view says what it appears to say.
- *
- * @param {Object} marks Encoding description for one worksheet.
- * @returns {HTMLElement} The panel.
- */
-function marksPanel(marks) {
-  const panel = el("aside", "card marks");
-  if (!marks) return panel;
-
-  panel.append(el("h4", null, "Marks"));
-
-  const list = el("dl");
-  const rows = [
-    ["Mark", marks.mark],
-    ["Position", marks.position],
-    ["Colour", marks.color],
-    ["Size", marks.size],
-    ["Detail", marks.detail],
-  ];
-
-  rows.forEach(([term, value]) => {
-    if (!value) return;
-    list.append(el("dt", null, term));
-    list.append(el("dd", null, value));
-  });
-
-  panel.append(list);
-
-  if (marks.why) {
-    panel.append(el("h4", null, "Why this form"));
-    panel.append(el("p", "why", marks.why));
-  }
-  if (marks.caveat) {
-    panel.append(el("h4", null, "Read with care"));
-    panel.append(el("p", "why", marks.caveat));
-  }
-
-  return panel;
-}
-
-/**
  * Builds a legend from a list of swatch descriptions.
  *
  * @param {Array<Object>} items Each with `label`, `color` and optional
- *     `shape` ("line", "dot" or "square", default "square").
+ *     `shape` ("line", "dot", "ring", "ring-dashed" or "square", default
+ *     "square").
  * @returns {HTMLElement} The legend.
  */
 function legend(items) {
@@ -204,6 +124,10 @@ function legend(items) {
         ? `<svg width="16" height="10" aria-hidden="true"><line x1="0" y1="5" x2="16" y2="5" style="stroke:${item.color};stroke-width:3"/></svg>`
         : shape === "dot"
         ? `<svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="5" style="fill:${item.color}"/></svg>`
+        : shape === "ring" || shape === "ring-dashed"
+        ? `<svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" style="fill:none;stroke:${item.color};stroke-width:2${
+            shape === "ring-dashed" ? ";stroke-dasharray:3 2" : ""
+          }"/></svg>`
         : `<svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="2" style="fill:${item.color}"/></svg>`;
     entry.innerHTML = `${swatch}${item.label}`;
     node.append(entry);

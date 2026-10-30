@@ -14,7 +14,7 @@ rather than reading `data/raw/` or `data/interim/` from the page.
 
 ## Quick facts
 
-- **Five files**, all plain JSON, loaded with `d3.json()`:
+- **Six files**, all plain JSON, loaded with `d3.json()`:
 
   | File | Size | What it is |
   |---|---|---|
@@ -23,6 +23,7 @@ rather than reading `data/raw/` or `data/interim/` from the page.
   | `veo_conflict_points.geojson` | 28 KB | Places where rides cross or turn onto a major road, with the crossing treatment |
   | `veo_timeline.json` | 3 KB | Rides started per 15 minutes for each collection day |
   | `theft_zones.geojson` | 98 KB | Reported bike, e-bike and e-scooter thefts per bike rack zone |
+  | `campus_landmarks.geojson` | 16 KB | Landmarks, libraries and residence halls as points, for map labels (`label`, `category`, `priority`: 1 at every zoom, 2 when zoomed in) |
 
 - **Coordinates are WGS84 longitude, latitude** (GeoJSON order: `[lon, lat]`),
   so `d3.geoPath()` with `d3.geoMercator().fitSize(...)` draws them directly.
@@ -296,7 +297,7 @@ bike_theft_tracker/   ->  bike_theft_tracker/*        -> processing/thefts.py
 | `processing/veo_routes.py` | Matches each ride to the network (a hidden Markov model, the standard method for sparse GPS). |
 | `processing/segment_context.py` | Tags each segment with its facility, walking surface, dismount zone and road context from the TAMU, city and OpenStreetMap layers. |
 | `analysis/veo_segments.py`, `analysis/veo_conflicts.py` | Count rides per segment; find conflict points. |
-| `export/veo.py`, `export/thefts.py` | Write the files in `frontend/data/`. |
+| `export/veo.py`, `export/thefts.py`, `export/landmarks.py` | Write the files in `frontend/data/`. |
 | `geo/spatial.py` | Small spatial helpers (nearest line, point in polygon); no spatial library is used. |
 
 **Regenerate everything** (Python 3.12+, `pip install -r requirements.txt`; the only dependency is `requests`):
@@ -306,6 +307,7 @@ python -m backend.processing.veo_rides
 python -m backend.processing.veo_routes    # about 80 s
 python -m backend.export.veo
 python -m backend.export.thefts
+python -m backend.export.landmarks
 pytest                                     # 15 tests
 ```
 

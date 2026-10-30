@@ -38,6 +38,25 @@
     "feature_count": 1920,
     "fetched_at": "2026-10-16T15:41:10+00:00"
   },
+  "osm_buildings": {
+    "url": "OpenStreetMap via Overpass API",
+    "selector": [
+      "nwr[\"building\"][\"name\"]",
+      "nwr[\"amenity\"=\"library\"][\"name\"]",
+      "nwr[\"leisure\"=\"stadium\"][\"name\"]"
+    ],
+    "license": "ODbL 1.0, (c) OpenStreetMap contributors",
+    "osm_base": "2026-10-30T04:20:26Z",
+    "file": "osm_buildings.geojson",
+    "bbox": [
+      -96.375,
+      30.585,
+      -96.315,
+      30.64
+    ],
+    "feature_count": 565,
+    "fetched_at": "2026-10-30T04:21:37+00:00"
+  },
   "osm_paths": {
     "url": "OpenStreetMap via Overpass API",
     "selector": "way[\"highway\"~\"^(footway|cycleway|path|pedestrian|steps|bridleway)$\"]",

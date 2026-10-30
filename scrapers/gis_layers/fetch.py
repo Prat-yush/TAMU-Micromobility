@@ -7,7 +7,8 @@ Sources, all public:
   - TAMU's official campus basemap and Transportation Services' BikeMap (gis.tamu.edu)
   - TAMU Transportation Services' bike lane layers (arc.ts.tamu.edu)
   - City of College Station open data (gis.cstx.gov)
-  - OpenStreetMap, through the Overpass API
+  - OpenStreetMap, through the Overpass API (paths, roads, and named
+    buildings for map labels)
 
 Only features that touch the area around main campus (BBOX) are kept. Each
 layer is saved as GeoJSON in WGS84 as the source returned it, with ArcGIS
@@ -68,6 +69,17 @@ OSM_QUERIES = {
     "osm_roads": 'way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|'
                  'residential|service|living_street)(_link)?$"]',
 }
+# Saved as points at each feature's center rather than outlines: these are
+# only used to place labels.
+OSM_POINT_QUERIES = {
+    # Named buildings, libraries and stadiums, for the map's building labels.
+    # Large buildings such as the MSC are relations, not ways, so both are asked for.
+    "osm_buildings": [
+        'nwr["building"]["name"]',
+        'nwr["amenity"="library"]["name"]',
+        'nwr["leisure"="stadium"]["name"]',
+    ],
+}
 
 
 def get_json(session, url, **kw):
@@ -119,20 +131,22 @@ def fetch_arcgis(session, url):
     return {"type": "FeatureCollection", "features": features}, meta.get("name")
 
 
-def fetch_osm(session, selector):
-    """Overpass ways with their tags and geometry, as GeoJSON LineStrings."""
-    s, w, n, e = BBOX[1], BBOX[0], BBOX[3], BBOX[2]
-    query = f"[out:json][timeout:180];{selector}({s},{w},{n},{e});out geom tags;"
+def overpass(session, query):
+    """Runs an Overpass query, trying each public endpoint in turn."""
     last = None
     for endpoint in OVERPASS_ENDPOINTS:
         try:
-            data = get_json(session, endpoint, data={"data": query})
-            break
+            return get_json(session, endpoint, data={"data": query})
         except Exception as e:  # these public servers are often overloaded
             last = e
             print(f"    {endpoint} failed: {e!r:.120}")
-    else:
-        raise RuntimeError(f"every Overpass endpoint failed: {last!r}")
+    raise RuntimeError(f"every Overpass endpoint failed: {last!r}")
+
+
+def fetch_osm(session, selector):
+    """Overpass ways with their tags and geometry, as GeoJSON LineStrings."""
+    s, w, n, e = BBOX[1], BBOX[0], BBOX[3], BBOX[2]
+    data = overpass(session, f"[out:json][timeout:180];{selector}({s},{w},{n},{e});out geom tags;")
     features = [
         {
             "type": "Feature",
@@ -147,9 +161,31 @@ def fetch_osm(session, selector):
     return {"type": "FeatureCollection", "features": features}, meta
 
 
+def fetch_osm_points(session, selectors):
+    """Overpass nodes, ways and relations matching any selector, as GeoJSON
+    Points at each one's center."""
+    s, w, n, e = BBOX[1], BBOX[0], BBOX[3], BBOX[2]
+    union = "".join(f"{sel}({s},{w},{n},{e});" for sel in selectors)
+    data = overpass(session, f"[out:json][timeout:180];({union});out center tags;")
+    features = []
+    for el in data["elements"]:
+        point = el.get("center") or ({"lat": el["lat"], "lon": el["lon"]} if "lat" in el else None)
+        if not point:
+            continue
+        features.append({
+            "type": "Feature",
+            "id": f"{el['type']}/{el['id']}",
+            "geometry": {"type": "Point", "coordinates": [point["lon"], point["lat"]]},
+            "properties": {"osm_id": el["id"], "osm_type": el["type"], **el.get("tags", {})},
+        })
+    meta = {"osm_base": data.get("osm3s", {}).get("timestamp_osm_base")}
+    return {"type": "FeatureCollection", "features": features}, meta
+
+
 def main():
-    wanted = set(sys.argv[1:]) or set(ARCGIS_LAYERS) | set(OSM_QUERIES)
-    unknown = wanted - set(ARCGIS_LAYERS) - set(OSM_QUERIES)
+    osm_layers = set(OSM_QUERIES) | set(OSM_POINT_QUERIES)
+    wanted = set(sys.argv[1:]) or set(ARCGIS_LAYERS) | osm_layers
+    unknown = wanted - set(ARCGIS_LAYERS) - osm_layers
     if unknown:
         sys.exit(f"Unknown layer(s): {', '.join(sorted(unknown))}")
 
@@ -168,8 +204,10 @@ def main():
                 collection, title = fetch_arcgis(session, url)
                 source = {"url": url, "source_layer_name": title}
             else:
-                collection, extra = fetch_osm(session, OSM_QUERIES[name])
-                source = {"url": "OpenStreetMap via Overpass API", "selector": OSM_QUERIES[name],
+                selector = OSM_QUERIES.get(name) or OSM_POINT_QUERIES[name]
+                fetch = fetch_osm if name in OSM_QUERIES else fetch_osm_points
+                collection, extra = fetch(session, selector)
+                source = {"url": "OpenStreetMap via Overpass API", "selector": selector,
                           "license": "ODbL 1.0, (c) OpenStreetMap contributors", **extra}
         except Exception as e:
             print(f"  FAILED: {e!r:.200}")
