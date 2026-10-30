@@ -10,10 +10,11 @@ a course project.
 One screen: an OpenStreetMap campus map in the middle, cropped to the area
 the theft reports cover, with switchable layers for the busiest routes,
 conflict points and theft zones. Smaller views sit either side of it, and
-one filter shelf narrows everything. [Run it locally](#setup) to try it.
+one filter shelf narrows everything. **[Open the live dashboard](https://prat-yush.github.io/TAMU-Micromobility/)**, or [run it locally](#setup).
 
 There's no server. Scrapers collect raw data, a Python pipeline turns it into
 static JSON, and the D3 frontend loads that JSON directly from GitHub Pages.
+Every change to `frontend/` on `main` redeploys it (`.github/workflows/pages.yml`).
 
 ```
 scrapers/  ──►  data/raw/  ──►  backend/  ──►  frontend/data/  ──►  frontend/ (D3, GitHub Pages)
