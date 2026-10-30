@@ -5,6 +5,13 @@ campus. It covers where and when people ride, where the infrastructure falls
 short, and where thefts and conflicts happen. Built with Python and D3.js as
 a course project.
 
+[![The dashboard: 1,859 rides, 61 percent of ride-miles with no bike facility, 26 of 49 conflict points with no traffic signal, and 121 reported thefts](docs/images/dashboard-preview.png)](docs/images/dashboard-preview.png)
+
+Ten worksheets share one filter shelf: an overview, then the busiest routes,
+the facility gap, road conflicts, ride timing, theft hotspots, the rack audit,
+theft timing, the incident log and what the data can and can't say.
+[Run it locally](#setup) to click through them.
+
 There's no server. Scrapers collect raw data, a Python pipeline turns it into
 static JSON, and the D3 frontend loads that JSON directly from GitHub Pages.
 
