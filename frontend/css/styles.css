@@ -1,9 +1,9 @@
 /**
  * styles.css
  *
- * Workbook layout: a filter shelf at the top that applies to every sheet,
- * the active sheet with its marks panel in the middle, and a fixed tab
- * strip at the bottom.
+ * Dashboard layout: a filter shelf at the top that applies to everything,
+ * the campus map filling the centre, and the smaller views in a column
+ * either side of it.
  *
  * Hues carry meaning and are used nowhere else: theft is orange, Veo ride
  * activity is blue, and maroon is the interface accent.
@@ -28,8 +28,6 @@
   --veo: #2a78d6;
   --veo-wash: rgba(42, 120, 214, 0.14);
 
-  --map-base: rgba(21, 21, 19, 0.09);
-  --label-halo: #f2f2ee;
   --good-ink: #006300;
   --warn-ink: #8a5a00;
 
@@ -60,8 +58,6 @@
     --veo: #3987e5;
     --veo-wash: rgba(57, 135, 229, 0.22);
 
-    --map-base: rgba(255, 255, 255, 0.1);
-    --label-halo: #0f0f0e;
     --good-ink: #3fcf3f;
     --warn-ink: #fab219;
 
@@ -114,7 +110,7 @@ select {
 }
 
 .top-in {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 12px 20px 10px;
   display: grid;
@@ -205,34 +201,46 @@ select {
   color: var(--muted);
 }
 
-/* ---------- Sheet layout ---------- */
+/* ---------- Dashboard layout ---------- */
 
 .main {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 16px 20px 96px;
+  padding: 14px 20px 20px;
 }
 
-.sheet-head {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 12px;
+/* The map takes the centre and the full screen height below the shelf;
+   the boxes stack in a column either side of it. */
+.dash {
+  display: grid;
+  grid-template-columns: minmax(280px, 330px) minmax(0, 1fr) minmax(280px, 330px);
+  gap: 14px;
+  align-items: start;
 }
 
-.sheet-head h2 {
-  font-size: clamp(21px, 2.3vw, 27px);
+.dash-side {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
 }
 
-.sheet-head p {
-  max-width: 78ch;
-  margin: 4px 0 0;
-  color: var(--ink-2);
+.dash-map {
+  position: sticky;
+  top: 14px;
+  height: max(560px, calc(100vh - var(--top-h, 120px) - 28px));
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.map-host {
+  width: 100%;
+  height: 100%;
 }
 
 .badge {
+  justify-self: start;
   padding: 3px 7px;
   font: 500 10.5px var(--f-mono);
   text-transform: uppercase;
@@ -241,19 +249,6 @@ select {
   white-space: nowrap;
   border: 1px solid currentColor;
   border-radius: 4px;
-}
-
-.sheet-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 250px;
-  gap: 16px;
-  align-items: start;
-}
-
-.sheet-col {
-  display: grid;
-  gap: 16px;
-  min-width: 0;
 }
 
 .card {
@@ -282,36 +277,6 @@ select {
   min-width: 0;
 }
 
-/* Campus is a portrait shape, so a map never fills a wide card. The legend
-   and notes take the space beside it rather than leaving it blank. */
-.map-layout {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-}
-
-.map-layout > .viz {
-  flex: none;
-}
-
-.map-side {
-  display: grid;
-  gap: 12px;
-  align-content: start;
-  min-width: 0;
-  flex: 1;
-}
-
-@media (max-width: 860px) {
-  .map-layout {
-    display: block;
-  }
-
-  .map-side {
-    margin-top: 12px;
-  }
-}
-
 .viz svg {
   display: block;
   overflow: visible;
@@ -327,60 +292,18 @@ select {
   color: var(--ink);
 }
 
-/* ---------- Marks panel ---------- */
-
-.marks {
-  position: sticky;
-  top: 12px;
-  font-size: 13px;
-}
-
-.marks h4 {
-  margin: 0;
-  font: 600 11px var(--f-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--muted);
-}
-
-.marks dl {
-  display: grid;
-  gap: 6px;
-  margin: 0;
-}
-
-.marks dt {
-  font: 500 10.5px var(--f-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--muted);
-}
-
-.marks dd {
-  margin: 0;
-}
-
-.marks .why {
-  margin: 0;
-  font-size: 12.5px;
-  color: var(--ink-2);
-}
-
 /* ---------- Headline figures ---------- */
 
 .kpis {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 12px;
 }
 
 .kpi {
   display: grid;
   gap: 2px;
-  padding: 12px 14px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 10px;
+  align-content: start;
 }
 
 .kpi .k-lbl {
@@ -399,7 +322,7 @@ select {
 }
 
 .kpi .k-val {
-  font: 700 36px/1.05 var(--f-display);
+  font: 700 32px/1.05 var(--f-display);
 }
 
 .kpi .k-note {
@@ -407,17 +330,23 @@ select {
   color: var(--muted);
 }
 
-.dash-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(270px, 1fr);
-  gap: 12px;
-  align-items: start;
+/* A box for a view still being built: hatched, so it never reads as an
+   empty result. */
+.card.is-wip {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--surface),
+    var(--surface) 9px,
+    var(--grid) 9px,
+    var(--grid) 10px
+  );
+  border-style: dashed;
 }
 
-.dash-bottom {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+.wip-text {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
 }
 
 /* ---------- Controls ---------- */
@@ -465,49 +394,164 @@ select {
 
 /* ---------- Map ---------- */
 
-.map-base path {
-  stroke: var(--map-base);
-  stroke-width: 0.4;
+/* Leaflet's own furniture, restyled to sit with the rest of the page. */
+.leaflet-container {
+  font: 13px var(--f-body);
+  background: var(--bg);
 }
 
-.map-segments path {
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  color: var(--ink);
+  background: var(--surface);
+  border-bottom-color: var(--line);
+}
+
+.leaflet-bar {
+  border: 1px solid var(--line) !important;
+  box-shadow: none !important;
+}
+
+.leaflet-control-attribution {
+  color: var(--muted);
+  background: color-mix(in srgb, var(--surface) 80%, transparent) !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--ink-2);
+}
+
+/* OpenStreetMap only publishes a light rendering. Inverting it and turning
+   the hues back gives a dark map with every street in place. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.35);
+  }
+}
+
+:root[data-theme="dark"] .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.35);
+}
+
+.leaflet-interactive {
   cursor: crosshair;
 }
 
-.map-thefts .zone {
-  fill: var(--theft);
-  fill-opacity: 0.55;
-  stroke: var(--theft);
-  stroke-width: 1;
+/* Building names. The marker sits at the building's center; the text is
+   centred on it and haloed so it reads over tiles and route lines alike. */
+.bldg-label {
+  width: 0;
+  height: 0;
 }
 
-.map-thefts .zone.is-selected {
-  stroke: var(--ink);
-  stroke-width: 2.5;
-  fill-opacity: 0.8;
-}
-
-.map-thefts .zone-empty {
-  fill: none;
-  stroke: var(--axis);
-  stroke-width: 1;
-}
-
-.map-conflicts circle {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2;
-  cursor: crosshair;
-}
-
-.maplab {
-  font: 600 11.5px var(--f-body);
-  fill: var(--ink);
-  paint-order: stroke;
-  stroke: var(--label-halo);
-  stroke-width: 3px;
-  stroke-linejoin: round;
+.bldg-label span {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font: 600 11.5px/1 var(--f-body);
+  color: var(--ink);
+  white-space: nowrap;
+  text-shadow:
+    0 0 3px var(--bg),
+    0 0 3px var(--bg),
+    0 0 2px var(--bg);
   pointer-events: none;
+}
+
+.bldg-landmark span,
+.bldg-library span {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.bldg-residence_hall span {
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.ml-sw-buildings {
+  width: 12px;
+  height: 10px;
+  font: 700 9px/10px var(--f-body);
+  color: var(--ink);
+}
+
+.ml-sw-buildings::before {
+  content: "Aa";
+}
+
+.map-layers,
+.map-legend {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.map-legend {
+  max-width: 260px;
+}
+
+.map-legend .legend {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.ml-title {
+  font: 600 10.5px var(--f-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+
+.ml-title:not(:first-child) {
+  margin-top: 4px;
+}
+
+.ml-row {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ml-row input {
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.ml-sw {
+  flex: none;
+  width: 14px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.ml-sw-routes {
+  background: var(--veo);
+}
+
+.ml-sw-gaps {
+  height: 5px;
+  background: #ff3b30;
+}
+
+.ml-sw-conflicts {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+}
+
+.ml-sw-thefts {
+  width: 10px;
+  height: 10px;
+  background: var(--theft);
+  border-radius: 50%;
 }
 
 /* ---------- Charts ---------- */
@@ -599,59 +643,6 @@ table.log a {
   color: var(--muted);
 }
 
-/* ---------- Sheet tabs ---------- */
-
-.tabs {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 30;
-  background: var(--surface);
-  border-top: 1px solid var(--line);
-}
-
-.tabs-in {
-  display: flex;
-  gap: 2px;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 6px 20px;
-  overflow-x: auto;
-  scrollbar-width: thin;
-}
-
-.tabs button {
-  display: inline-flex;
-  flex: none;
-  gap: 6px;
-  align-items: center;
-  padding: 6px 12px;
-  font-size: 13px;
-  color: var(--ink-2);
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-bottom-width: 3px;
-  border-radius: 6px 6px 0 0;
-  cursor: pointer;
-}
-
-.tabs button .ic {
-  font: 500 10.5px var(--f-mono);
-  color: var(--muted);
-}
-
-.tabs button[aria-selected="true"] {
-  font-weight: 600;
-  color: var(--ink);
-  background: var(--surface);
-  border-bottom-color: var(--accent);
-}
-
-.tabs button.is-dashboard {
-  color: var(--accent);
-}
-
 /* ---------- Tooltip ---------- */
 
 .tip {
@@ -678,7 +669,7 @@ table.log a {
 /* ---------- Footer credits ---------- */
 
 .credits {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 20px 24px;
   font-size: 12px;
@@ -698,28 +689,32 @@ table.log a {
 
 /* ---------- Responsive ---------- */
 
-@media (max-width: 1080px) {
-  .sheet-grid,
-  .dash-grid {
-    grid-template-columns: 1fr;
+/* Too narrow for three columns: the map goes full width on top, and the
+   boxes fall into a grid beneath it. */
+@media (max-width: 1180px) {
+  .dash {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .marks {
-    position: static;
+  .dash-map {
+    position: relative;
+    top: 0;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    height: min(78vh, 720px);
+    min-height: 420px;
   }
 }
 
 @media (max-width: 680px) {
   .top-in,
   .main,
-  .tabs-in,
   .credits {
     padding-inline: 16px;
   }
 
-  .kpis,
-  .dash-bottom {
-    grid-template-columns: 1fr 1fr;
+  .dash {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .kpi .k-val {

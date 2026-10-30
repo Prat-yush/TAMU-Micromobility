@@ -13,6 +13,7 @@ const DATA_PATHS = {
   conflicts: "data/veo_conflict_points.geojson",
   timeline: "data/veo_timeline.json",
   thefts: "data/theft_zones.geojson",
+  landmarks: "data/campus_landmarks.geojson",
 };
 
 /**
@@ -75,30 +76,73 @@ const FACILITY_COLORS = {
   "road, no bike facility": "#cf4f2e",
 };
 
-/** Map rendering. Heights clamp so the map stays usable at any width. */
+/** Map marks, in pixels. They keep their size as the map zooms. */
 const MAP = {
-  minHeight: 380,
-  maxHeight: 720,
-  /** Height as a fraction of available width, before clamping. */
-  heightRatio: 0.82,
-  /** Inset in pixels so strokes and bubbles are not clipped at the edge. */
-  padding: 12,
-  /** Stroke width in pixels for a segment with a single ride. */
-  minSegmentStroke: 0.5,
-  /** Stroke width in pixels for the busiest segment. */
+  /** Stroke width for a segment with a single ride. */
+  minSegmentStroke: 1,
+  /** Stroke width for the busiest segment. */
   maxSegmentStroke: 7,
-  /** Radius in pixels for the largest theft bubble. */
+  /** Radius for the largest theft bubble. */
   maxTheftRadius: 22,
-  /** Radius in pixels for the largest conflict marker. */
+  /** Radius for the largest conflict marker. */
   maxConflictRadius: 15,
+  /** Ride-count ramps, quiet to busy: busy is the brighter end on dark tiles. */
+  rideRampDark: ["#1d4f91", "#bfe3ff"],
+  rideRampLight: ["#9ecae1", "#08306b"],
   /**
-   * How many of the busiest features get a label drawn on the map.
-   *
-   * Kept low on purpose: campus zones cluster tightly, and more labels
-   * than this start overlapping each other and the marks they name.
+   * The facility-gap layer marks segments at or above this quantile of
+   * ride counts (0.75 = the busiest quarter) whose facility is not
+   * `adequate` in FACILITIES.
    */
-  labelCount: 4,
+  gapRidesQuantile: 0.75,
+  gapColor: "#ff3b30",
+  /**
+   * The gap layer also marks its busiest few segments as mixing points,
+   * where riders share space with pedestrians or cars. Points are kept at
+   * least this far apart so they don't all land on one walkway.
+   */
+  mixingPointCount: 4,
+  mixingPointSpacingFt: 800,
+  /** Opacity of the ordinary route layer while the gap layer is on. */
+  routeOpacityUnderGaps: 0.35,
+  /**
+   * Zoom at which priority-2 building labels (residence halls) appear.
+   * Below it they would crowd the landmarks out.
+   */
+  hallLabelMinZoom: 16,
+  /** Clear space kept around each building label, in pixels. */
+  labelGap: 4,
 };
+
+/**
+ * The real basemap under the data: the standard OpenStreetMap tiles, the
+ * same map the bike theft tracker uses. The stylesheet darkens them in
+ * dark mode, so streets and buildings stay exactly where they are.
+ */
+const BASEMAP = {
+  tiles: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 19,
+  /**
+   * Margin around the theft zones, in degrees (about a quarter mile), so
+   * routes just past the outermost zones stay on the map.
+   */
+  boundsPadDegrees: 0.004,
+  /** How far past the cropped area a reader can pan, as a fraction of it. */
+  panSlack: 0.05,
+  /** Opacity of the shade over everything outside the cropped area. */
+  maskOpacity: 0.75,
+};
+
+/** The switchable map layers, in the order the checkboxes list them. */
+const MAP_LAYERS = [
+  { key: "routes", label: "Busiest routes" },
+  { key: "gaps", label: "Busy, no bike facility" },
+  { key: "conflicts", label: "Conflict points" },
+  { key: "thefts", label: "Theft zones" },
+  { key: "buildings", label: "Building names" },
+];
 
 /** Shared chart geometry, in pixels. */
 const CHART = {
@@ -119,8 +163,8 @@ const LABELS = {
 };
 
 /**
- * Caveats the data guide asks the page to surface. Shown on the coverage
- * sheet and quoted where a specific view could mislead without them.
+ * Caveats the data guide asks the page to surface, quoted where a view
+ * could mislead without them.
  */
 const CAVEATS = {
   coverage:

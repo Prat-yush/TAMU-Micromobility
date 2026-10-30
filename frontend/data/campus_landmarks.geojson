@@ -1,0 +1,953 @@
+{
+ "type": "FeatureCollection",
+ "metadata": {
+  "description": "Campus landmarks, libraries and residence halls, for map labels. priority 1 shows at every zoom, 2 when zoomed in.",
+  "credit": "© OpenStreetMap contributors"
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340788,
+     30.61576
+    ]
+   },
+   "properties": {
+    "name": "Academic Building",
+    "label": "Academic Building",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341524,
+     30.605404
+    ]
+   },
+   "properties": {
+    "name": "Blue Bell Park",
+    "label": "Blue Bell Park",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.35312,
+     30.596313
+    ]
+   },
+   "properties": {
+    "name": "George Bush Presidential Library & Museum",
+    "label": "Bush Library",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.339953,
+     30.61633
+    ]
+   },
+   "properties": {
+    "name": "Cushing Memorial Library",
+    "label": "Cushing Library",
+    "category": "library",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.33533,
+     30.612057
+    ]
+   },
+   "properties": {
+    "name": "Duncan Dining Hall",
+    "label": "Duncan Dining",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.339262,
+     30.616807
+    ]
+   },
+   "properties": {
+    "name": "Sterling C. Evans Library",
+    "label": "Evans Library",
+    "category": "library",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.339229,
+     30.61215
+    ]
+   },
+   "properties": {
+    "name": "Koldus Building",
+    "label": "Koldus",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340389,
+     30.609905
+    ]
+   },
+   "properties": {
+    "name": "Kyle Field",
+    "label": "Kyle Field",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.337956,
+     30.617705
+    ]
+   },
+   "properties": {
+    "name": "Liberal Arts and Arts & Humanities Building",
+    "label": "Liberal Arts",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341478,
+     30.612284
+    ]
+   },
+   "properties": {
+    "name": "Memorial Student Center",
+    "label": "MSC",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.350844,
+     30.610452
+    ]
+   },
+   "properties": {
+    "name": "Wehner Building",
+    "label": "Mays (Wehner)",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.342684,
+     30.607127
+    ]
+   },
+   "properties": {
+    "name": "Student Recreation Center",
+    "label": "Rec Center",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.346136,
+     30.605682
+    ]
+   },
+   "properties": {
+    "name": "Reed Arena",
+    "label": "Reed Arena",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340345,
+     30.612861
+    ]
+   },
+   "properties": {
+    "name": "Rudder Tower",
+    "label": "Rudder Tower",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.343798,
+     30.617149
+    ]
+   },
+   "properties": {
+    "name": "Sbisa Dining Hall",
+    "label": "Sbisa Dining",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.341358,
+     30.614157
+    ]
+   },
+   "properties": {
+    "name": "Student Services Building",
+    "label": "Student Services",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336012,
+     30.61538
+    ]
+   },
+   "properties": {
+    "name": "Commons",
+    "label": "The Commons",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.350154,
+     30.611522
+    ]
+   },
+   "properties": {
+    "name": "West Campus Library",
+    "label": "West Campus Library",
+    "category": "library",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340445,
+     30.621388
+    ]
+   },
+   "properties": {
+    "name": "Zachry Engineering Education Complex",
+    "label": "Zachry",
+    "category": "landmark",
+    "priority": 1
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335401,
+     30.614303
+    ]
+   },
+   "properties": {
+    "name": "Appelt Residence Hall",
+    "label": "Appelt Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336326,
+     30.614666
+    ]
+   },
+   "properties": {
+    "name": "Aston Residence Hall",
+    "label": "Aston Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336525,
+     30.61402
+    ]
+   },
+   "properties": {
+    "name": "Briggs Hall - Dorm 3",
+    "label": "Briggs Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.3455,
+     30.61444
+    ]
+   },
+   "properties": {
+    "name": "Clements Residence Hall",
+    "label": "Clements Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.346439,
+     30.615526
+    ]
+   },
+   "properties": {
+    "name": "David-Gary Residence Hall",
+    "label": "David-Gary Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336834,
+     30.615071
+    ]
+   },
+   "properties": {
+    "name": "Dunn Residence Hall",
+    "label": "Dunn Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.334531,
+     30.614418
+    ]
+   },
+   "properties": {
+    "name": "Eppright Residence Hall",
+    "label": "Eppright Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.337411,
+     30.613416
+    ]
+   },
+   "properties": {
+    "name": "Fountain Hall - Dorm 4",
+    "label": "Fountain Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.3454,
+     30.614927
+    ]
+   },
+   "properties": {
+    "name": "Fowler Residence Hall",
+    "label": "Fowler Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335984,
+     30.613873
+    ]
+   },
+   "properties": {
+    "name": "Gainer Hall - Dorm 5",
+    "label": "Gainer Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344575,
+     30.615921
+    ]
+   },
+   "properties": {
+    "name": "Haas Residence Hall",
+    "label": "Haas Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336754,
+     30.612761
+    ]
+   },
+   "properties": {
+    "name": "Harrell Hall- Dorm 8",
+    "label": "Harrell Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.334948,
+     30.612724
+    ]
+   },
+   "properties": {
+    "name": "Harrington Hall - Dorm 11",
+    "label": "Harrington Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340519,
+     30.614333
+    ]
+   },
+   "properties": {
+    "name": "Hart Residence Hall",
+    "label": "Hart Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344463,
+     30.614787
+    ]
+   },
+   "properties": {
+    "name": "Henderson Hall",
+    "label": "Henderson Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344162,
+     30.617736
+    ]
+   },
+   "properties": {
+    "name": "Hobby Residence Hall",
+    "label": "Hobby Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344538,
+     30.618216
+    ]
+   },
+   "properties": {
+    "name": "Hotard Hall",
+    "label": "Hotard Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345209,
+     30.615506
+    ]
+   },
+   "properties": {
+    "name": "Hughes Residence Hall",
+    "label": "Hughes Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.346326,
+     30.616486
+    ]
+   },
+   "properties": {
+    "name": "Hullabaloo Residence Hall",
+    "label": "Hullabaloo Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345638,
+     30.615187
+    ]
+   },
+   "properties": {
+    "name": "Keathley Residence Hall",
+    "label": "Keathley Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.337613,
+     30.6139
+    ]
+   },
+   "properties": {
+    "name": "Kiest Hall - Dorm 2",
+    "label": "Kiest Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335541,
+     30.615929
+    ]
+   },
+   "properties": {
+    "name": "Krueger Residence Hall",
+    "label": "Krueger Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.3374,
+     30.612908
+    ]
+   },
+   "properties": {
+    "name": "Lacy Hall - Dorm 6",
+    "label": "Lacy Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.342317,
+     30.616178
+    ]
+   },
+   "properties": {
+    "name": "Legett Residence Hall",
+    "label": "Legett Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335967,
+     30.6133
+    ]
+   },
+   "properties": {
+    "name": "Leonard Hall - Dorm 7",
+    "label": "Leonard Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344301,
+     30.615645
+    ]
+   },
+   "properties": {
+    "name": "McFadden Residence Hall",
+    "label": "McFadden Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.342913,
+     30.616881
+    ]
+   },
+   "properties": {
+    "name": "Milner Hall",
+    "label": "Milner Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345735,
+     30.615597
+    ]
+   },
+   "properties": {
+    "name": "Moses Residence Hall",
+    "label": "Moses Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.33519,
+     30.615444
+    ]
+   },
+   "properties": {
+    "name": "Mosher Residence Hall",
+    "label": "Mosher Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.340534,
+     30.614929
+    ]
+   },
+   "properties": {
+    "name": "Nagle Hall",
+    "label": "Nagle Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.344429,
+     30.617968
+    ]
+   },
+   "properties": {
+    "name": "Neeley Residence Hall",
+    "label": "Neeley Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.33419,
+     30.614999
+    ]
+   },
+   "properties": {
+    "name": "Rudder Residence Hall",
+    "label": "Rudder Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345498,
+     30.617154
+    ]
+   },
+   "properties": {
+    "name": "Schuhmacher Residence Hall",
+    "label": "Schuhmacher Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.337047,
+     30.614293
+    ]
+   },
+   "properties": {
+    "name": "Spence Hall - Dorm 1",
+    "label": "Spence Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335708,
+     30.614096
+    ]
+   },
+   "properties": {
+    "name": "Underwood Residence Hall",
+    "label": "Underwood Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336354,
+     30.611773
+    ]
+   },
+   "properties": {
+    "name": "Utay Hall - Dorm 12",
+    "label": "Utay Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.345289,
+     30.616926
+    ]
+   },
+   "properties": {
+    "name": "Walton Residence Hall",
+    "label": "Walton Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.334904,
+     30.614842
+    ]
+   },
+   "properties": {
+    "name": "Wells Residence Hall",
+    "label": "Wells Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.336307,
+     30.612492
+    ]
+   },
+   "properties": {
+    "name": "White Hall - Dorm 10",
+    "label": "White Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.335751,
+     30.612868
+    ]
+   },
+   "properties": {
+    "name": "Whitely Hall - Dorm 9",
+    "label": "Whitely Hall",
+    "category": "residence_hall",
+    "priority": 2
+   }
+  }
+ ]
+}

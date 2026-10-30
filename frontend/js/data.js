@@ -1,7 +1,7 @@
 /**
  * data.js
  *
- * Loads the five exports from `frontend/data/` and derives the shapes the
+ * Loads the exports from `frontend/data/` and derives the shapes the
  * views need. Nothing here draws; nothing that draws reads raw files.
  */
 
@@ -11,12 +11,13 @@
  * @returns {Promise<Object>} The loaded datasets plus derived indexes.
  */
 async function loadData() {
-  const [segments, rides, conflicts, timeline, thefts] = await Promise.all([
+  const [segments, rides, conflicts, timeline, thefts, landmarks] = await Promise.all([
     d3.json(DATA_PATHS.segments),
     d3.json(DATA_PATHS.rides),
     d3.json(DATA_PATHS.conflicts),
     d3.json(DATA_PATHS.timeline),
     d3.json(DATA_PATHS.thefts),
+    d3.json(DATA_PATHS.landmarks),
   ]);
 
   const segmentFeatures = segments.features;
@@ -35,6 +36,8 @@ async function loadData() {
     rideFeatures,
     conflictFeatures,
     zoneFeatures,
+    /** Building labels, highest priority first. */
+    landmarkFeatures: landmarks.features,
 
     /** segment_id to feature, for resolving a ride's route. */
     segmentById: new Map(
@@ -294,7 +297,8 @@ function routeLabel(properties) {
   return (
     properties.osm_name ||
     properties.road_name ||
-    (properties.walking_surface ? `Unnamed ${properties.walking_surface.toLowerCase()}` : "Unnamed walkway")
+    properties.walking_surface ||
+    "Walkway"
   );
 }
 

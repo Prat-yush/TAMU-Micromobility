@@ -15,6 +15,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
     />
+    <link rel="stylesheet" href="js/lib/leaflet/leaflet.css" />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
 
@@ -25,14 +26,14 @@
           <h1>From Pavement to Protection <span>· Aggie Micro-Mobility Map</span></h1>
           <span class="byline">Group 9 · CSCE 679 · Prof. Meng Xia</span>
         </div>
-        <div class="shelf" id="shelf" role="group" aria-label="Filters for every worksheet"></div>
+        <div class="shelf" id="shelf" role="group" aria-label="Filters for the map and every box"></div>
       </div>
     </header>
 
     <main class="main" id="main"></main>
 
     <footer class="credits">
-      Route and network data ©
+      Route, network and basemap data ©
       <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener"
         >OpenStreetMap contributors</a
       >. Vehicle data from Veo. Campus basemap and rack inventory from Texas
@@ -41,12 +42,10 @@
       the Clery crime log.
     </footer>
 
-    <nav class="tabs" aria-label="Worksheets">
-      <div class="tabs-in" role="tablist" id="tabs"></div>
-    </nav>
-
     <!-- d3 v7.8.5 is vendored so the page works without a network connection. -->
     <script src="js/lib/d3.min.js"></script>
+    <!-- Leaflet 1.9.4, vendored likewise; only the map tiles need the network. -->
+    <script src="js/lib/leaflet/leaflet.js"></script>
 
     <script src="js/config.js"></script>
     <script src="js/state.js"></script>
@@ -58,15 +57,6 @@
     <script src="js/components/charts.js"></script>
 
     <script src="js/sections/dashboard.js"></script>
-    <script src="js/sections/routes.js"></script>
-    <script src="js/sections/facilities.js"></script>
-    <script src="js/sections/conflicts.js"></script>
-    <script src="js/sections/ride-timing.js"></script>
-    <script src="js/sections/theft-map.js"></script>
-    <script src="js/sections/rack-audit.js"></script>
-    <script src="js/sections/theft-timing.js"></script>
-    <script src="js/sections/incident-log.js"></script>
-    <script src="js/sections/coverage.js"></script>
 
     <script src="js/app.js"></script>
   </body>

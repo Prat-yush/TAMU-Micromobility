@@ -1,174 +1,355 @@
 /**
  * components/map.js
  *
- * The campus map every spatial worksheet uses. There is no basemap in the
- * data, so the ridden segments themselves draw the campus: they outline
- * the paths and streets closely enough to recognise.
+ * The campus map at the centre of the dashboard: the OpenStreetMap
+ * basemap, cropped to the area the theft reports cover, with the data
+ * layers drawn on top. The map is built once and kept; a filter change
+ * only redraws the overlays, so the reader's pan and zoom survive it.
  *
- * Layers are opt-in, so one renderer serves the route map, the conflict
- * map and the theft map without any of them carrying the others' weight.
+ * Layers are switched by the checkboxes on the map (STATE.mapLayers) and
+ * narrowed by the filter shelf, like every other view.
  */
 
-/** Unique suffix per map, so clip paths and gradients never collide. */
-let mapInstanceCount = 0;
+/** The Leaflet map and its parts, set once by createCampusMap. */
+const CAMPUS_MAP = {
+  map: null,
+  tiles: null,
+  overlays: null,
+  /** One canvas for every route line: thousands of SVG paths are slow. */
+  routeRenderer: null,
+  /** A second canvas, above the routes, for the facility-gap layer. */
+  gapRenderer: null,
+  /** Building labels. They don't depend on filters, so they're built once. */
+  labels: null,
+  controls: null,
+  legend: null,
+};
 
 /**
- * Chooses a map height for the available width.
+ * Reads a colour token from the stylesheet.
  *
- * @param {number} width Host width in pixels.
- * @returns {number} Height in pixels, clamped to the configured range.
+ * Leaflet's canvas renderer cannot resolve `var(--name)`, so map marks
+ * are given the resolved value instead.
+ *
+ * @param {string} name A custom property name, e.g. "--theft".
+ * @returns {string} The colour it holds in the current theme.
  */
-function mapHeight(width) {
-  return Math.round(
-    Math.max(MAP.minHeight, Math.min(MAP.maxHeight, width * MAP.heightRatio))
-  );
+function cssColor(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
 /**
- * Fits a projection to the data, then trims the canvas to what it draws.
+ * True when the page is showing its dark theme.
  *
- * `fitExtent` preserves the data's aspect ratio, so fitting a tall, narrow
- * campus into a wide box centres it and leaves the rest empty. Measuring
- * the projected bounds afterwards and re-fitting to those dimensions gives
- * a canvas the same shape as the content.
- *
- * @param {Object} geojson The features defining the extent.
- * @param {number} maxWidth Width available, in pixels.
- * @param {number} maxHeight Height available, in pixels.
- * @returns {{projection: Function, width: number, height: number}}
+ * @returns {boolean}
  */
-function fitProjectionToContent(geojson, maxWidth, maxHeight) {
-  const inset = MAP.padding;
-  const box = [
-    [inset, inset],
-    [maxWidth - inset, maxHeight - inset],
+function isDarkTheme() {
+  const forced = document.documentElement.dataset.theme;
+  if (forced) return forced === "dark";
+  return matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+/**
+ * The area the map is cropped to: every theft zone, plus a margin.
+ *
+ * Theft reports reach the furthest from the core of campus, so their
+ * extent decides how much map a reader gets. The margin keeps the routes
+ * that run just past the outermost zones on the map.
+ *
+ * @param {Object} data Output of loadData.
+ * @returns {L.LatLngBounds} The cropped area.
+ */
+function campusBounds(data) {
+  const points = data.zoneFeatures.map((feature) => {
+    const [lon, lat] = feature.geometry.coordinates;
+    return [lat, lon];
+  });
+  const [[south, west], [north, east]] = [
+    [d3.min(points, (p) => p[0]), d3.min(points, (p) => p[1])],
+    [d3.max(points, (p) => p[0]), d3.max(points, (p) => p[1])],
+  ];
+  const pad = BASEMAP.boundsPadDegrees;
+
+  return L.latLngBounds([south - pad, west - pad], [north + pad, east + pad]);
+}
+
+/**
+ * Builds the map in its host. Called once on startup.
+ *
+ * @param {HTMLElement} host Element to draw into; must be in the document
+ *     and have a height.
+ * @param {Object} data Output of loadData.
+ * @param {Function} onLayersChange Called after a layer checkbox changes.
+ */
+function createCampusMap(host, data, onLayersChange) {
+  const map = L.map(host, { zoomSnap: 0.25 });
+  map.fitBounds(campusBounds(data));
+  map.setMinZoom(map.getZoom());
+
+  // The theft zones decide the zoom; the crop is then whatever fills the
+  // panel at that zoom, so the map has no dead margins either side.
+  const bounds = map.getBounds();
+  map.setMaxBounds(bounds.pad(BASEMAP.panSlack));
+  map.options.maxBoundsViscosity = 1;
+
+  // One pane per layer, so theft bubbles never hide the conflict rings
+  // drawn over them, whatever order they were switched on in.
+  map.createPane("mask").style.zIndex = 390;
+  map.createPane("routes").style.zIndex = 410;
+  map.createPane("gaps").style.zIndex = 415;
+  map.createPane("thefts").style.zIndex = 420;
+  map.createPane("conflicts").style.zIndex = 430;
+  map.createPane("labels").style.zIndex = 440;
+
+  CAMPUS_MAP.map = map;
+  CAMPUS_MAP.overlays = L.layerGroup().addTo(map);
+  CAMPUS_MAP.routeRenderer = L.canvas({ pane: "routes", tolerance: 4 });
+  CAMPUS_MAP.gapRenderer = L.canvas({ pane: "gaps", tolerance: 4 });
+  CAMPUS_MAP.labels = buildingLabels(data);
+  map.on("zoomend moveend", placeBuildingLabels);
+
+  CAMPUS_MAP.tiles = L.tileLayer(BASEMAP.tiles, {
+    attribution: BASEMAP.attribution,
+    maxZoom: BASEMAP.maxZoom,
+  }).addTo(map);
+  drawOutsideMask(bounds);
+
+  // The stylesheet re-tints the tiles if the reader's theme changes while
+  // the page is open; the marks take their colours from the theme, so
+  // they are redrawn.
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", onLayersChange);
+
+  CAMPUS_MAP.controls = layerControl(onLayersChange);
+  CAMPUS_MAP.controls.addTo(map);
+
+  CAMPUS_MAP.legend = L.control({ position: "bottomleft" });
+  CAMPUS_MAP.legend.onAdd = () => {
+    const node = el("div", "map-legend");
+    L.DomEvent.disableClickPropagation(node);
+    return node;
+  };
+  CAMPUS_MAP.legend.addTo(map);
+
+  // The host can change size without a window resize (a box above it
+  // growing, say), so watch the host itself.
+  new ResizeObserver(() => map.invalidateSize()).observe(host);
+}
+
+/**
+ * Shades everything outside the cropped area.
+ *
+ * Leaflet still loads a few tiles past the bounds while panning; dimming
+ * them makes the edge of the data read as the edge of the map.
+ *
+ * @param {L.LatLngBounds} bounds The cropped area.
+ */
+function drawOutsideMask(bounds) {
+  const world = [
+    [-90, -180],
+    [-90, 180],
+    [90, 180],
+    [90, -180],
+  ];
+  const hole = [
+    bounds.getSouthWest(),
+    bounds.getSouthEast(),
+    bounds.getNorthEast(),
+    bounds.getNorthWest(),
   ];
 
-  const probe = d3.geoMercator().fitExtent(box, geojson);
-  const [[left, top], [right, bottom]] = d3.geoPath(probe).bounds(geojson);
+  L.polygon([world, hole], {
+    pane: "mask",
+    stroke: false,
+    fillColor: cssColor("--bg"),
+    fillOpacity: BASEMAP.maskOpacity,
+    interactive: false,
+  }).addTo(CAMPUS_MAP.map);
+}
 
-  const width = Math.ceil(right - left) + inset * 2;
-  const height = Math.ceil(bottom - top) + inset * 2;
+/**
+ * Builds the checkbox panel that switches map layers.
+ *
+ * @param {Function} onChange Called after any change.
+ * @returns {L.Control} The control, not yet added to a map.
+ */
+function layerControl(onChange) {
+  const control = L.control({ position: "topright" });
 
-  return {
-    projection: d3.geoMercator().fitExtent(
-      [
-        [inset, inset],
-        [width - inset, height - inset],
-      ],
-      geojson
-    ),
-    width,
-    height,
+  control.onAdd = () => {
+    const node = el("div", "map-layers");
+    node.append(el("div", "ml-title", "Map layers"));
+
+    MAP_LAYERS.forEach((layer) => {
+      const row = el("label", "ml-row");
+      const box = document.createElement("input");
+      box.type = "checkbox";
+      box.checked = STATE.mapLayers[layer.key];
+      box.onchange = () => {
+        STATE.mapLayers[layer.key] = box.checked;
+        onChange();
+      };
+      row.append(box, el("span", `ml-sw ml-sw-${layer.key}`), document.createTextNode(layer.label));
+      node.append(row);
+    });
+
+    node.append(el("div", "ml-title", "Colour routes by"));
+    node.append(
+      segmentedControl(
+        [
+          ["rides", "Rides"],
+          ["facility", "Facility"],
+        ],
+        STATE.routeColor,
+        (value) => {
+          STATE.routeColor = value;
+          syncLayerControl();
+          onChange();
+        },
+        "Colour routes by"
+      )
+    );
+
+    // Clicks and scrolls on the panel must not pan or zoom the map.
+    L.DomEvent.disableClickPropagation(node);
+    L.DomEvent.disableScrollPropagation(node);
+    return node;
   };
+
+  return control;
 }
 
 /**
- * Draws the campus map into a host element.
- *
- * @param {HTMLElement} host Element to draw into; must be in the document.
- * @param {Object} options Layers and data for this map.
- * @param {Object} options.data Output of loadData.
- * @param {Set<string>} options.layers Any of "segments", "conflicts",
- *     "thefts".
- * @param {Map<string, number>} [options.segmentRides] Filtered ride counts.
- * @param {Map<number, number>} [options.conflictRides] Filtered counts.
- * @param {Map<string, number>} [options.incidentCounts] Filtered counts.
- * @param {"rides"|"facility"} [options.colorBy] How to colour segments.
- * @param {Function} [options.onZoneClick] Called with a zone_id.
- * @param {number} [options.labelCount] How many busiest features to label.
- * @returns {Object} The projection and the features actually drawn.
+ * Sets the layer panel's checkboxes and toggle from STATE, after something
+ * other than the panel changed them.
  */
-function drawMap(host, options) {
-  const {
-    data,
-    layers,
-    segmentRides = new Map(),
-    conflictRides = new Map(),
-    incidentCounts = new Map(),
-    colorBy = "rides",
-    onZoneClick = null,
-    labelCount = MAP.labelCount,
-    maxHeight = null,
-  } = options;
+function syncLayerControl() {
+  const node = CAMPUS_MAP.controls.getContainer();
 
-  const availableWidth = host.clientWidth || 800;
-  const uid = `map-${(mapInstanceCount += 1)}`;
-
-  // Campus is markedly taller than it is wide, so fitting the projection to
-  // the full card would leave wide empty gutters either side. Fit it to the
-  // available box first, then shrink the SVG to the ink: the map ends up
-  // narrower than its card and centred, with no dead space.
-  const { projection, width, height } = fitProjectionToContent(
-    data.segments,
-    availableWidth,
-    maxHeight || mapHeight(availableWidth)
-  );
-  const geoPath = d3.geoPath(projection);
-
-  const svg = d3
-    .select(host)
-    .append("svg")
-    .attr("class", "map")
-    .attr("width", width)
-    .attr("height", height)
-    .style("margin", "0 auto")
-    .attr("role", "img")
-    .attr("aria-label", "Map of Texas A&M campus micromobility activity");
-
-  // Always draw the full network faintly, so filtered views keep the shape
-  // of campus instead of dissolving into a few bright lines.
-  drawBaseNetwork(svg, data, geoPath);
-
-  const drawn = {};
-
-  if (layers.has("segments")) {
-    drawn.segments = drawSegmentLayer(svg, {
-      data,
-      geoPath,
-      segmentRides,
-      colorBy,
-    });
-  }
-
-  if (layers.has("thefts")) {
-    drawn.zones = drawTheftLayer(svg, {
-      data,
-      projection,
-      incidentCounts,
-      onZoneClick,
-    });
-  }
-
-  if (layers.has("conflicts")) {
-    drawn.conflicts = drawConflictLayer(svg, {
-      data,
-      projection,
-      conflictRides,
-    });
-  }
-
-  drawLabels(svg, { projection, geoPath, layers, drawn, labelCount, uid });
-
-  return { projection, geoPath, ...drawn };
+  node.querySelectorAll("input[type=checkbox]").forEach((box, index) => {
+    box.checked = STATE.mapLayers[MAP_LAYERS[index].key];
+  });
+  node.querySelectorAll(".seg button").forEach((button, index) => {
+    button.setAttribute("aria-pressed", String(["rides", "facility"][index] === STATE.routeColor));
+  });
 }
 
 /**
- * Draws every segment as a hairline, as the campus outline.
+ * Redraws the data layers for the current filters and layer switches.
  *
- * @param {d3.Selection} svg The map SVG.
+ * @param {Object} context Data, counts and the zone click handler.
+ */
+function updateCampusMap(context) {
+  const { data, counts, incidentCounts, selectZone } = context;
+  const overlays = CAMPUS_MAP.overlays;
+  overlays.clearLayers();
+
+  const legendItems = [];
+
+  if (STATE.mapLayers.routes) {
+    legendItems.push(...drawRouteLayer(overlays, data, counts.segmentRides));
+  }
+  if (STATE.mapLayers.gaps) {
+    legendItems.push(...drawGapLayer(overlays, data, counts.segmentRides));
+  }
+  if (STATE.mapLayers.thefts) {
+    legendItems.push(...drawTheftLayer(overlays, data, incidentCounts, selectZone));
+  }
+  if (STATE.mapLayers.conflicts) {
+    legendItems.push(...drawConflictLayer(overlays, data, counts.conflictRides));
+  }
+
+  const { map, labels } = CAMPUS_MAP;
+  if (STATE.mapLayers.buildings && !map.hasLayer(labels)) {
+    labels.addTo(map);
+    placeBuildingLabels();
+  } else if (!STATE.mapLayers.buildings && map.hasLayer(labels)) {
+    map.removeLayer(labels);
+  }
+
+  const legendNode = CAMPUS_MAP.legend.getContainer();
+  legendNode.innerHTML = "";
+  legendNode.hidden = legendItems.length === 0;
+  legendNode.append(legend(legendItems));
+}
+
+/**
+ * Builds a text label for each landmark, library and residence hall.
+ *
  * @param {Object} data Output of loadData.
- * @param {Function} geoPath A configured d3.geoPath.
+ * @returns {L.LayerGroup} The labels, not yet on the map.
  */
-function drawBaseNetwork(svg, data, geoPath) {
-  svg
-    .append("g")
-    .attr("class", "map-base")
-    .selectAll("path")
-    .data(data.segmentFeatures)
-    .join("path")
-    .attr("d", geoPath)
-    .attr("fill", "none");
+function buildingLabels(data) {
+  const group = L.layerGroup();
+
+  data.landmarkFeatures.forEach((feature) => {
+    const [lon, lat] = feature.geometry.coordinates;
+    const { label, category, priority } = feature.properties;
+    const marker = L.marker([lat, lon], {
+      pane: "labels",
+      interactive: false,
+      keyboard: false,
+      icon: L.divIcon({
+        className: `bldg-label bldg-${category}`,
+        html: `<span>${label}</span>`,
+        iconSize: null,
+      }),
+    });
+    marker.priority = priority;
+    group.addLayer(marker);
+  });
+
+  return group;
+}
+
+/**
+ * Shows the building labels that fit at the current zoom.
+ *
+ * Labels are placed in priority order and any that would overlap one
+ * already placed is hidden, so zooming in reveals more names rather than
+ * piling them on top of each other.
+ */
+function placeBuildingLabels() {
+  const { map, labels } = CAMPUS_MAP;
+  if (!map.hasLayer(labels)) return;
+
+  const zoom = map.getZoom();
+  const gap = MAP.labelGap;
+  const placed = [];
+
+  labels.getLayers().forEach((marker) => {
+    const node = marker.getElement();
+    if (!node) return;
+    const span = node.firstChild;
+
+    if (marker.priority > 1 && zoom < MAP.hallLabelMinZoom) {
+      span.style.visibility = "hidden";
+      return;
+    }
+
+    const box = span.getBoundingClientRect();
+    const overlaps = placed.some(
+      (other) =>
+        box.left - gap < other.right &&
+        box.right + gap > other.left &&
+        box.top - gap < other.bottom &&
+        box.bottom + gap > other.top
+    );
+
+    span.style.visibility = overlaps ? "hidden" : "visible";
+    if (!overlaps) placed.push(box);
+  });
+}
+
+/**
+ * Wires the shared tooltip to a Leaflet layer.
+ *
+ * @param {L.Layer} layer The mark.
+ * @param {Function} contentFor Returns the tooltip HTML.
+ */
+function tooltipOn(layer, contentFor) {
+  layer.on("mouseover", (event) => showTip(event.originalEvent, contentFor()));
+  layer.on("mousemove", (event) => moveTip(event.originalEvent));
+  layer.on("mouseout", hideTip);
 }
 
 /**
@@ -176,13 +357,12 @@ function drawBaseNetwork(svg, data, geoPath) {
  *
  * Busiest segments are drawn last so they sit on top of quieter ones.
  *
- * @param {d3.Selection} svg The map SVG.
- * @param {Object} options Data, path generator, counts and colour mode.
- * @returns {Array<Object>} The features drawn, busiest first.
+ * @param {L.LayerGroup} group Where to draw.
+ * @param {Object} data Output of loadData.
+ * @param {Map<string, number>} segmentRides Filtered ride counts.
+ * @returns {Array<Object>} Legend entries for this layer.
  */
-function drawSegmentLayer(svg, options) {
-  const { data, geoPath, segmentRides, colorBy } = options;
-
+function drawRouteLayer(group, data, segmentRides) {
   const ridden = data.segmentFeatures
     .filter((feature) => segmentRides.get(feature.properties.segment_id) > 0)
     .sort((a, b) =>
@@ -202,40 +382,212 @@ function drawSegmentLayer(svg, options) {
     .range([MAP.minSegmentStroke, MAP.maxSegmentStroke])
     .clamp(true);
 
+  // On dark tiles the busiest routes must be the brightest, and on light
+  // tiles the darkest, so the ramp runs the other way in each theme.
+  const ramp = isDarkTheme() ? MAP.rideRampDark : MAP.rideRampLight;
   const rideColor = d3
-    .scaleSequential(d3.interpolateBlues)
+    .scaleSequential(d3.interpolateRgb(ramp[0], ramp[1]))
     .domain([0, Math.sqrt(maxRides)]);
 
-  /**
-   * Colour for one segment, by whichever mode the sheet asked for.
-   *
-   * @param {Object} feature A segment feature.
-   * @returns {string} A CSS colour.
-   */
-  function colorFor(feature) {
-    if (colorBy === "facility") {
-      return FACILITY_COLORS[feature.properties.facility] || COLOR.muted;
-    }
-    return rideColor(Math.sqrt(segmentRides.get(feature.properties.segment_id)));
+  const byFacility = STATE.routeColor === "facility";
+  const renderer = CAMPUS_MAP.routeRenderer;
+
+  ridden.forEach((feature) => {
+    const rides = segmentRides.get(feature.properties.segment_id);
+    const line = L.polyline(
+      feature.geometry.coordinates.map(([lon, lat]) => [lat, lon]),
+      {
+        renderer,
+        color: byFacility
+          ? FACILITY_COLORS[feature.properties.facility] || cssColor("--muted")
+          : rideColor(Math.sqrt(rides)),
+        weight: strokeWidth(rides),
+        // Faded under the gap layer, so the gaps are what the eye finds.
+        opacity: STATE.mapLayers.gaps ? MAP.routeOpacityUnderGaps : 0.95,
+        lineCap: "round",
+      }
+    );
+    tooltipOn(line, () => segmentTooltip(feature, rides));
+    group.addLayer(line);
+  });
+
+  if (byFacility) {
+    const present = new Set(ridden.map((f) => f.properties.facility));
+    return FACILITIES.filter((f) => present.has(f.key)).map((f) => ({
+      label: f.label,
+      color: FACILITY_COLORS[f.key],
+      shape: "line",
+    }));
   }
 
-  const paths = svg
-    .append("g")
-    .attr("class", "map-segments")
-    .selectAll("path")
-    .data(ridden)
-    .join("path")
-    .attr("d", geoPath)
-    .attr("fill", "none")
-    .attr("stroke", colorFor)
-    .attr("stroke-width", (f) => strokeWidth(segmentRides.get(f.properties.segment_id)))
-    .attr("stroke-linecap", "round");
+  return [
+    { label: "Fewer rides", color: ramp[0], shape: "line" },
+    { label: `Busiest (${formatCount(maxRides)} rides)`, color: ramp[1], shape: "line" },
+  ];
+}
 
-  attachTooltip(paths, (feature) =>
-    segmentTooltip(feature, segmentRides.get(feature.properties.segment_id))
+/**
+ * Draws the busy segments that have no proper bike facility.
+ *
+ * This is the project's question put on the map: where are many people
+ * riding with nothing built for them? "Busy" is relative to the current
+ * filters (the busiest quarter of ridden segments), so the layer still
+ * answers after dark or on one day, when every count is smaller.
+ *
+ * @param {L.LayerGroup} group Where to draw.
+ * @param {Object} data Output of loadData.
+ * @param {Map<string, number>} segmentRides Filtered ride counts.
+ * @returns {Array<Object>} Legend entries for this layer.
+ */
+function drawGapLayer(group, data, segmentRides) {
+  const ridden = data.segmentFeatures.filter(
+    (feature) => segmentRides.get(feature.properties.segment_id) > 0
   );
+  const rideCounts = ridden
+    .map((feature) => segmentRides.get(feature.properties.segment_id))
+    .sort(d3.ascending);
+  const threshold = Math.max(1, Math.ceil(d3.quantileSorted(rideCounts, MAP.gapRidesQuantile) || 1));
+  const maxRides = rideCounts[rideCounts.length - 1] || 1;
 
-  return ridden.slice().reverse();
+  const adequate = new Set(FACILITIES.filter((f) => f.adequate).map((f) => f.key));
+  const gaps = ridden
+    .filter(
+      (feature) =>
+        segmentRides.get(feature.properties.segment_id) >= threshold &&
+        !adequate.has(feature.properties.facility)
+    )
+    .sort((a, b) =>
+      d3.ascending(
+        segmentRides.get(a.properties.segment_id),
+        segmentRides.get(b.properties.segment_id)
+      )
+    );
+
+  const strokeWidth = d3
+    .scaleSqrt()
+    .domain([threshold, maxRides])
+    .range([MAP.minSegmentStroke + 2, MAP.maxSegmentStroke + 1])
+    .clamp(true);
+
+  gaps.forEach((feature) => {
+    const rides = segmentRides.get(feature.properties.segment_id);
+    const line = L.polyline(
+      feature.geometry.coordinates.map(([lon, lat]) => [lat, lon]),
+      {
+        renderer: CAMPUS_MAP.gapRenderer,
+        color: MAP.gapColor,
+        weight: strokeWidth(rides),
+        opacity: 0.95,
+        lineCap: "round",
+      }
+    );
+    tooltipOn(line, () => segmentTooltip(feature, rides));
+    group.addLayer(line);
+  });
+
+  // Drawn exactly like the conflict points (an unsignalized one), since
+  // they mark the same thing: where riders are exposed.
+  const accent = cssColor("--accent");
+  const mixing = mixingPoints(gaps, segmentRides);
+  mixing.forEach((point) => {
+    const marker = L.circleMarker(point.latLng, {
+      pane: "conflicts",
+      radius: MAP.maxConflictRadius,
+      color: accent,
+      weight: 2,
+      fill: true,
+      // A transparent fill keeps the whole ring hoverable.
+      fillOpacity: 0,
+    });
+    tooltipOn(marker, () => mixingTooltip(point));
+    group.addLayer(marker);
+  });
+
+  return [
+    {
+      label: `${threshold}+ rides, no bike facility (${formatCount(gaps.length)} segments)`,
+      color: MAP.gapColor,
+      shape: "line",
+    },
+    { label: `Busiest ${mixing.length} spots riders share with walkers or cars`, color: accent, shape: "ring" },
+  ];
+}
+
+/**
+ * Picks the busiest facility-gap segments, spaced apart, as mixing points.
+ *
+ * Where many riders use a segment with nothing built for them, they share
+ * it: with people walking on a shared walkway, with cars on a road. Like
+ * the conflict points, these mark exposure, not crashes.
+ *
+ * @param {Array<Object>} gaps Gap segments from drawGapLayer.
+ * @param {Map<string, number>} segmentRides Filtered ride counts.
+ * @returns {Array<Object>} Up to MAP.mixingPointCount points, busiest first.
+ */
+function mixingPoints(gaps, segmentRides) {
+  const FEET_PER_DEGREE_LAT = 364000;
+  const picked = [];
+
+  const busiestFirst = gaps
+    .slice()
+    .sort((a, b) =>
+      d3.descending(
+        segmentRides.get(a.properties.segment_id),
+        segmentRides.get(b.properties.segment_id)
+      )
+    );
+
+  for (const feature of busiestFirst) {
+    if (picked.length >= MAP.mixingPointCount) break;
+
+    const line = feature.geometry.coordinates;
+    const [lon, lat] = line[Math.floor(line.length / 2)];
+    const feetPerDegreeLon = FEET_PER_DEGREE_LAT * Math.cos((lat * Math.PI) / 180);
+
+    const tooClose = picked.some(
+      (point) =>
+        Math.hypot(
+          (point.lon - lon) * feetPerDegreeLon,
+          (point.lat - lat) * FEET_PER_DEGREE_LAT
+        ) < MAP.mixingPointSpacingFt
+    );
+    if (tooClose) continue;
+
+    picked.push({
+      feature,
+      lon,
+      lat,
+      latLng: [lat, lon],
+      rides: segmentRides.get(feature.properties.segment_id),
+    });
+  }
+
+  return picked;
+}
+
+/**
+ * Builds the tooltip for a mixing point.
+ *
+ * @param {Object} point A point from mixingPoints.
+ * @returns {string} Tooltip HTML.
+ */
+function mixingTooltip(point) {
+  const properties = point.feature.properties;
+  const facility =
+    FACILITIES.find((f) => f.key === properties.facility) || { label: properties.facility };
+  const sharedWith =
+    properties.facility === "road, no bike facility" || properties.facility === "sharrow or signed route"
+      ? "Riders share the road with cars"
+      : properties.facility === "crossing"
+      ? "Riders cross with pedestrians and traffic"
+      : "Riders share the path with pedestrians";
+
+  return (
+    `<b>${routeLabel(properties)}</b>` +
+    `<div class="m">${facility.label} · ${properties.length_ft} ft</div>` +
+    `<div>${formatCount(point.rides)} rides · ${sharedWith}</div>` +
+    '<div class="m">Exposure, not crashes</div>'
+  );
 }
 
 /**
@@ -274,56 +626,49 @@ function segmentTooltip(feature, rides) {
  * they are part of the inventory, and leaving them out would imply the map
  * shows every rack.
  *
- * @param {d3.Selection} svg The map SVG.
- * @param {Object} options Data, projection, counts and the click handler.
- * @returns {Array<Object>} Zone features with thefts, busiest first.
+ * @param {L.LayerGroup} group Where to draw.
+ * @param {Object} data Output of loadData.
+ * @param {Map<string, number>} incidentCounts Filtered counts per zone.
+ * @param {Function} onZoneClick Called with a zone_id.
+ * @returns {Array<Object>} Legend entries for this layer.
  */
-function drawTheftLayer(svg, options) {
-  const { data, projection, incidentCounts, onZoneClick } = options;
-
-  const zones = data.zoneFeatures.map((feature) => ({
-    feature,
-    properties: feature.properties,
-    count: incidentCounts.get(feature.properties.zone_id) || 0,
-    point: projection(feature.geometry.coordinates),
-  }));
+function drawTheftLayer(group, data, incidentCounts, onZoneClick) {
+  const zones = data.zoneFeatures
+    .map((feature) => ({
+      feature,
+      properties: feature.properties,
+      count: incidentCounts.get(feature.properties.zone_id) || 0,
+    }))
+    .sort((a, b) => d3.descending(a.count, b.count));
 
   const maxCount = d3.max(zones, (z) => z.count) || 1;
   const radius = d3.scaleSqrt().domain([0, maxCount]).range([0, MAP.maxTheftRadius]);
+  const theft = cssColor("--theft");
 
-  const group = svg.append("g").attr("class", "map-thefts");
+  zones.forEach((zone) => {
+    const [lon, lat] = zone.feature.geometry.coordinates;
+    const selected = zone.properties.zone_id === STATE.zoneId;
 
-  const empty = zones.filter((z) => z.count === 0);
-  group
-    .selectAll("circle.zone-empty")
-    .data(empty)
-    .join("circle")
-    .attr("class", "zone-empty")
-    .attr("cx", (z) => z.point[0])
-    .attr("cy", (z) => z.point[1])
-    .attr("r", 2);
+    const marker = L.circleMarker([lat, lon], {
+      pane: "thefts",
+      radius: zone.count ? radius(zone.count) : 2.5,
+      color: selected ? cssColor("--ink") : zone.count ? theft : cssColor("--muted"),
+      weight: selected ? 2.5 : 1,
+      fillColor: theft,
+      fillOpacity: zone.count ? (selected ? 0.8 : 0.5) : 0,
+    });
 
-  const withThefts = zones
-    .filter((z) => z.count > 0)
-    .sort((a, b) => d3.descending(a.count, b.count));
+    tooltipOn(marker, () => zoneTooltip(zone));
+    if (zone.count) {
+      marker.on("click", () => {
+        hideTip();
+        onZoneClick(zone.properties.zone_id);
+      });
+    }
+    group.addLayer(marker);
+  });
 
-  const bubbles = group
-    .selectAll("circle.zone")
-    .data(withThefts)
-    .join("circle")
-    .attr("class", "zone clickable")
-    .attr("cx", (z) => z.point[0])
-    .attr("cy", (z) => z.point[1])
-    .attr("r", (z) => radius(z.count))
-    .classed("is-selected", (z) => z.properties.zone_id === STATE.zoneId);
-
-  attachTooltip(bubbles, (zone) => zoneTooltip(zone));
-
-  if (onZoneClick) {
-    bubbles.on("click", (event, zone) => onZoneClick(zone.properties.zone_id));
-  }
-
-  return withThefts;
+  return [{ label: "Reported thefts (click to filter)", color: theft, shape: "dot" }];
 }
 
 /**
@@ -353,48 +698,63 @@ function zoneTooltip(zone) {
  * rather than filled warning dots. A ring reads as "look here", where a
  * solid red blob would read as "something happened here".
  *
- * @param {d3.Selection} svg The map SVG.
- * @param {Object} options Data, projection and filtered counts.
- * @returns {Array<Object>} Conflict features with rides, busiest first.
+ * @param {L.LayerGroup} group Where to draw.
+ * @param {Object} data Output of loadData.
+ * @param {Map<number, number>} conflictRides Filtered counts.
+ * @returns {Array<Object>} Legend entries for this layer.
  */
-function drawConflictLayer(svg, options) {
-  const { data, projection, conflictRides } = options;
-
-  const points = data.conflictFeatures
-    .map((feature, index) => ({
-      feature,
-      properties: feature.properties,
-      index,
-      count: conflictRides.has(index)
-        ? conflictRides.get(index)
-        : feature.properties.rides,
-      point: projection(feature.geometry.coordinates),
-    }))
-    .filter((p) => p.count > 0)
-    .sort((a, b) => d3.descending(a.count, b.count));
+function drawConflictLayer(group, data, conflictRides) {
+  const points = conflictPointsByRides(data, conflictRides);
 
   const maxCount = d3.max(points, (p) => p.count) || 1;
   const radius = d3
     .scaleSqrt()
     .domain([0, maxCount])
     .range([3, MAP.maxConflictRadius]);
+  const accent = cssColor("--accent");
 
-  const markers = svg
-    .append("g")
-    .attr("class", "map-conflicts")
-    .selectAll("circle")
-    .data(points)
-    .join("circle")
-    .attr("cx", (p) => p.point[0])
-    .attr("cy", (p) => p.point[1])
-    .attr("r", (p) => radius(p.count))
-    // Unsignalized points get a solid ring, signalized ones a dashed one,
-    // so the distinction survives in greyscale and for colour-blind readers.
-    .attr("stroke-dasharray", (p) => (p.properties.signalized ? "3 2" : null));
+  points.forEach((point) => {
+    const [lon, lat] = point.feature.geometry.coordinates;
+    const marker = L.circleMarker([lat, lon], {
+      pane: "conflicts",
+      radius: radius(point.count),
+      color: accent,
+      weight: 2,
+      fill: true,
+      // A transparent fill keeps the whole ring hoverable.
+      fillOpacity: 0,
+      // Unsignalized points get a solid ring, signalized ones a dashed one,
+      // so the distinction survives in greyscale and for colour-blind readers.
+      dashArray: point.properties.signalized ? "3 2" : null,
+    });
+    tooltipOn(marker, () => conflictTooltip(point));
+    group.addLayer(marker);
+  });
 
-  attachTooltip(markers, conflictTooltip);
+  return [
+    { label: "Meets a major road, no signal", color: accent, shape: "ring" },
+    { label: "Signalized", color: accent, shape: "ring-dashed" },
+  ];
+}
 
-  return points;
+/**
+ * Conflict points that rides reach under the current filters, busiest
+ * first.
+ *
+ * @param {Object} data Output of loadData.
+ * @param {Map<number, number>} conflictRides Filtered counts.
+ * @returns {Array<Object>} Points with their filtered ride count.
+ */
+function conflictPointsByRides(data, conflictRides) {
+  return data.conflictFeatures
+    .map((feature, index) => ({
+      feature,
+      properties: feature.properties,
+      index,
+      count: conflictRides.has(index) ? conflictRides.get(index) : feature.properties.rides,
+    }))
+    .filter((point) => point.count > 0)
+    .sort((a, b) => d3.descending(a.count, b.count));
 }
 
 /**
@@ -421,82 +781,4 @@ function conflictTooltip(point) {
     `<div>${point.count} ride${point.count === 1 ? "" : "s"} · ${control}</div>` +
     grade
   );
-}
-
-/**
- * Labels the busiest features on the map.
- *
- * Only a handful are labelled: enough to orient a reader, few enough that
- * the labels do not cover the marks they describe.
- *
- * @param {d3.Selection} svg The map SVG.
- * @param {Object} options Projection, layers, drawn features and the count.
- */
-function drawLabels(svg, options) {
-  const { projection, layers, drawn, labelCount } = options;
-  if (!labelCount) return;
-
-  const labels = [];
-
-  if (layers.has("thefts") && drawn.zones) {
-    drawn.zones.slice(0, labelCount).forEach((zone) => {
-      labels.push({
-        text: shortenName(zone.properties.name),
-        point: zone.point,
-      });
-    });
-  } else if (layers.has("conflicts") && drawn.conflicts) {
-    drawn.conflicts.slice(0, labelCount).forEach((point) => {
-      labels.push({
-        text: point.properties.major_roads[0],
-        point: point.point,
-      });
-    });
-  } else if (layers.has("segments") && drawn.segments) {
-    const seen = new Set();
-    drawn.segments.forEach((feature) => {
-      if (labels.length >= labelCount) return;
-      const name = routeLabel(feature.properties);
-      if (name.startsWith("Unnamed") || seen.has(name)) return;
-      seen.add(name);
-      labels.push({ text: name, point: projection(midpointOf(feature)) });
-    });
-  }
-
-  svg
-    .append("g")
-    .attr("class", "map-labels")
-    .selectAll("text")
-    .data(labels)
-    .join("text")
-    .attr("class", "maplab")
-    .attr("x", (d) => d.point[0])
-    .attr("y", (d) => d.point[1] - 8)
-    .attr("text-anchor", "middle")
-    .text((d) => d.text);
-}
-
-/**
- * Returns the middle coordinate of a line, as a label anchor.
- *
- * @param {Object} feature A LineString feature.
- * @returns {Array<number>} A [lon, lat] pair.
- */
-function midpointOf(feature) {
-  const line = feature.geometry.coordinates;
-  return line[Math.floor(line.length / 2)];
-}
-
-/**
- * Shortens a long zone name so a map label stays readable.
- *
- * @param {string} name The full zone name.
- * @returns {string} A shorter label.
- */
-function shortenName(name) {
-  const trimmed = name
-    .replace(/ & Emerging Technologies/, "")
-    .replace(/ Apartments| Halls?| Building| Center/g, "");
-  const MAX_LENGTH = 22;
-  return trimmed.length > MAX_LENGTH ? `${trimmed.slice(0, MAX_LENGTH - 1)}…` : trimmed;
 }

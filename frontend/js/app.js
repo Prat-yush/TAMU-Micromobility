@@ -1,35 +1,18 @@
 /**
  * app.js
  *
- * Wires the workbook together: the sheet registry, the filter shelf, the
- * tab strip and the render loop. Sheets never talk to each other — they
- * read STATE and call back into here, and one render redraws whatever is
- * showing.
+ * Wires the dashboard together: the filter shelf, the map, the boxes
+ * around it and the render loop. Views never talk to each other — they
+ * read STATE and call back into here, and one render redraws them all.
  */
-
-/**
- * The worksheets, in tab order.
- *
- * `id` is the tab's key, `tag` the small mark on the tab, and `render` a
- * function taking the main element and the render context.
- */
-const SHEETS = [
-  { id: "dashboard", tag: "★", name: "Dashboard", render: renderDashboard },
-  { id: "routes", tag: "1", name: "Busiest routes", render: renderRoutesSheet },
-  { id: "facilities", tag: "2", name: "Facility gap", render: renderFacilitiesSheet },
-  { id: "conflicts", tag: "3", name: "Road conflicts", render: renderConflictsSheet },
-  { id: "ride-timing", tag: "4", name: "Ride timing", render: renderRideTimingSheet },
-  { id: "theft-map", tag: "5", name: "Theft hotspots", render: renderTheftMapSheet },
-  { id: "rack-audit", tag: "6", name: "Rack audit", render: renderRackAuditSheet },
-  { id: "theft-timing", tag: "7", name: "Theft timing", render: renderTheftTimingSheet },
-  { id: "incident-log", tag: "8", name: "Incident log", render: renderIncidentLogSheet },
-  { id: "coverage", tag: "9", name: "Data & coverage", render: renderCoverageSheet },
-];
 
 /** The loaded datasets, set once on startup. */
 let DATA = null;
 
-/** Starts the workbook. */
+/** The box columns either side of the map, set once on startup. */
+let COLUMNS = null;
+
+/** Starts the dashboard. */
 async function start() {
   const main = document.querySelector("#main");
   main.innerHTML = '<p class="loading">Loading campus data…</p>';
@@ -45,35 +28,45 @@ async function start() {
   }
 
   buildFilterShelf();
-  buildTabs();
+  measureTopBar();
+  const { left, mapHost, right } = buildDashboard(main);
+  COLUMNS = { left, right };
+  createCampusMap(mapHost, DATA, render);
   render();
 
   // Charts size themselves to their host, so a width change needs a redraw.
+  // The map follows its host on its own.
   let lastWidth = innerWidth;
   addEventListener("resize", () => {
     if (innerWidth === lastWidth) return;
     lastWidth = innerWidth;
+    measureTopBar();
     render();
   });
 }
 
-/** Redraws the active worksheet. */
+/**
+ * Records the top bar's height, so the map can fill the rest of the screen.
+ *
+ * The filter shelf wraps onto more lines as the window narrows, so the
+ * height is measured rather than assumed.
+ */
+function measureTopBar() {
+  const height = document.querySelector(".top").offsetHeight;
+  document.documentElement.style.setProperty("--top-h", `${height}px`);
+}
+
+/** Redraws the map layers and every box for the current filters. */
 function render() {
-  const main = document.querySelector("#main");
-  main.innerHTML = "";
-
-  const counts = countRides(DATA, STATE);
-  const sheet = SHEETS.find((entry) => entry.id === STATE.sheet) || SHEETS[0];
-
-  sheet.render(main, {
+  const context = {
     data: DATA,
-    counts,
-    rerender: render,
+    counts: countRides(DATA, STATE),
+    incidentCounts: incidentsByZone(DATA, STATE),
     selectZone,
-    goToSheet,
-  });
+  };
 
-  updateTabs();
+  updateCampusMap(context);
+  renderDashboardBoxes(COLUMNS, context);
   updateShelf();
 }
 
@@ -90,47 +83,7 @@ function selectZone(zoneId) {
   render();
 }
 
-/**
- * Switches to another worksheet.
- *
- * @param {string} sheetId The sheet to show.
- */
-function goToSheet(sheetId) {
-  STATE.sheet = sheetId;
-  scrollTo({ top: 0, behavior: "smooth" });
-  render();
-}
-
-/** Builds the tab strip. */
-function buildTabs() {
-  const strip = document.querySelector("#tabs");
-  strip.innerHTML = "";
-
-  SHEETS.forEach((sheet) => {
-    const button = el(
-      "button",
-      sheet.id === "dashboard" ? "is-dashboard" : null,
-      `<span class="ic">${sheet.tag}</span>${sheet.name}`
-    );
-    button.type = "button";
-    button.setAttribute("role", "tab");
-    button.dataset.sheet = sheet.id;
-    button.onclick = () => goToSheet(sheet.id);
-    strip.append(button);
-  });
-}
-
-/** Marks the active tab. */
-function updateTabs() {
-  document.querySelectorAll("#tabs button").forEach((button) => {
-    button.setAttribute(
-      "aria-selected",
-      String(button.dataset.sheet === STATE.sheet)
-    );
-  });
-}
-
-/** Builds the filter shelf that applies to every worksheet. */
+/** Builds the filter shelf that applies to the map and every box. */
 function buildFilterShelf() {
   const shelf = document.querySelector("#shelf");
   shelf.innerHTML = "";
@@ -208,7 +161,7 @@ function buildFilterShelf() {
   zoneCard.hidden = true;
   shelf.append(zoneCard);
 
-  shelf.append(el("span", "note", "Filters apply to every worksheet"));
+  shelf.append(el("span", "note", "Filters apply to the map and every box"));
 }
 
 /**

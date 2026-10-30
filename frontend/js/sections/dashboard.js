@@ -1,60 +1,69 @@
 /**
  * sections/dashboard.js
  *
- * The overview the project's argument hangs on: how much riding there is,
- * how little of it has a bike facility, where it meets traffic, and where
- * vehicles get stolen — in one screen, each panel linking to the sheet
- * that explains it.
+ * The one-screen dashboard: the campus map fills the centre, and the
+ * smaller views sit in a column either side of it. The map is built once;
+ * the boxes are redrawn on every filter change.
  */
+
+/** Longest crossing name shown on a bar; the tooltip carries the full one. */
+const MAX_CROSSING_LABEL = 22;
+
+/** How many unsignalized crossings the ranking lists. */
+const TOP_CONFLICTS = 5;
 
 /**
- * Renders the dashboard.
+ * Builds the dashboard frame: two box columns and the map host between
+ * them.
  *
  * @param {HTMLElement} main The main element.
- * @param {Object} context Data, counts and callbacks.
+ * @returns {{left: HTMLElement, mapHost: HTMLElement, right: HTMLElement}}
  */
-function renderDashboard(main, context) {
-  const { data, counts, selectZone, goToSheet } = context;
+function buildDashboard(main) {
+  main.innerHTML = "";
 
-  const header = el("div", "sheet-head");
-  const titleBlock = el("div");
-  titleBlock.append(el("h2", null, "From pavement to protection"));
-  titleBlock.append(
-    el(
-      "p",
-      null,
-      "Riders are already on campus in numbers. Most of them have no bike " +
-        "facility under them, some of them cross 40 mph roads to get where " +
-        "they are going, and their vehicles are being stolen from the racks " +
-        "they park at. Each panel opens the sheet behind it."
-    )
-  );
-  header.append(titleBlock);
-  header.append(el("span", "badge", "Overview"));
-  main.append(header);
+  const layout = el("div", "dash");
+  const left = el("div", "dash-side dash-left");
+  const center = el("section", "dash-map");
+  const right = el("div", "dash-side dash-right");
+
+  center.setAttribute("aria-label", "Campus map");
+  const mapHost = el("div", "map-host");
+  center.append(mapHost);
+
+  layout.append(left, center, right);
+  main.append(layout);
+
+  return { left, mapHost, right };
+}
+
+/**
+ * Redraws the boxes around the map for the current filters.
+ *
+ * @param {{left: HTMLElement, right: HTMLElement}} columns From
+ *     buildDashboard.
+ * @param {Object} context Data, counts and incident counts.
+ */
+function renderDashboardBoxes(columns, context) {
+  const { data, counts, incidentCounts } = context;
+  const { left, right } = columns;
+  left.innerHTML = "";
+  right.innerHTML = "";
 
   const facilityRows = rideMilesByFacility(data, counts.segmentRides);
   const gapShare = d3.sum(
     facilityRows.filter((row) => GAP_FACILITIES.includes(row.key)),
     (row) => row.share
   );
-
-  const incidentCounts = incidentsByZone(data, STATE);
+  const conflictPoints = conflictPointsByRides(data, counts.conflictRides);
+  const unsignalized = conflictPoints.filter((point) => !point.properties.signalized);
   const placedThefts = d3.sum(incidentCounts.values());
 
-  const conflictPoints = data.conflictFeatures
-    .map((feature, index) => ({
-      properties: feature.properties,
-      count: counts.conflictRides.has(index)
-        ? counts.conflictRides.get(index)
-        : feature.properties.rides,
-    }))
-    .filter((point) => point.count > 0)
-    .sort((a, b) => d3.descending(a.count, b.count));
-
-  const unsignalized = conflictPoints.filter((point) => !point.properties.signalized);
-
-  main.append(
+  const headline = card(
+    "At a glance",
+    describeFilters(STATE, data) || "All collection days and theft reports"
+  );
+  headline.append(
     metricRow([
       {
         label: "Rides recorded",
@@ -68,9 +77,9 @@ function renderDashboard(main, context) {
         note: "of ride-miles, walkways or open road",
       },
       {
-        label: "Exposure points",
+        label: "Unsignalized crossings",
         value: formatCount(unsignalized.length),
-        note: `of ${conflictPoints.length}, with no traffic signal`,
+        note: `of ${conflictPoints.length} where rides meet a major road`,
       },
       {
         label: "Reported thefts",
@@ -80,47 +89,10 @@ function renderDashboard(main, context) {
       },
     ])
   );
-
-  const grid = el("div", "dash-grid");
-  grid.style.marginTop = "12px";
-  main.append(grid);
-
-  const mapCard = card(
-    "Where the riding happens",
-    `${formatCount(counts.rideCount)} rides · ${
-      describeFilters(STATE, data) || "all collection days"
-    }`
-  );
-  grid.append(mapCard);
-
-  const mapArea = mapLayout(mapCard);
-
-  drawMap(mapArea.host, {
-    data,
-    layers: new Set(["segments", "conflicts"]),
-    segmentRides: counts.segmentRides,
-    conflictRides: counts.conflictRides,
-    colorBy: "rides",
-    labelCount: 4,
-    // Compact on purpose: the dashboard is an overview, and the full-size
-    // version of this map is one tab away.
-    maxHeight: 520,
-  });
-
-  mapArea.side.append(
-    legend([
-      { label: "Quieter segment", color: "#c6dbef", shape: "line" },
-      { label: "Busier segment", color: "#08519c", shape: "line" },
-      { label: "Where rides meet a major road", color: "var(--accent)", shape: "dot" },
-    ])
-  );
-
-  const sideColumn = el("div", "sheet-col");
-  grid.append(sideColumn);
+  left.append(headline);
 
   const facilityCard = card("What riders have under them", "Share of ride-miles");
-  sideColumn.append(facilityCard);
-
+  left.append(facilityCard);
   horizontalBars(
     vizHost(facilityCard),
     facilityRows.map((row) => ({
@@ -132,66 +104,95 @@ function renderDashboard(main, context) {
         `<div class="m">${formatPercent(row.share)} of all riding</div>`,
     })),
     {
-      labelWidth: 150,
+      labelWidth: 138,
       rowHeight: 24,
       valueFormat: formatPercent,
-      onClick: () => goToSheet("facilities"),
+      onClick: showFacilitiesOnMap,
     }
   );
-
   caption(
     facilityCard,
     `<b>${formatPercent(gapShare)}</b> of riding happens with no bike ` +
-      "facility. Click for the full breakdown."
+      "facility. Click a bar to colour the map by facility."
   );
 
   const conflictCard = card("Busiest crossings with no signal", "Rides through each point");
-  sideColumn.append(conflictCard);
-
-  const TOP_CONFLICTS = 5;
+  right.append(conflictCard);
   horizontalBars(
     vizHost(conflictCard),
     unsignalized.slice(0, TOP_CONFLICTS).map((point) => ({
-      label: point.properties.major_roads[0],
+      label: truncate(point.properties.major_roads[0], MAX_CROSSING_LABEL),
       value: point.count,
       color: COLOR.accent,
       tooltip: conflictRowTooltip(point),
     })),
-    { labelWidth: 150, rowHeight: 24, onClick: () => goToSheet("conflicts") }
+    { labelWidth: 138, rowHeight: 24 }
   );
-
   caption(conflictCard, CAVEATS.conflicts);
 
-  const bottom = el("div", "dash-bottom");
-  bottom.style.marginTop = "12px";
-  main.append(bottom);
-
-  const theftCard = card(
-    "Where vehicles are stolen",
-    `${placedThefts} reports placed on a rack zone`
+  right.append(
+    placeholderCard(
+      "Crash locations",
+      "Where micromobility crashes happen on campus. Campus crash figures " +
+        "are only published as yearly totals; this box will map them if " +
+        "located records become available."
+    )
   );
-  bottom.append(theftCard);
+  right.append(
+    placeholderCard(
+      "Rider survey",
+      "Routes, near misses and parking habits from our student survey. " +
+        "Responses are still being collected."
+    )
+  );
+}
 
-  drawMap(vizHost(theftCard), {
-    data,
-    layers: new Set(["thefts"]),
-    incidentCounts,
-    onZoneClick: selectZone,
-    labelCount: 3,
-    maxHeight: 440,
-  });
+/** Switches the map to colour routes by facility, and makes sure they show. */
+function showFacilitiesOnMap() {
+  STATE.routeColor = "facility";
+  STATE.mapLayers.routes = true;
+  syncLayerControl();
+  render();
+}
 
-  caption(theftCard, "Click a bubble to filter the workbook to that zone.");
+/**
+ * Shortens a label to a length, marking the cut.
+ *
+ * @param {string} text The label.
+ * @param {number} length Longest result allowed.
+ * @returns {string}
+ */
+function truncate(text, length) {
+  return text.length > length ? `${text.slice(0, length - 1)}…` : text;
+}
 
-  const timingCard = card("When people ride", "Rides started per 15 minutes");
-  bottom.append(timingCard);
-  dayTimeline(vizHost(timingCard), data.timeline);
-  caption(
-    timingCard,
-    "Hatched spans were never recorded. " +
-      `No day starts before ${d3.min(
-        data.collectionDays,
-        (day) => day.window[0].slice(11, 16)
-      )}, so there is no morning commute in this data.`
+/**
+ * Builds the tooltip for a row in the conflict ranking.
+ *
+ * @param {Object} point A conflict point with its filtered count.
+ * @returns {string} Tooltip HTML.
+ */
+function conflictRowTooltip(point) {
+  const properties = point.properties;
+  const facts = [
+    properties.speed_limit_mph ? `${properties.speed_limit_mph} mph` : null,
+    properties.lanes ? `${properties.lanes} lanes` : null,
+    properties.signalized ? "signalized" : "no signal",
+  ].filter(Boolean);
+
+  const treatment = properties.city_crossing_treatment.length
+    ? `<div class="m">${properties.city_crossing_treatment.join("; ")}</div>`
+    : "";
+
+  const grade = properties.grade_separation_nearby
+    ? '<div class="m">Bridge or underpass nearby</div>'
+    : "";
+
+  return (
+    `<b>${properties.major_roads.join(" / ")}</b>` +
+    `<div class="m">${facts.join(" · ")}</div>` +
+    `<div>${point.count} rides</div>` +
+    treatment +
+    grade
   );
 }

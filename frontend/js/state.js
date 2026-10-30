@@ -1,7 +1,7 @@
 /**
  * state.js
  *
- * The filter state shared by every worksheet, and the predicates that read
+ * The filter state shared by the map and every box, and the predicates that read
  * it. Views never test filter fields directly — they call the helpers here,
  * so adding a filter means changing one file.
  */
@@ -29,12 +29,10 @@ const STATE = {
   /** zone_id of the cross-filtered zone, or null. */
   zoneId: null,
 
-  /** Which worksheet is showing. */
-  sheet: "dashboard",
-
-  /** Per-sheet view toggles. */
-  routeMetric: "rides",
-  rankMetric: "count",
+  /** Which map layers are switched on, keyed as in MAP_LAYERS. */
+  mapLayers: { routes: true, gaps: false, conflicts: true, thefts: false, buildings: true },
+  /** "rides" or "facility": what colours the route layer. */
+  routeColor: "rides",
 };
 
 /** The month the UPD crime-alert list begins, which changes coverage. */
